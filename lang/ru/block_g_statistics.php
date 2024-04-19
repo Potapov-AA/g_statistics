@@ -22,10 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['html:addinstance'] = 'Добавить новый тестовый блок';
-$string['html:myaddinstance'] = 'Добавить новый тестовый блок на панель управления';
-$string['testblock'] = '(новый тестовый блок)';
-$string['pluginname'] = 'тестовый блок';
+$string['html:addinstance'] = 'Добавить новый g-statistics блок';
+$string['html:myaddinstance'] = 'Добавить новый g-statistics блок на панель управления';
+$string['g-statistics'] = '(новый g-statistics блок)';
+$string['pluginname'] = 'g-statistics';
 $string['showcourses'] = 'Показать курсы';
 $string['showcoursesdescription'] = 'Показать курсы вместо пользователей';
 

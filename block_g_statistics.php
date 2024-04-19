@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use core_external\util as external_util;
+use block_g_statistics\fetcher;
 
 /**
  * Form for editing HTML block instances.
@@ -28,37 +28,58 @@ class block_g_statistics extends block_base {
         $this->title = get_string('pluginname', 'block_g_statistics');
     }
 
-
     function has_config() {
         return true;
     }
 
+    public function applicable_formats() {
+        return [
+            'admin' => false,
+            'site-index' => false,
+            'course-view' => true,
+            'mod' => false,
+            'my' => false
+        ];
+    }
 
     function get_content() {
-        global $DB;
+        global $DB, $OUTPUT, $CFG;
 
         if ($this->content !== NULL) {
             return $this->content;
         }
 
-        $showcourses = get_config('block_g_statistics', 'showcourses');
-        
-        $content = '';
-        if ($showcourses) {
-            $courses = $DB->get_records('course');
-            foreach ($courses as $course) {
-                $content .= $course->fullname . '<br>';
-            }
-        } else {
-            $users = $DB->get_records('user');
-            foreach ($users as $user) {
-                $content .= $user->firstname . ' ' . $user->lastname . '<br>';
-            }
+        if (empty($this->config)) {
+            $this->config = new stdClass();
         }
 
+        $statistics = new fetcher();
+
+        $config_mean_value = $this->config->meanvalue;
+        $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
+
+        if ($show_mean_value) {
+            $result = $statistics->get_mean_value($config_mean_value);
+            if($result != -1) {
+                $mean_value = $result;
+            } else {
+                $mean_value = "-//-";
+            }
+        } else {
+            $mean_value = "-//-";
+        }
+        
+        
+
+        $data_for_statistics = [
+            "show_mean_value" => $show_mean_value,
+            "mean_value" => $mean_value,
+        ];
+
+
         $this->content = new stdClass;
-        $this->content->text = $content;
-        $this->content->footer = 'this is the text'; 
+        $this->content->text = $OUTPUT->render_from_template("block_g_statistics/statistics", $data_for_statistics);
+        $this->content->footer = ''; 
 
         return $this->content;
     }

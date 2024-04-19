@@ -22,10 +22,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['html:addinstance'] = 'Add a new test block';
-$string['html:myaddinstance'] = 'Add a new test block to Dashboard';
-$string['testblock'] = '(new test block)';
-$string['pluginname'] = 'testblock';
+$string['html:addinstance'] = 'Add a new g-statistics block';
+$string['html:myaddinstance'] = 'Add a new g-statistics block to Dashboard';
+$string['g-statistics'] = '(new g-statistics block)';
+$string['pluginname'] = 'g-statistics';
 $string['showcourses'] = 'Show courses';
 $string['showcoursesdescription'] = 'Show courses instead of users';
 
