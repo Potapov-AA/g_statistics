@@ -27,50 +27,116 @@ namespace block_g_statistics;
 defined('MOODLE_INTERNAL') || die();
 
 class fetcher {
-
-
-
     /**
      * Getting the average score of the current user
      *
-     * @param int $currentgroup The group (if any) to filter on
-     * @param int $now Time now
-     * @param int $timetoshowusers Number of seconds to show online users
-     * @param context $context Context object used to generate the sql for users enrolled in a specific course
-     * @param bool $sitelevel Whether to check online users at site level.
-     * @param int $courseid The course id to check
+     * @param int $choise Selecting display method
      * @return int
      */
     function get_mean_value($choise) {
-        global $DB, $USER;
+        $gradesarray = $this->get_grades_array();
 
-        $sizegradesarray = count($DB->get_records_sql(
-            "SELECT * FROM {grade_grades} WHERE userid = :userid",
-            [
-                'userid' => $USER->id
-            ]
-        ));
-        if($sizegradesarray == 0) return -1;
+        if(count($gradesarray) == 0) return -1;
 
-        if($choise == 2) {
-            return 100;
-        } else if($choise == 3) {
-            return 50;
+        $rawgradeUserSumNormal = 0;
+        $countCompletedTasks = 0;
+
+        foreach($gradesarray as $item) {
+            if(!is_null($item->rawgrade)) {
+                $rawgradeUserSumNormal += $item->rawgrade / ($item->rawgrademax / 100);
+                $countCompletedTasks++;
+            }
         }
-        return -1;
+        
+        switch($choise) {
+            case 2: // Относительно количества пройденных заданий
+                return round(($rawgradeUserSumNormal / $countCompletedTasks));
+            case 3: // Относительно общего количества заданий
+                return round(($rawgradeUserSumNormal / count($gradesarray)));
+            default: 
+                return -1;
+        }
+    }
+    
+
+    /**
+     * Getting the total number of points
+     *
+     * @param int $choise Selecting display method
+     * @return int
+     */
+    function get_balls($choise) {
+        $gradesarray = $this->get_grades_array();
+
+        if(count($gradesarray) == 0) return '-//-';
+
+        $rawgradeUserSum = 0;
+        $rawgradeMaxUserSum = 0;
+
+        foreach($gradesarray as $item) {
+            if(!is_null($item->rawgrade)) {
+                $rawgradeUserSum += $item->rawgrade;
+                $rawgradeMaxUserSum += $item->rawgrademax;
+            }
+        }
+
+        switch($choise) {
+            case 2: // Относительно количества пройденных заданий
+                return round($rawgradeUserSum) . '/' . round($rawgradeMaxUserSum);
+            case 3: // Относительно общего количества заданий
+                return round($rawgradeUserSum) . '/' . $this->get_rewgrade_for_course();
+            default: 
+                return '-//-';
+        }
+    }
+
+
+    /**
+     * Getting an array of ratings
+     *
+     * @return int
+     */
+    private function get_grades_array() {
+        global $DB, $USER, $COURSE;
+
+        $gradesarray = $DB->get_records_sql(
+            "SELECT gg.id AS id, gg.itemid AS itemid, gg.userid AS userid, gg.rawgrade AS rawgrade, gg.rawgrademax AS rawgrademax, gi.courseid AS courseid, gi.itemname AS itemname
+            FROM {grade_grades} AS gg 
+            JOIN {grade_items} AS gi ON gg.itemid = gi.id
+            WHERE itemname IS NOT NULL AND userid = :userid AND courseid = :courseid",
+            [
+                'userid' => $USER->id,
+                'courseid' => $COURSE->id
+            ]
+        );
+
+        return $gradesarray;
+    }
+
+
+    /**
+     * Getting the total number of points for course
+     *
+     * @return int
+     */
+    private function get_rewgrade_for_course() {
+        global $DB, $COURSE;
+
+        $gradesarray = $DB->get_records_sql(
+            "SELECT DISTINCT  gg.itemid AS itemid, gg.rawgrademax AS rawgrademax
+            FROM {grade_grades} AS gg 
+            JOIN {grade_items} AS gi ON gg.itemid = gi.id
+            WHERE itemname IS NOT NULL AND courseid = :courseid",
+            [
+                'courseid' => $COURSE->id
+            ]
+        );
+
+        $rewgradeSumForCourse = 0;
+        foreach($gradesarray as $item) {
+            $rewgradeSumForCourse += $item->rawgrademax;
+        }
+
+        return round($rewgradeSumForCourse);
     }
 }
-
-
-
-// $infogrades = $DB->get_records_sql(
-        //     "SELECT  gg.id AS id, gg.userid AS userid, gi.itemname AS itemname, gi.grademax AS grademax, gg.rawgrade AS rawgrade, gi.courseid AS courseid
-        //     FROM {grade_items} AS gi
-        //     JOIN {grade_grades} AS gg ON gi.id = gg.itemid
-        //     JOIN {course} AS c ON gi.courseid = c.id 
-        //     WHERE gi.gradetype != 0 AND gi.itemtype!= 'course' AND c.id = :courseid AND gg.userid = :userid",
-        //     [
-        //         'courseid' => $courseid,
-        //         'userid' => $userid,
-        //     ]
-        // );

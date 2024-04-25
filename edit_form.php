@@ -28,13 +28,23 @@ class block_g_statistics_edit_form extends block_edit_form {
         
         $mform->addElement('select', 
                             'config_meanvalue', 
-                            'Выбирите способ отображения',
+                            'Выбирите способ отображения средней оценки',
                             array(
                                 1 => 'Не отображать', 
                                 2 => 'Относительно количества пройденных заданий',
                                 3 => 'Относительно общего количества заданий')
                             )->setSelected(2);
         $mform->setDefault('config_meanvalue', 2);
+
+        $mform->addElement('select', 
+                            'config_currentballs', 
+                            'Выбирите способ отображения общего количества баллов',
+                            array(
+                                1 => 'Не отображать', 
+                                2 => 'Относительно количества пройденных заданий',
+                                3 => 'Относительно общего количества заданий')
+                            )->setSelected(2);
+        $mform->setDefault('config_currentballs', 2);
 
         // $mform->addElement('header', 'config_header', 'Еще какой-то хедер');
     }

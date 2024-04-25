@@ -57,11 +57,10 @@ class block_g_statistics extends block_base {
 
         $config_mean_value = $this->config->meanvalue;
         $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
-
         if ($show_mean_value) {
             $result = $statistics->get_mean_value($config_mean_value);
             if($result != -1) {
-                $mean_value = $result;
+                $mean_value = $result . '/100';
             } else {
                 $mean_value = "-//-";
             }
@@ -69,9 +68,16 @@ class block_g_statistics extends block_base {
             $mean_value = "-//-";
         }
         
-        
+        $config_current_balls = $this->config->currentballs;
+        $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
+        if ($show_current_balls) {
+            $current_balls = $statistics->get_balls($config_current_balls);
+        }
 
         $data_for_statistics = [
+            "show_current_balls" => $show_current_balls,
+            "current_balls" => $current_balls,
+
             "show_mean_value" => $show_mean_value,
             "mean_value" => $mean_value,
         ];
