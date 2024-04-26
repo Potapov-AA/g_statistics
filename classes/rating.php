@@ -29,13 +29,16 @@ defined('MOODLE_INTERNAL') || die();
 class rating {
     
     function get_rating() {
+        global $USER;
 
         $usersInfo = $this->get_user_info();
         $rawgradeUsersArray = $this->get_rawgrade_for_users();
         $activeUsersId = $this->get_active_users();
-        
+
         $rating = [];
         foreach($usersInfo as $user) {
+            $status = ($USER->id == $user->userid) ? true : false;
+
             if(in_array($user->userid, $activeUsersId)) {
                 $ballsSum = 0;
                 foreach($rawgradeUsersArray as $item) {
@@ -48,6 +51,7 @@ class rating {
                     "firstname" => $user->firstname, 
                     "lastname" => $user->lastname,
                     "balls" => $ballsSum,
+                    "status" => $status,
                 ]);
             } else {
                 array_push($rating, [
@@ -55,6 +59,7 @@ class rating {
                     "firstname" => $user->firstname, 
                     "lastname" => $user->lastname,
                     "balls" => '###',
+                    "status" => $status,
                 ]);
             }
         }

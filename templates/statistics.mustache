@@ -24,11 +24,20 @@
         </thead>
         <tbody>
             {{#users}}
-            <tr>
-            <th scope="row">{{rang}}</th>
-            <td>{{lastname}} {{firstname}}</td>
-            <td>{{balls}}</td>
+                {{#status}}
+                    <tr>
+                    <th scope="row">{{rang}}</th>
+                    <td><b>{{lastname}} {{firstname}}</b></td>
+                    <td><b>{{balls}}</b></td>
+                {{/status}}
+                {{^status}}
+                    <tr>
+                    <th scope="row">{{rang}}</th>
+                    <td>{{lastname}} {{firstname}}</td>
+                    <td>{{balls}}</td>
+                {{/status}}
             {{/users}}
+            
         </tbody>
     </table>
 </div>
