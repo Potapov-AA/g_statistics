@@ -22,10 +22,39 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['html:addinstance'] = 'Добавить новый g-statistics блок';
-$string['html:myaddinstance'] = 'Добавить новый g-statistics блок на панель управления';
-$string['g-statistics'] = '(новый g-statistics блок)';
-$string['pluginname'] = 'g-statistics';
-$string['showcourses'] = 'Показать курсы';
-$string['showcoursesdescription'] = 'Показать курсы вместо пользователей';
+$string['html:addinstance'] = 'Добавить новый блок G-статистики';
+$string['html:myaddinstance'] = 'Добавить новый блок на панель управления G-статистики';
 
+$string['g-statistics'] = '(Новый блок G-статистики)';
+$string['pluginname'] = 'G-статистика';
+
+// Перевод для settings
+$string['showavggrade'] = 'Отображать среднюю оценку';
+$string['showavggradedescription'] = 'Включить/выключить отображения средней оценки';
+
+$string['showsumballs'] = 'Отображать общее количество баллов';
+$string['showsumballsdescription'] = 'Включить/выключить отображение общего количества баллов';
+
+$string['showleaderboard'] = 'Отображать таблицу лидеров';
+$string['showleaderboarddescription'] = 'Включить/выключить отображение таблицы лидеров';
+
+// Перевод для edit_form
+$string['configstatisticsheader'] = 'Настройки отображения статистики';
+
+$string['configmeanvalue'] = 'Выбирите способ отображения средней оценки';
+$string['configcurrentballs'] = 'Выбирите способ отображения общего количества баллов';
+
+// Перевод для SELECT-FORM (edit_form)
+$string['selectdontshow'] = 'Не отображать';
+$string['selectcomplitetasks'] = 'Относительно количества пройденных заданий';
+$string['selectalltasks'] = 'Относительно общего количества заданий';
+
+
+// Перевод для блока
+$string['blockstatisticstitle'] = 'Ваша статистика';
+$string['blockstatisticsballs'] = 'Всего баллов';
+$string['blockstatisticsmaingrade'] = 'Ср. оценка';
+
+$string['blockleaderboardtitle'] = 'Таблица лидеров';
+$string['blockleaderboardname'] = 'Имя';
+$string['blockleaderboardballs'] = 'Баллы';

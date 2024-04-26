@@ -24,25 +24,25 @@
 
 class block_g_statistics_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
-        $mform->addElement('header', 'configstatisticsheader', 'Настройка отображения статистики');
+        $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
         
         $mform->addElement('select', 
                             'config_meanvalue', 
-                            'Выбирите способ отображения средней оценки',
+                            get_string('configmeanvalue', 'block_g_statistics'),
                             array(
-                                1 => 'Не отображать', 
-                                2 => 'Относительно количества пройденных заданий',
-                                3 => 'Относительно общего количества заданий')
+                                1 => get_string('selectdontshow', 'block_g_statistics'), 
+                                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                                3 => get_string('selectalltasks', 'block_g_statistics'))
                             )->setSelected(2);
         $mform->setDefault('config_meanvalue', 2);
 
         $mform->addElement('select', 
                             'config_currentballs', 
-                            'Выбирите способ отображения общего количества баллов',
+                            get_string('configmeanvalue', 'block_g_statistics'),
                             array(
-                                1 => 'Не отображать', 
-                                2 => 'Относительно количества пройденных заданий',
-                                3 => 'Относительно общего количества заданий')
+                                1 => get_string('selectdontshow', 'block_g_statistics'), 
+                                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                                3 => get_string('selectalltasks', 'block_g_statistics'))
                             )->setSelected(2);
         $mform->setDefault('config_currentballs', 2);
 

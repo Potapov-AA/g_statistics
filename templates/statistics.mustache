@@ -1,23 +1,25 @@
 <div>
-    <h5>Ваша статистика</h5>
+    <h5>{{blockstatisticstitle}}</h5>
+
     {{#show_current_balls}}
-    <strong>Всего баллов: </strong> {{current_balls}}<br>
+        <strong>{{blockstatisticsballs}}:</strong> {{current_balls}}<br>
     {{/show_current_balls}}
+
     {{#show_mean_value}}
-    <strong>Ср. оценка: </strong> {{mean_value}}
+        <strong>{{blockstatisticsmaingrade}}:</strong> {{mean_value}}
     {{/show_mean_value}}
 </div>
 
 {{#show_rating_table}}
 <div class="mt-4">
-    <h5>Таблица лидеров</h5>
+    <h5>{{blockleaderboardtitle}}</h5>
 
     <table class="table table-striped">
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Баллы</th>
+            <th scope="col">{{blockleaderboardname}}</th>
+            <th scope="col">{{blockleaderboardballs}}</th>
             </tr>
         </thead>
         <tbody>

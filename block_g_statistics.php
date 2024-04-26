@@ -87,12 +87,24 @@ class block_g_statistics extends block_base {
         }
 
         $data_for_statistics = [
+            // Статистика перевод блока
+            "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
+            "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
+            "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
+
+            // Статистика
             "show_current_balls" => $show_current_balls,
             "current_balls" => $current_balls,
 
             "show_mean_value" => $show_mean_value,
             "mean_value" => $mean_value,
 
+            // Таблица лидеров перевод блока
+            "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
+            "blockleaderboardname" => get_string('blockleaderboardname', 'block_g_statistics'),
+            "blockleaderboardballs" => get_string('blockleaderboardballs', 'block_g_statistics'),
+
+            // Таблица лидеров
             "show_rating_table" => $show_rating_table,
             "users" => $usersInfo,
         ];

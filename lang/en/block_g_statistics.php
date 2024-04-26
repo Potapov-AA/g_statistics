@@ -22,10 +22,38 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['html:addinstance'] = 'Add a new g-statistics block';
-$string['html:myaddinstance'] = 'Add a new g-statistics block to Dashboard';
-$string['g-statistics'] = '(new g-statistics block)';
-$string['pluginname'] = 'g-statistics';
-$string['showcourses'] = 'Show courses';
-$string['showcoursesdescription'] = 'Show courses instead of users';
+$string['html:addinstance'] = 'Add a new G-statistics block';
+$string['html:myaddinstance'] = 'Add a new G-statistics block to Dashboard';
 
+$string['g-statistics'] = '(New G-statistics block)';
+$string['pluginname'] = 'G-statistics';
+
+// Перевод для settings
+$string['showavggrade'] = 'Show average rating';
+$string['showavggradedescription'] = 'Enable/disable average rating display';
+
+$string['showsumballs'] = 'Show total points';
+$string['showsumballsdescription'] = 'Enable/disable display of total points';
+
+$string['showleaderboard'] = 'Show leaderboard';
+$string['showleaderboarddescription'] = 'Enable/disable leaderboard display';
+
+// Перевод для edit_form
+$string['configstatisticsheader'] = 'Statistics display settings';
+
+$string['configmeanvalue'] = 'Choose how to display your average rating';
+$string['configcurrentballs'] = 'Choose how you want to display your total points';
+
+// Перевод для SELECT-FORM (edit_form)
+$string['selectdontshow'] = "Don't show";
+$string['selectcomplitetasks'] = 'Regarding the number of completed tasks';
+$string['selectalltasks'] = 'Regarding the total number of tasks';
+
+// Перевод для блока
+$string['blockstatisticstitle'] = 'Your statistics';
+$string['blockstatisticsballs'] = 'Total points';
+$string['blockstatisticsmaingrade'] = 'Avg score';
+
+$string['blockleaderboardtitle'] = 'Leaderboard';
+$string['blockleaderboardname'] = 'Name';
+$string['blockleaderboardballs'] = 'Score';
