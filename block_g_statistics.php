@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 use block_g_statistics\fetcher;
+use block_g_statistics\rating;
 
 /**
  * Form for editing HTML block instances.
@@ -54,6 +55,7 @@ class block_g_statistics extends block_base {
         }
 
         $statistics = new fetcher();
+        $rating = new rating();
 
         $config_mean_value = $this->config->meanvalue;
         $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
@@ -74,12 +76,18 @@ class block_g_statistics extends block_base {
             $current_balls = $statistics->get_balls($config_current_balls);
         }
 
+
+
+        $usersInfo = $rating->get_rating();
+
         $data_for_statistics = [
             "show_current_balls" => $show_current_balls,
             "current_balls" => $current_balls,
 
             "show_mean_value" => $show_mean_value,
             "mean_value" => $mean_value,
+
+            "users" => $usersInfo,
         ];
 
 
@@ -90,3 +98,5 @@ class block_g_statistics extends block_base {
         return $this->content;
     }
 }
+
+
