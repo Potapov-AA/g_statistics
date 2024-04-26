@@ -77,8 +77,10 @@ class block_g_statistics extends block_base {
         }
 
 
-
-        $usersInfo = $rating->get_rating();
+        $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0) ? false : true;
+        if ($show_rating_table) {
+            $usersInfo = $rating->get_rating();
+        }
 
         $data_for_statistics = [
             "show_current_balls" => $show_current_balls,
@@ -87,6 +89,7 @@ class block_g_statistics extends block_base {
             "show_mean_value" => $show_mean_value,
             "mean_value" => $mean_value,
 
+            "show_rating_table" => $show_rating_table,
             "users" => $usersInfo,
         ];
 
