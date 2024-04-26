@@ -29,23 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 class rating {
     
     function get_rating() {
-        global $DB, $COURSE;
 
-        $usersInfo = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
-            [
-                'courseid' => $COURSE->id,
-            ]
-        );
-
+        $usersInfo = $this->get_user_info();
         $rawgradeUsersArray = $this->get_rawgrade_for_users();
         $activeUsersId = $this->get_active_users();
+        
         $rating = [];
         foreach($usersInfo as $user) {
             if(in_array($user->userid, $activeUsersId)) {
@@ -96,6 +84,25 @@ class rating {
         
 
         return $rating;
+    }
+
+    private function get_user_info() {
+        global $DB, $COURSE;
+
+        $usersInfo = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
+            FROM {user} AS u
+            JOIN {role_assignments} AS ra ON ra.userid = u.id
+            JOIN {role} AS r ON ra.roleid = r.id 
+            JOIN {context} AS con ON ra.contextid = con.id
+            JOIN {course} AS c ON con.instanceid = c.id
+            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
+            [
+                'courseid' => $COURSE->id,
+            ]
+        );
+
+        return $usersInfo;
     }
 
     private function get_active_users() {
