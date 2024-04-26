@@ -122,20 +122,14 @@ class fetcher {
     private function get_rewgrade_for_course() {
         global $DB, $COURSE;
 
-        $gradesarray = $DB->get_records_sql(
-            "SELECT DISTINCT  gg.itemid AS itemid, gg.rawgrademax AS rawgrademax
-            FROM {grade_grades} AS gg 
-            JOIN {grade_items} AS gi ON gg.itemid = gi.id
-            WHERE itemname IS NOT NULL AND courseid = :courseid",
+        $rewgradeSumForCourse = array_key_first($DB->get_records_sql(
+            "SELECT grademax 
+            FROM {grade_items} 
+            WHERE itemnumber IS NULL AND courseid = :courseid",
             [
                 'courseid' => $COURSE->id
             ]
-        );
-
-        $rewgradeSumForCourse = 0;
-        foreach($gradesarray as $item) {
-            $rewgradeSumForCourse += $item->rawgrademax;
-        }
+        ));
 
         return round($rewgradeSumForCourse);
     }
