@@ -33,6 +33,10 @@ class block_g_statistics extends block_base {
         return true;
     }
 
+    public function hide_header() {
+        return true;
+    }
+
     public function applicable_formats() {
         return [
             'admin' => false,
