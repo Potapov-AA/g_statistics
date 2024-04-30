@@ -48,6 +48,7 @@ class rating {
                 }
                 array_push($rating, [
                     "rang" => 0,
+                    "id" => $user->userid,
                     "firstname" => $user->firstname, 
                     "lastname" => $user->lastname,
                     "balls" => $ballsSum,
@@ -56,6 +57,7 @@ class rating {
             } else {
                 array_push($rating, [
                     "rang" => '###',
+                    "id" => $user->userid,
                     "firstname" => $user->firstname, 
                     "lastname" => $user->lastname,
                     "balls" => '###',

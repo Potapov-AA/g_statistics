@@ -48,7 +48,7 @@ class block_g_statistics extends block_base {
     }
 
     function get_content() {
-        global $DB, $OUTPUT, $CFG;
+        global $DB, $OUTPUT, $CFG, $COURSE;
 
         if ($this->content !== NULL) {
             return $this->content;
@@ -107,8 +107,11 @@ class block_g_statistics extends block_base {
             // Таблица лидеров
             "show_rating_table" => $show_rating_table,
             "users" => $usersInfo,
+            "wwwroot" => $CFG->wwwroot,
+            "courseid" => $COURSE->id,
         ];
 
+        //'<a href="'.$CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.$this->page->course->id.'" title="'.$timeago.'">'
 
         $this->content = new stdClass;
         $this->content->text = $OUTPUT->render_from_template("block_g_statistics/statistics", $data_for_statistics);

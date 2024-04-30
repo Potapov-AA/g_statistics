@@ -27,13 +27,23 @@
                 {{#status}}
                     <tr>
                     <th scope="row">{{rang}}</th>
-                    <td><b>{{lastname}} {{firstname}}</b></td>
+                    <td>
+                        <b>
+                            <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
+                                {{lastname}} {{firstname}}
+                            </a>
+                        </b>
+                    </td>
                     <td><b>{{balls}}</b></td>
                 {{/status}}
                 {{^status}}
                     <tr>
                     <th scope="row">{{rang}}</th>
-                    <td>{{lastname}} {{firstname}}</td>
+                    <td>
+                        <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
+                            {{lastname}} {{firstname}}
+                        </a>
+                    </td>
                     <td>{{balls}}</td>
                 {{/status}}
             {{/users}}
@@ -42,3 +52,4 @@
     </table>
 </div>
 {{/show_rating_table}}
+
