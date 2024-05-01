@@ -76,8 +76,33 @@ class block_g_statistics extends block_base {
 
             $config_mean_value = $this->config->meanvalue;
             $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
+            
+            $mean_value = [];
             if ($show_mean_value) {
-                $mean_value = $statistics->get_mean_value($config_mean_value);
+                switch ($config_mean_value) {
+                    case 2:
+                        array_push($mean_value, [
+                            "value" => $statistics->get_mean_value($config_mean_value),
+                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                    case 3:
+                        array_push($mean_value, [
+                            "value" => $statistics->get_mean_value($config_mean_value),
+                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                    case 4:
+                        array_push($mean_value, [
+                            "value" => $statistics->get_mean_value(2),
+                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        ]);
+                        array_push($mean_value, [
+                            "value" => $statistics->get_mean_value(3),
+                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                }
             }
             
             $config_current_balls = $this->config->currentballs;

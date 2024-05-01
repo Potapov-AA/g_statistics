@@ -7,7 +7,16 @@
         {{/show_current_balls}}
 
         {{#show_mean_value}}
-            <strong>{{blockstatisticsmaingrade}}:</strong> {{mean_value}}
+            <div class="d-flex">
+                <div>
+                    <strong>{{blockstatisticsmaingrade}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# mean_value }}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ mean_value }}
+                </div>
+            </div>
         {{/show_mean_value}}
     {{/showstatistics }}
 </div>

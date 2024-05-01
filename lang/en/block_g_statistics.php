@@ -56,6 +56,7 @@ $string['configcurrentballs'] = 'Choose how you want to display your total point
 $string['selectdontshow'] = "Don't show";
 $string['selectcomplitetasks'] = 'Regarding the number of completed tasks';
 $string['selectalltasks'] = 'Regarding the total number of tasks';
+$string['showbothoptions'] = 'Show both options';
 
 // Перевод для блока
 $string['blockstatisticstitle'] = 'Your statistics';
