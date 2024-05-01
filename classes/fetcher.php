@@ -97,7 +97,7 @@ class fetcher {
         global $DB, $USER, $COURSE;
 
         $gradesarray = $DB->get_records_sql(
-            "SELECT gg.id AS id, gi.courseid AS courseid, gg.userid AS userid, gi.itemname AS itemname, gi.gradetype AS gradetype, gg.rawgrade AS rawgrade, gg.rawgrademax AS rawgrademax
+            "SELECT gg.id AS id, gi.courseid AS courseid, gg.userid AS userid, gi.itemname AS itemname, gi.gradetype AS gradetype, gg.rawgrade AS rawgrade
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id
             WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND  userid = :userid AND courseid = :courseid",
