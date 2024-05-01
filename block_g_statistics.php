@@ -25,18 +25,28 @@ use block_g_statistics\rating;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class block_g_statistics extends block_base {
+    
+    // Инициализация
     function init() {
         $this->title = get_string('pluginname', 'block_g_statistics');
     }
 
+    // Включить возможность добавления несокльких блоков
+    public function instance_allow_multiple() {
+        return true;
+    }
+
+    // Включить глобальную настройку плагина
     function has_config() {
         return true;
     }
 
+    // Сокрытие шапки плагина
     public function hide_header() {
         return true;
     }
 
+    // Определение возможных мест добавления блока
     public function applicable_formats() {
         return [
             'admin' => false,
