@@ -29,11 +29,16 @@ $string['g-statistics'] = '(New G-statistics block)';
 $string['pluginname'] = 'G-statistics';
 
 // Перевод для settings
+$string['statisticshead'] = 'Statistics settings';
+
 $string['showavggrade'] = 'Show average rating';
 $string['showavggradedescription'] = 'Enable/disable average rating display';
 
 $string['showsumballs'] = 'Show total points';
 $string['showsumballsdescription'] = 'Enable/disable display of total points';
+
+
+$string['ratingtablehead'] = 'Leaderboard settings';
 
 $string['showleaderboard'] = 'Show leaderboard';
 $string['showleaderboarddescription'] = 'Enable/disable leaderboard display';
