@@ -24,28 +24,32 @@
 
 class block_g_statistics_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
-        $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
-        
-        $mform->addElement('select', 
-                            'config_meanvalue', 
-                            get_string('configmeanvalue', 'block_g_statistics'),
-                            array(
-                                1 => get_string('selectdontshow', 'block_g_statistics'), 
-                                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
-                                3 => get_string('selectalltasks', 'block_g_statistics'))
-                            )->setSelected(2);
-        $mform->setDefault('config_meanvalue', 2);
 
-        $mform->addElement('select', 
-                            'config_currentballs', 
-                            get_string('configmeanvalue', 'block_g_statistics'),
-                            array(
-                                1 => get_string('selectdontshow', 'block_g_statistics'), 
-                                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
-                                3 => get_string('selectalltasks', 'block_g_statistics'))
-                            )->setSelected(2);
-        $mform->setDefault('config_currentballs', 2);
+        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        if ($show_statistics) {
 
+            $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
+            
+            $mform->addElement('select', 
+                                'config_meanvalue', 
+                                get_string('configmeanvalue', 'block_g_statistics'),
+                                array(
+                                    1 => get_string('selectdontshow', 'block_g_statistics'), 
+                                    2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                                    3 => get_string('selectalltasks', 'block_g_statistics'))
+                                )->setSelected(2);
+            $mform->setDefault('config_meanvalue', 2);
+
+            $mform->addElement('select', 
+                                'config_currentballs', 
+                                get_string('configmeanvalue', 'block_g_statistics'),
+                                array(
+                                    1 => get_string('selectdontshow', 'block_g_statistics'), 
+                                    2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                                    3 => get_string('selectalltasks', 'block_g_statistics'))
+                                )->setSelected(2);
+            $mform->setDefault('config_currentballs', 2);
+        }
         // $mform->addElement('header', 'config_header', 'Еще какой-то хедер');
     }
 }

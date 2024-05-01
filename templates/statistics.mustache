@@ -1,13 +1,15 @@
 <div>
-    <h5>{{blockstatisticstitle}}</h5>
+    {{#showstatistics }}
+        <h5>{{blockstatisticstitle}}</h5>
 
-    {{#show_current_balls}}
-        <strong>{{blockstatisticsballs}}:</strong> {{current_balls}}<br>
-    {{/show_current_balls}}
+        {{#show_current_balls}}
+            <strong>{{blockstatisticsballs}}:</strong> {{current_balls}}<br>
+        {{/show_current_balls}}
 
-    {{#show_mean_value}}
-        <strong>{{blockstatisticsmaingrade}}:</strong> {{mean_value}}
-    {{/show_mean_value}}
+        {{#show_mean_value}}
+            <strong>{{blockstatisticsmaingrade}}:</strong> {{mean_value}}
+        {{/show_mean_value}}
+    {{/showstatistics }}
 </div>
 
 {{#show_rating_table}}

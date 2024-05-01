@@ -31,6 +31,9 @@ $string['pluginname'] = 'G-статистика';
 // Перевод для settings
 $string['statisticshead'] = 'Настройки статистики';
 
+$string['showstatistics'] = 'Не показывать статистику';
+$string['showstatisticsdescription'] = 'Включить/выключить отображение статистики';
+
 $string['showavggrade'] = 'Отображать среднюю оценку';
 $string['showavggradedescription'] = 'Включить/выключить отображения средней оценки';
 

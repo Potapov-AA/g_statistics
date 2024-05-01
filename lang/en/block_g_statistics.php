@@ -31,6 +31,9 @@ $string['pluginname'] = 'G-statistics';
 // Перевод для settings
 $string['statisticshead'] = 'Statistics settings';
 
+$string['showstatistics'] = 'Dont show statistics';
+$string['showstatisticsdescription'] = 'Enable/disable statistics display';
+
 $string['showavggrade'] = 'Show average rating';
 $string['showavggradedescription'] = 'Enable/disable average rating display';
 

@@ -71,17 +71,22 @@ class block_g_statistics extends block_base {
         $statistics = new fetcher();
         $rating = new rating();
 
-        $config_mean_value = $this->config->meanvalue;
-        $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
-        if ($show_mean_value) {
-            $mean_value = $statistics->get_mean_value($config_mean_value);
+        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        if($show_statistics) {
+
+            $config_mean_value = $this->config->meanvalue;
+            $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
+            if ($show_mean_value) {
+                $mean_value = $statistics->get_mean_value($config_mean_value);
+            }
+            
+            $config_current_balls = $this->config->currentballs;
+            $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
+            if ($show_current_balls) {
+                $current_balls = $statistics->get_balls($config_current_balls);
+            }
         }
         
-        $config_current_balls = $this->config->currentballs;
-        $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
-        if ($show_current_balls) {
-            $current_balls = $statistics->get_balls($config_current_balls);
-        }
 
 
         $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0) ? false : true;
@@ -90,17 +95,21 @@ class block_g_statistics extends block_base {
         }
 
         $data_for_statistics = [
-            // Статистика перевод блока
-            "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
-            "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
-            "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
-
             // Статистика
+            "showstatistics" => $show_statistics,
+
             "show_current_balls" => $show_current_balls,
             "current_balls" => $current_balls,
 
             "show_mean_value" => $show_mean_value,
             "mean_value" => $mean_value,
+
+            // Статистика перевод блока
+            "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
+            "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
+            "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
+
+            
 
             // Таблица лидеров перевод блока
             "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
