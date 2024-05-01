@@ -116,10 +116,10 @@ class rating {
         global $DB, $COURSE;
         
         $activeUsersArray = $DB->get_records_sql(
-            "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid
+            "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid, gi.gradetype AS gradetype
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
-            WHERE itemname IS NOT NULL AND courseid = :courseid",
+            WHERE gradetype != 0 AND itemname IS NOT NULL AND gg.rawgrade IS NOT NULL AND courseid = :courseid",
             [
                 'courseid' => $COURSE->id,
             ]
@@ -137,14 +137,16 @@ class rating {
         global $DB, $COURSE;
 
         $rawgradeUsersArray = $DB->get_records_sql(
-            "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid
+            "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid, gi.gradetype AS gradetype
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
-            WHERE itemname IS NOT NULL AND courseid = :courseid",
+            WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND courseid = :courseid",
             [
                 'courseid' => $COURSE->id,
             ]
         );
+
+        
 
         return $rawgradeUsersArray;
     }
