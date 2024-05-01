@@ -42,10 +42,8 @@ class fetcher {
         $countCompletedTasks = 0;
 
         foreach($gradesarray as $item) {
-            if(!is_null($item->rawgrade)) {
-                $rawgradeUserSumNormal += $item->rawgrade / ($item->rawgrademax / 100);
-                $countCompletedTasks++;
-            }
+            $rawgradeUserSumNormal += $item->rawgrade / ($item->rawgrademax / 100);
+            $countCompletedTasks++;
         }
 
         
@@ -75,10 +73,8 @@ class fetcher {
         $rawgradeMaxUserSum = 0;
 
         foreach ($gradesarray as $item) {
-            if(!is_null($item->rawgrade)) {
-                $rawgradeUserSum += $item->rawgrade;
-                $rawgradeMaxUserSum += $item->rawgrademax;
-            }
+            $rawgradeUserSum += $item->rawgrade;
+            $rawgradeMaxUserSum += $item->rawgrademax;
         }
 
         switch($choise) {
