@@ -74,14 +74,7 @@ class block_g_statistics extends block_base {
         $config_mean_value = $this->config->meanvalue;
         $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
         if ($show_mean_value) {
-            $result = $statistics->get_mean_value($config_mean_value);
-            if($result != -1) {
-                $mean_value = $result . '/100';
-            } else {
-                $mean_value = "-//-";
-            }
-        } else {
-            $mean_value = "-//-";
+            $mean_value = $statistics->get_mean_value($config_mean_value);
         }
         
         $config_current_balls = $this->config->currentballs;
