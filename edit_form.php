@@ -26,7 +26,13 @@ class block_g_statistics_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
 
         $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
-        if ($show_statistics) {
+        
+        $configarray_statistcs = [
+            get_config('block_g_statistics', 'showmeanvalue'),
+            get_config('block_g_statistics', 'showcurrentballs'),
+        ];
+
+        if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
 
             $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
             
@@ -51,5 +57,13 @@ class block_g_statistics_edit_form extends block_edit_form {
             $mform->setDefault('config_currentballs', 2);
         }
         // $mform->addElement('header', 'config_header', 'Еще какой-то хедер');
+    }
+
+    private function is_all_false($configarray) {
+        foreach($configarray as $item) {
+            if ($item == 1) return false;
+        }
+
+        return true;
     }
 }
