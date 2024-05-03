@@ -3,7 +3,16 @@
         <h5>{{blockstatisticstitle}}</h5>
 
         {{#show_current_balls}}
-            <strong>{{blockstatisticsballs}}:</strong> {{current_balls}}<br>
+            <div class="d-flex">
+                <div>
+                    <strong>{{blockstatisticsballs}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# current_balls}}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ current_balls}}
+                </div>
+            </div>
         {{/show_current_balls}}
 
         {{#show_mean_value}}

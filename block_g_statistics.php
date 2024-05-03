@@ -68,50 +68,8 @@ class block_g_statistics extends block_base {
             $this->config = new stdClass();
         }
 
-        // $statistics = new fetcher();
         $rating = new rating();
 
-        // $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
-        // if($show_statistics) {
-
-        //     $config_mean_value = $this->config->meanvalue;
-        //     $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
-            
-        //     $mean_value = [];
-        //     if ($show_mean_value) {
-        //         switch ($config_mean_value) {
-        //             case 2:
-        //                 array_push($mean_value, [
-        //                     "value" => $statistics->get_mean_value($config_mean_value),
-        //                     "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
-        //                 ]);
-        //                 break;
-        //             case 3:
-        //                 array_push($mean_value, [
-        //                     "value" => $statistics->get_mean_value($config_mean_value),
-        //                     "description" => get_string('selectalltasks', 'block_g_statistics'),
-        //                 ]);
-        //                 break;
-        //             case 4:
-        //                 array_push($mean_value, [
-        //                     "value" => $statistics->get_mean_value(2),
-        //                     "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
-        //                 ]);
-        //                 array_push($mean_value, [
-        //                     "value" => $statistics->get_mean_value(3),
-        //                     "description" => get_string('selectalltasks', 'block_g_statistics'),
-        //                 ]);
-        //                 break;
-        //         }
-        //     }
-            
-        //     $config_current_balls = $this->config->currentballs;
-        //     $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
-        //     if ($show_current_balls) {
-        //         $current_balls = $statistics->get_balls($config_current_balls);
-        //     }
-        // }
-        
         $statistics = $this->get_statistics();
 
 
@@ -148,8 +106,6 @@ class block_g_statistics extends block_base {
             "wwwroot" => $CFG->wwwroot,
             "courseid" => $COURSE->id,
         ];
-
-        //'<a href="'.$CFG->wwwroot.'/user/view.php?id='.$user->id.'&amp;course='.$this->page->course->id.'" title="'.$timeago.'">'
 
         $this->content = new stdClass;
         $this->content->text = $OUTPUT->render_from_template("block_g_statistics/statistics", $data_for_statistics);
@@ -204,33 +160,31 @@ class block_g_statistics extends block_base {
 
             $current_balls = [];
             if ($show_current_balls) {
-
-                // switch ($config_mean_value) {
-                //     case 2:
-                //         array_push($mean_value, [
-                //             "value" => $statistics->get_mean_value($config_mean_value),
-                //             "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
-                //         ]);
-                //         break;
-                //     case 3:
-                //         array_push($mean_value, [
-                //             "value" => $statistics->get_mean_value($config_mean_value),
-                //             "description" => get_string('selectalltasks', 'block_g_statistics'),
-                //         ]);
-                //         break;
-                //     case 4:
-                //         array_push($mean_value, [
-                //             "value" => $statistics->get_mean_value(2),
-                //             "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
-                //         ]);
-                //         array_push($mean_value, [
-                //             "value" => $statistics->get_mean_value(3),
-                //             "description" => get_string('selectalltasks', 'block_g_statistics'),
-                //         ]);
-                //         break;
-                // }
-
-                $current_balls = $statistics->get_balls($config_current_balls);
+                
+                switch ($config_current_balls) {
+                    case 2:
+                        array_push($current_balls, [
+                            "value" => $statistics->get_balls($config_current_balls),
+                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                    case 3:
+                        array_push($current_balls, [
+                            "value" => $statistics->get_balls($config_current_balls),
+                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                    case 4:
+                        array_push($current_balls, [
+                            "value" => $statistics->get_balls(2),
+                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        ]);
+                        array_push($current_balls, [
+                            "value" => $statistics->get_balls(3),
+                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        ]);
+                        break;
+                }
             }
 
             return ["show_statistics" => $show_statistics, 
