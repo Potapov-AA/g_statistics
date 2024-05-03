@@ -56,7 +56,7 @@ class block_g_statistics_edit_form extends block_edit_form {
             if ($show_currentballs) {
                 $mform->addElement('select', 
                                     'config_currentballs', 
-                                    get_string('configmeanvalue', 'block_g_statistics'),
+                                    get_string('configcurrentballs', 'block_g_statistics'),
                                     $options)->setSelected(2);
                 $mform->setDefault('config_currentballs', 2);
             }
