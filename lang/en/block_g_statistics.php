@@ -52,9 +52,13 @@ $string['showleaderboarddescription'] = 'Enable/disable leaderboard display';
 // Перевод для edit_form
 $string['configstatisticsheader'] = 'Statistics display settings';
 
+$string['configusertext'] = 'FOR USER (STUDENT)';
+
 $string['configmeanvalue'] = 'Choose how to display your average rating';
 $string['configcurrentballs'] = 'Choose how you want to display your total points';
 $string['configtaskcounts'] = 'Choose how to display the number of completed tasks';
+
+$string['configadmintext'] = 'FOR ADMINISTRATOR';
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 

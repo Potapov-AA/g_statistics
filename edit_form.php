@@ -37,6 +37,10 @@ class block_g_statistics_edit_form extends block_edit_form {
 
             $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
             
+            $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
+                                get_string('configusertext', 'block_g_statistics') .
+                                '</b></div>');
+            
             $options = [
                 1 => get_string('selectdontshow', 'block_g_statistics'), 
                 2 => get_string('selectcomplitetasks', 'block_g_statistics'),
@@ -103,6 +107,9 @@ class block_g_statistics_edit_form extends block_edit_form {
                 }
             }
 
+            $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
+                                get_string('configadmintext', 'block_g_statistics') .
+                                '</b></div>');
 
 
         }

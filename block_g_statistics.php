@@ -70,33 +70,27 @@ class block_g_statistics extends block_base {
 
         $rating = new rating();
 
-        $statistics = $this->get_statistics();
+        $user_roleid = $this->get_user_roleid();
+        if($user_roleid == 5) {
+            $statistics = $this->get_statistics_for_user();
+        } else if ($user_roleid == 3 || $user_roleid == 4) {
+            $statistics = [];
+        }
+
+        
+            
 
 
         $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0) ? false : true;
         if ($show_rating_table) {
-            $usersInfo = $rating->get_rating();
+            $usersInfo = $rating->get_rating(); 
         }
 
-        $data_for_statistics = [
-            // Статистика
-            "show_statistics" => $statistics["show_statistics"],
-
-            "show_current_balls" => $statistics["show_current_balls"],
-            "current_balls" => $statistics["current_balls"],
-
-            "show_mean_value" => $statistics["show_mean_value"],
-            "mean_value" => $statistics["mean_value"],
-
-            "show_task_count" => $statistics["show_task_count"],
-            "task_count" => $statistics["task_count"],
-
+        $translate_data = [
             // Статистика перевод блока
             "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
             "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
             "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
-
-            
 
             // Таблица лидеров перевод блока
             "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
@@ -110,6 +104,8 @@ class block_g_statistics extends block_base {
             "courseid" => $COURSE->id,
         ];
 
+        $data_for_statistics = array_merge($statistics, $translate_data);
+
         $this->content = new stdClass;
         $this->content->text = $OUTPUT->render_from_template("block_g_statistics/statistics", $data_for_statistics);
         $this->content->footer = ''; 
@@ -118,8 +114,8 @@ class block_g_statistics extends block_base {
     }
 
 
-    // Метод сбора данных статистики для отображения статистики
-    private function get_statistics() {
+    // Метод сбора данных статистики для отображения статистики для пользователя
+    private function get_statistics_for_user() {
         global $CFG;
 
         $statistics = new statistics();
@@ -222,7 +218,7 @@ class block_g_statistics extends block_base {
                         }
                         break;
                     case 4:
-                        
+
                         if ($this->config->allelements != 0) {
 
                             array_push($task_count, [
@@ -287,6 +283,27 @@ class block_g_statistics extends block_base {
                     "task_count" => null,
                 ];
         }
+    }
+
+    // Метод получения 
+    private function get_user_roleid() {
+        global $DB, $COURSE, $USER;
+
+        $userrole = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
+            FROM {role_assignments} AS ra
+            JOIN {context} AS con ON ra.contextid = con.id
+            JOIN {course} AS c ON con.instanceid = c.id
+            WHERE con.contextlevel = 50 AND instanceid=:instanceid AND userid=:userid",
+            [
+                'userid' => $USER->id,
+                'instanceid' => $COURSE->id
+            ]
+        );
+
+        foreach ($userrole as $item) {
+            return $item->roleid;
+        } 
     }
 }
 
