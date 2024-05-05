@@ -60,6 +60,9 @@ $string['configtaskcounts'] = 'Choose how to display the number of completed tas
 
 $string['configadmintext'] = 'FOR ADMINISTRATOR';
 
+$string['configmeanvalueadmin'] = 'Choose how to display the average grade for the course';
+$string['yesnounactiveusers'] = 'Take inactive users into account';
+
 $string['configleaderboardheader'] = 'Leaderboard settings';
 
 // Перевод для SELECT-FORM (средний балл и количество баллов) (edit_form)
@@ -70,6 +73,8 @@ $string['selectshowbothoptions'] = 'Show both options';
 $string['selectshowtotal'] = 'Show only total quantity';
 $string['selectshowall'] = 'Show all';
 $string['selectsettingshow'] = 'Set what to show';
+$string['yes'] = 'Yes';
+$string['no'] = 'No';
 
 // Перевод для типов элементов
 $string['allelements'] = 'Total';
@@ -82,6 +87,9 @@ $string['assign'] = 'Tasks';
 $string['blockstatisticstitle'] = 'Your statistics';
 $string['blockstatisticsballs'] = 'Total points';
 $string['blockstatisticsmaingrade'] = 'Avg score';
+$string['blockstatisticscounttasks'] = 'Number of completed tasks';
+
+$string['blockstatisticsmaingradeadmin'] = 'Avg grade for the course';
 
 $string['blockleaderboardtitle'] = 'Leaderboard';
 $string['blockleaderboardname'] = 'Name';

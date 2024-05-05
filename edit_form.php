@@ -111,8 +111,37 @@ class block_g_statistics_edit_form extends block_edit_form {
                                 get_string('configadmintext', 'block_g_statistics') .
                                 '</b></div>');
 
+            $options = [
+                1 => get_string('selectdontshow', 'block_g_statistics'), 
+                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                3 => get_string('selectalltasks', 'block_g_statistics'),
+                4 => get_string('selectshowbothoptions', 'block_g_statistics')
+            ];
+
+            if ($show_meanvalue) {
+                $mform->addElement('select', 
+                                    'config_meanvalueadmin', 
+                                    get_string('configmeanvalueadmin', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_meanvalueadmin', 2);
+
+                $yesno = [
+                    1 => get_string('yes', 'block_g_statistics'), 
+                    2 => get_string('no', 'block_g_statistics'), 
+                ];
+
+                $mform->addElement('select', 
+                                    'config_yesnounactiveusers', 
+                                    get_string('yesnounactiveusers', 'block_g_statistics'),
+                                    $yesno)->setSelected(2);
+                $mform->setDefault('config_meanvalueadmin', 2);
+            }
+            
+
 
         }
+
+
 
         $mform->addElement('header', 'configleaderboardheader', 'Таблица лидеров'); //TODO: Добавить переводы
     }

@@ -27,14 +27,64 @@ namespace block_g_statistics;
 defined('MOODLE_INTERNAL') || die();
 
 class statistics {
+
+    function get_mean_value_for_all_users($choise, $consideruserunactive = true) {
+        global $DB, $COURSE;
+
+        // Получение списка пользователей на курсе
+        $userrole = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
+            FROM {role_assignments} AS ra
+            JOIN {context} AS con ON ra.contextid = con.id
+            JOIN {course} AS c ON con.instanceid = c.id
+            WHERE con.contextlevel = 50 AND roleid = 5 AND instanceid=:instanceid ",
+            [
+                'instanceid' => $COURSE->id
+            ]
+        );
+
+        // Получение id активных пользователей
+        $activeUsersArray = $DB->get_records_sql(
+            "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid, gi.gradetype AS gradetype
+            FROM {grade_grades} AS gg 
+            JOIN {grade_items} AS gi ON gg.itemid = gi.id 
+            WHERE gradetype != 0 AND itemname IS NOT NULL AND gg.rawgrade IS NOT NULL AND courseid = :courseid",
+            [
+                'courseid' => $COURSE->id,
+            ]
+        );
+
+        $activeUsersId = [];
+        foreach($activeUsersArray as $item) {
+            array_push($activeUsersId, $item->userid);
+        }
+        if(count($activeUsersId) == 0) return '-//-';
+
+        $usercount = count($userrole);
+
+        $rawgradesum = 0;
+
+        foreach ($userrole as $user) {
+            $userid = $user->userid;
+
+            if (in_array($userid, $activeUsersId)) {
+                $rawgradesum += $this->get_mean_value($choise, $userid);
+            } else {
+                if (!$consideruserunactive) $usercount--;
+            }
+        }
+
+        return round($rawgradesum / $usercount);
+    }
+
     /**
      * Getting the average score of the current user
      *
      * @param int $choise Selecting display method
      * @return int
      */
-    function get_mean_value($choise) {
-        $gradesarray = $this->get_grades_array();
+    function get_mean_value($choise, $userid = -1) {
+        $gradesarray = $this->get_grades_array($userid);
 
         if(count($gradesarray) == 0) return '-//-';
 
@@ -49,9 +99,9 @@ class statistics {
         
         switch($choise) {
             case 2: // Относительно количества пройденных заданий
-                return round(($rawgradeUserSumNormal / $countCompletedTasks)) . '/100';
+                return round(($rawgradeUserSumNormal / $countCompletedTasks));
             case 3: // Относительно общего количества заданий
-                return round(($rawgradeUserSumNormal / $this->get_count_tasks_for_course())) . '/100';
+                return round(($rawgradeUserSumNormal / $this->get_count_tasks_for_course($userid)));
             default: 
                 return '-//-';
         }
@@ -64,8 +114,8 @@ class statistics {
      * @param int $choise Selecting display method
      * @return int
      */
-    function get_balls($choise) {
-        $gradesarray = $this->get_grades_array();
+    function get_balls($choise, $userid = -1) {
+        $gradesarray = $this->get_grades_array($userid);
 
         if (count($gradesarray) == 0) return '-//-';
 
@@ -99,8 +149,12 @@ class statistics {
      *
      * @return int
      */
-    private function get_grades_array() {
+    private function get_grades_array($userid) {
         global $DB, $USER, $COURSE;
+
+        if($userid == -1) {
+            $userid = $USER->id;
+        } 
 
         $gradesarray = $DB->get_records_sql(
             "SELECT gg.id AS id, gi.courseid AS courseid, gg.userid AS userid, gi.itemname AS itemname, gi.gradetype AS gradetype, gg.rawgrade AS rawgrade, gg.rawgrademax AS rawgrademax
@@ -108,7 +162,7 @@ class statistics {
             JOIN {grade_items} AS gi ON gg.itemid = gi.id
             WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND  userid = :userid AND courseid = :courseid",
             [
-                'userid' => $USER->id,
+                'userid' => $userid,
                 'courseid' => $COURSE->id
             ]
         );
@@ -138,8 +192,12 @@ class statistics {
     }
 
 
-    private function get_count_tasks_for_course() {
+    private function get_count_tasks_for_course($userid) {
         global $DB, $USER, $COURSE;
+        
+        if($userid == -1) {
+            $userid = $USER->id;
+        } 
 
         $gradesarray = $DB->get_records_sql(
             "SELECT gg.id AS id
@@ -147,7 +205,7 @@ class statistics {
             JOIN {grade_items} AS gi ON gg.itemid = gi.id
             WHERE gradetype != 0 AND itemname IS NOT NULL AND  userid = :userid AND courseid = :courseid",
             [
-                'userid' => $USER->id,
+                'userid' => $userid,
                 'courseid' => $COURSE->id
             ]
         );

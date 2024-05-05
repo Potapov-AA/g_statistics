@@ -60,6 +60,11 @@ $string['configtaskcounts'] = 'Выберете способ отображен�
 
 $string['configadmintext'] = 'ДЛЯ АДМИНИСТРАТОРА';
 
+$string['configmeanvalueadmin'] = 'Выберете способ отображения средней оценки по курсу';
+$string['yesnounactiveusers'] = 'Учитывать неактивных пользователей';
+
+
+
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
 
 // Перевод для SELECT-FORM (edit_form)
@@ -70,6 +75,8 @@ $string['selectshowbothoptions'] = 'Показывать оба вариант';
 $string['selectshowtotal'] = 'Показывать только общее количество';
 $string['selectshowall'] = 'Показывать все';
 $string['selectsettingshow'] = 'Настроить, что показывать';
+$string['yes'] = 'Да';
+$string['no'] = 'Нет';
 
 // Перевод для типов элементов
 $string['allelements'] = 'Общее количество';
@@ -82,6 +89,11 @@ $string['assign'] = 'Задания';
 $string['blockstatisticstitle'] = 'Ваша статистика';
 $string['blockstatisticsballs'] = 'Всего баллов';
 $string['blockstatisticsmaingrade'] = 'Ср. оценка';
+$string['blockstatisticscounttasks'] = 'Количество завершенных заданий';
+
+
+$string['blockstatisticsmaingradeadmin'] = 'Ср. оценка по курсу';
+
 
 $string['blockleaderboardtitle'] = 'Таблица лидеров';
 $string['blockleaderboardname'] = 'Имя';

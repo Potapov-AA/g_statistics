@@ -74,7 +74,7 @@ class block_g_statistics extends block_base {
         if($user_roleid == 5) {
             $statistics = $this->get_statistics_for_user();
         } else if ($user_roleid == 3 || $user_roleid == 4) {
-            $statistics = [];
+            $statistics = $this->get_statistics_for_admin();
         }
 
         
@@ -91,6 +91,9 @@ class block_g_statistics extends block_base {
             "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
             "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
             "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
+            "blockstatisticscounttasks" => get_string('blockstatisticscounttasks', 'block_g_statistics'),
+
+            "blockstatisticsmaingradeadmin" => get_string('blockstatisticsmaingradeadmin', 'block_g_statistics'),
 
             // Таблица лидеров перевод блока
             "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
@@ -114,6 +117,81 @@ class block_g_statistics extends block_base {
     }
 
 
+    private function get_statistics_for_admin() {
+
+        $statistics = new statistics();
+
+        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        if($show_statistics) {
+
+            $config_mean_value_admin = $this->config->meanvalueadmin;
+            $show_mean_value_admin = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value_admin == 1) ? false : true;
+
+            $mean_value_admin = [];
+            if ($show_mean_value_admin) {
+
+                $takeinactiveusers = $this->config->yesnounactiveusers == 1 ? true : false;
+
+                switch ($config_mean_value_admin) {
+                    case 2:
+                        if ($takeinactiveusers) {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
+                                "description" => "Относительно количества пройденных заданий c учетом неактивных пользователей",
+                            ]);
+                        } else {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
+                                "description" => "Относительно количества пройденных заданий без учета неактивных пользователей"
+                            ]);
+                        }
+                        break;
+                    case 3:
+                        if ($takeinactiveusers) {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
+                                "description" => "Относительно общего количества заданий с учетом неактивных пользователей"
+                            ]);
+                        } else {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
+                                "description" => "Относительно общего количества заданий без учета неактивных пользователей"
+                            ]);
+                        }
+                        break;
+                    case 4:
+                        if ($takeinactiveusers) {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
+                                "description" => "Относительно количества пройденных заданий c учетом неактивных пользователей"
+                            ]);
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
+                                "description" => "Относительно общего количества заданий с учетом неактивных пользователей"
+                            ]);
+                        } else {
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
+                                "description" => "Относительно количества пройденных заданий без учета неактивных пользователей",
+                            ]);
+                            array_push($mean_value_admin, [
+                                "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
+                                "description" => "Относительно общего количества заданий без учета неактивных пользователей"
+                            ]);
+                        }
+                        break;
+                }
+            }
+        }
+
+        return [
+            "show_statistics" => $show_statistics, 
+            "show_mean_value_admin" => $show_mean_value_admin,
+            "mean_value_admin" => $mean_value_admin
+        ];
+    }
+
+
     // Метод сбора данных статистики для отображения статистики для пользователя
     private function get_statistics_for_user() {
         global $CFG;
@@ -131,23 +209,23 @@ class block_g_statistics extends block_base {
                 switch ($config_mean_value) {
                     case 2:
                         array_push($mean_value, [
-                            "value" => $statistics->get_mean_value($config_mean_value),
+                            "value" => $statistics->get_mean_value($config_mean_value) . '/100',
                             "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 3:
                         array_push($mean_value, [
-                            "value" => $statistics->get_mean_value($config_mean_value),
+                            "value" => $statistics->get_mean_value($config_mean_value) . '/100',
                             "description" => get_string('selectalltasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 4:
                         array_push($mean_value, [
-                            "value" => $statistics->get_mean_value(2),
+                            "value" => $statistics->get_mean_value(2) . '/100',
                             "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
                         ]);
                         array_push($mean_value, [
-                            "value" => $statistics->get_mean_value(3),
+                            "value" => $statistics->get_mean_value(3) . '/100',
                             "description" => get_string('selectalltasks', 'block_g_statistics'),
                         ]);
                         break;

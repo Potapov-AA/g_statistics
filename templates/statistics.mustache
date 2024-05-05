@@ -1,15 +1,5 @@
 <div>
-
-    {{ TEST }}
-    {{# TEST }}
-        {{id}}
-    {{/ TEST }}
-
     {{#show_statistics }}
-        
-
-        
-
         <h5>{{blockstatisticstitle}}</h5>
 
         {{#show_current_balls}}
@@ -37,6 +27,19 @@
                 </div>
             </div>
         {{/show_mean_value}}
+
+        {{#show_mean_value_admin}}
+            <div class="d-flex mt-2">
+                <div>
+                    <strong>{{blockstatisticsmaingradeadmin}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# mean_value_admin }}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ mean_value_admin }}
+                </div>
+            </div>
+        {{/show_mean_value_admin}}
 
         {{#show_task_count}}
             <h6 class="mt-4">Количество завершенных заданий</h6>
