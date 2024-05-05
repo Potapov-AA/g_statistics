@@ -26,7 +26,7 @@ namespace block_g_statistics;
 
 defined('MOODLE_INTERNAL') || die();
 
-class fetcher {
+class statistics {
     /**
      * Getting the average score of the current user
      *
@@ -88,6 +88,12 @@ class fetcher {
     }
 
 
+    function get_count_complited_tasks($type=-1) {
+        return $this->get_count_complited_modules_for_user($type) . '/' . $this->get_count_complited_modules_for_course($type);
+    }
+
+
+
     /**
      * Getting an array of ratings
      *
@@ -147,5 +153,69 @@ class fetcher {
         );
 
         return count($gradesarray);
+    }
+
+
+    private function get_count_complited_modules_for_course($type) {
+        global $DB, $COURSE;
+
+        if ($type == -1) {
+            $allModulesCount = count($DB->get_records_sql(
+                                    "SELECT id, course, module, completion
+                                    FROM {course_modules}
+                                    WHERE completion != 0 AND course = :courseid",
+                                    [
+                                        'courseid' => $COURSE->id
+                                    ]
+                                ));
+
+            return $allModulesCount;
+        }
+
+        $modulesCount = count($DB->get_records_sql(
+                            "SELECT id, course, module, completion
+                            FROM {course_modules}
+                            WHERE completion != 0 AND course = :courseid AND module = :type",
+                            [
+                                'courseid' => $COURSE->id,
+                                'type' => $type
+                            ]
+                        ));
+        
+        return $modulesCount;
+    }
+
+
+    private function get_count_complited_modules_for_user($type) {
+        global $DB, $COURSE, $USER;
+
+        if($type == -1) {
+            $allModulesComplitedCount = count($DB->get_records_sql(
+                                            "SELECT cmc.id AS id, cmc.coursemoduleid AS coursemoduleid, cmc.userid AS userid, cm.module AS module, cm.course AS course
+                                            FROM {course_modules_completion} AS cmc
+                                            JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
+                                            WHERE course = :courseid AND userid = :userid",
+                                            [
+                                                'courseid' => $COURSE->id,
+                                                'userid' => $USER->id,
+                                            ]
+                                        ));
+            
+            return $allModulesComplitedCount;
+        }
+
+        $modulesComplitedCount = count($DB->get_records_sql(
+                                    "SELECT cmc.id AS id, cmc.coursemoduleid AS coursemoduleid, cmc.userid AS userid, cm.module AS module, cm.course AS course
+                                    FROM {course_modules_completion} AS cmc
+                                    JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
+                                    WHERE course = :courseid AND userid = :userid AND module = :type",
+                                    [
+                                        'courseid' => $COURSE->id,
+                                        'userid' => $USER->id,
+                                        'type' => $type,
+                                    ]
+                                ));
+
+        return $modulesComplitedCount;
     }
 }

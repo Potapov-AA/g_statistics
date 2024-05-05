@@ -40,6 +40,9 @@ $string['showavggradedescription'] = 'Enable/disable average rating display';
 $string['showsumballs'] = 'Show total points';
 $string['showsumballsdescription'] = 'Enable/disable display of total points';
 
+$string['showtaskcountcomlpited'] = 'Display the number of completed tasks';
+$string['showtaskcountcomlpiteddescription'] = 'Enable/disable display of the number of completed tasks';
+
 
 $string['ratingtablehead'] = 'Leaderboard settings';
 
@@ -51,12 +54,25 @@ $string['configstatisticsheader'] = 'Statistics display settings';
 
 $string['configmeanvalue'] = 'Choose how to display your average rating';
 $string['configcurrentballs'] = 'Choose how you want to display your total points';
+$string['configtaskcounts'] = 'Choose how to display the number of completed tasks';
 
-// Перевод для SELECT-FORM (edit_form)
+$string['configleaderboardheader'] = 'Leaderboard settings';
+
+// Перевод для SELECT-FORM (средний балл и количество баллов) (edit_form)
 $string['selectdontshow'] = "Don't show";
 $string['selectcomplitetasks'] = 'Regarding the number of completed tasks';
 $string['selectalltasks'] = 'Regarding the total number of tasks';
-$string['showbothoptions'] = 'Show both options';
+$string['selectshowbothoptions'] = 'Show both options';
+$string['selectshowtotal'] = 'Show only total quantity';
+$string['selectshowall'] = 'Show all';
+$string['selectsettingshow'] = 'Set what to show';
+
+// Перевод для типов элементов
+$string['allelements'] = 'Total';
+$string['lesson'] = 'Lessons';
+$string['page'] = 'Pages';
+$string['quiz'] = 'Tests';
+$string['assign'] = 'Tasks';
 
 // Перевод для блока
 $string['blockstatisticstitle'] = 'Your statistics';

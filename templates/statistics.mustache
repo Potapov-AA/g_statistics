@@ -1,9 +1,12 @@
 <div>
     {{#show_statistics }}
+
+        <h6>{{COUNTTASK}}</h6>
+
         <h5>{{blockstatisticstitle}}</h5>
 
         {{#show_current_balls}}
-            <div class="d-flex">
+            <div class="d-flex mt-2">
                 <div>
                     <strong>{{blockstatisticsballs}}:</strong>
                 </div>
@@ -16,7 +19,7 @@
         {{/show_current_balls}}
 
         {{#show_mean_value}}
-            <div class="d-flex">
+            <div class="d-flex mt-2">
                 <div>
                     <strong>{{blockstatisticsmaingrade}}:</strong>
                 </div>
@@ -27,8 +30,18 @@
                 </div>
             </div>
         {{/show_mean_value}}
+
+        {{#show_task_count}}
+            <h6 class="mt-4">Количество завершенных заданий</h6>
+            <div class="d-flex flex-column ml-4">
+                {{# task_count }}
+                    <div class="mt-1">{{description}}: {{value}}</div>
+                {{/ task_count }}
+            </div>
+        {{/show_task_count}}
+        
     {{/show_statistics }}
-</div>
+</>
 
 {{#show_rating_table}}
 <div class="mt-4">

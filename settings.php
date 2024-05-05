@@ -20,6 +20,10 @@ if($ADMIN->fulltree) {
                     get_string('showsumballs', 'block_g_statistics'),
                     get_string('showsumballsdescription', 'block_g_statistics'), 1));
 
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showtaskcountcomlpited',
+                    get_string('showtaskcountcomlpited', 'block_g_statistics'),
+                    get_string('showtaskcountcomlpiteddescription', 'block_g_statistics'), 1));
+
     // Leaderboard
     
     $settings->add(new admin_setting_heading('block_g_statistics/ratingtablehead', 

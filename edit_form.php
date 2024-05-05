@@ -30,6 +30,7 @@ class block_g_statistics_edit_form extends block_edit_form {
         $configarray_statistcs = [
             get_config('block_g_statistics', 'showmeanvalue'),
             get_config('block_g_statistics', 'showcurrentballs'),
+            get_config('block_g_statistics', 'showtaskcountcomlpited')
         ];
 
         if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
@@ -40,7 +41,7 @@ class block_g_statistics_edit_form extends block_edit_form {
                 1 => get_string('selectdontshow', 'block_g_statistics'), 
                 2 => get_string('selectcomplitetasks', 'block_g_statistics'),
                 3 => get_string('selectalltasks', 'block_g_statistics'),
-                4 => get_string('showbothoptions', 'block_g_statistics')
+                4 => get_string('selectshowbothoptions', 'block_g_statistics')
             ];
 
             $show_meanvalue =  get_config('block_g_statistics', 'showmeanvalue') == 1 ? true : false;
@@ -60,9 +61,53 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     $options)->setSelected(2);
                 $mform->setDefault('config_currentballs', 2);
             }
+
+
+            $options = [
+                1 => get_string('selectdontshow', 'block_g_statistics'),
+                2 => get_string('selectshowtotal', 'block_g_statistics'),
+                3 => get_string('selectshowall', 'block_g_statistics'),
+                4 => get_string('selectsettingshow', 'block_g_statistics'),
+            ];
+
+            $tasks_type = [
+                -1 => 'allelements',
+                1 => 'assign',
+                14 => 'lesson',
+                16 => 'page',
+                17 => 'quiz',
+
+            ];
+
+            $show_taskcountcomlpited = get_config('block_g_statistics', 'showtaskcountcomlpited') == 1 ? true : false;
+
+            if($show_taskcountcomlpited) {
+
+                $mform->addElement('select', 
+                                    'config_taskcount', 
+                                    get_string('configtaskcounts', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_taskcount', 2);
+ 
+                foreach($tasks_type as $key => $value) {
+                    $name = 'config_' . $value;
+
+                    $mform->addElement('advcheckbox', 
+                                        $name, 
+                                        '', 
+                                        get_string($value, 'block_g_statistics'),
+                                        null,
+                                        [0, $key]);
+                    
+                    $mform->disabledIf($name, 'config_taskcount', 'neq', 4); 
+                }
+            }
+
+
+
         }
 
-        // $mform->addElement('header', 'config_header', 'Еще какой-то хедер');
+        $mform->addElement('header', 'configleaderboardheader', 'Таблица лидеров'); //TODO: Добавить переводы
     }
 
     private function is_all_false($configarray) {

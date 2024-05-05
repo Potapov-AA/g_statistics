@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-use block_g_statistics\fetcher;
+use block_g_statistics\statistics;
 use block_g_statistics\rating;
 
 /**
@@ -88,6 +88,9 @@ class block_g_statistics extends block_base {
             "show_mean_value" => $statistics["show_mean_value"],
             "mean_value" => $statistics["mean_value"],
 
+            "show_task_count" => $statistics["show_task_count"],
+            "task_count" => $statistics["task_count"],
+
             // Статистика перевод блока
             "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
             "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
@@ -119,7 +122,7 @@ class block_g_statistics extends block_base {
     private function get_statistics() {
         global $CFG;
 
-        $statistics = new fetcher();
+        $statistics = new statistics();
 
         $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
         if($show_statistics) {
@@ -187,11 +190,91 @@ class block_g_statistics extends block_base {
                 }
             }
 
+            $config_task_count = $this->config->taskcount;
+            $show_task_count = (get_config('block_g_statistics', 'showtaskcountcomlpited') == 0 || $config_task_count == 1) ? false : true;
+
+            $task_count = [];
+            if ($show_task_count) {
+
+                $tasks_type = [
+                    -1 => 'allelements',
+                    1 => 'assign',
+                    14 => 'lesson',
+                    16 => 'page',
+                    17 => 'quiz',
+                ];
+
+                switch ($config_task_count) {
+                    case 2:
+                        array_push($task_count, [
+                            "description" => get_string('allelements', 'block_g_statistics'),
+                            "value" => $statistics->get_count_complited_tasks(),
+                        ]);
+                        break;
+
+                    case 3: 
+                        foreach ($tasks_type as $key => $value) {
+
+                            array_push($task_count, [
+                                "description" => get_string($value, 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks($key),
+                            ]);
+                        }
+                        break;
+                    case 4:
+                        
+                        if ($this->config->allelements != 0) {
+
+                            array_push($task_count, [
+                                "description" => get_string('allelements', 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks(),
+                            ]);
+                        }
+
+                        if ($this->config->assign != 0) {
+
+                            array_push($task_count, [
+                                "description" => get_string('assign', 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks($this->config->assign),
+                            ]);
+                        }
+
+                        if ($this->config->lesson != 0) {
+
+                            array_push($task_count, [
+                                "description" => get_string('lesson', 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks($this->config->lesson),
+                            ]);
+                        }
+
+                        if ($this->config->page != 0) {
+
+                            array_push($task_count, [
+                                "description" => get_string('page', 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks($this->config->page),
+                            ]);
+                        }
+
+                        if ($this->config->quiz != 0) {
+
+                            array_push($task_count, [
+                                "description" => get_string('quiz', 'block_g_statistics'),
+                                "value" => $statistics->get_count_complited_tasks($this->config->quiz),
+                            ]);
+                        }
+
+                        break;
+                }
+            }
+
             return ["show_statistics" => $show_statistics, 
                     "show_mean_value" => $show_mean_value, 
                     "mean_value" => $mean_value, 
                     "show_current_balls" => $show_current_balls, 
-                    "current_balls" => $current_balls];
+                    "current_balls" => $current_balls,
+                    "show_task_count" => $show_task_count,
+                    "task_count" => $task_count,
+                ];
 
         } else {
 
@@ -199,7 +282,10 @@ class block_g_statistics extends block_base {
                     "show_mean_value" => null, 
                     "mean_value" => null, 
                     "show_current_balls" => null, 
-                    "current_balls" => null];
+                    "current_balls" => null,
+                    "show_task_count" => null,
+                    "task_count" => null,
+                ];
         }
     }
 }
