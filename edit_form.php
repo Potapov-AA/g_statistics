@@ -175,7 +175,16 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     null,
                                     [0, 1]);
                     
-                $mform->disabledIf($name, 'config_showusermaenavalue', 'eq', 1); 
+                $mform->disabledIf('config_showusermaenavalue', 'config_userstatistics', 'eq', 1); 
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showuserballs', 
+                                    '', 
+                                    get_string('showuserballs', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf('config_showuserballs', 'config_userstatistics', 'eq', 1); 
             }
         }
 

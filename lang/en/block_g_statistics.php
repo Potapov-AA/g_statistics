@@ -74,6 +74,7 @@ $string['configmeanvalueadmin'] = 'Choose how to display the average grade for t
 $string['yesnounactiveusers'] = 'Take inactive users into account';
 $string['configuserstatistics'] = 'Select a student to display his statistics';
 $string['showusermaenavalue'] = 'Show average user rating';
+$string['showuserballs'] = 'Show user scores';
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 

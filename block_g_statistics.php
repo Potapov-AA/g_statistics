@@ -216,6 +216,22 @@ class block_g_statistics extends block_base {
                     $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
                 }
                 
+                $config_show_user_balls = $this->config->showuserballs == 1 ? true : false;
+                if ($config_show_user_balls) {
+
+                    $user_statistics_balls = [];
+                    array_push($user_statistics_balls, [
+                        "value" => $statistics->get_balls(2, $config_user_statistics),
+                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                    ]);
+                    array_push($user_statistics_balls, [
+                        "value" => $statistics->get_balls(3, $config_user_statistics),
+                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                    ]);
+
+                    $user_statistics["user_statistics_balls"] = $user_statistics_balls;
+                }
+                
             }
         }
 
@@ -226,6 +242,7 @@ class block_g_statistics extends block_base {
 
             "show_user_statistics" => $show_user_statistics,
             "show_user_maen_value" => $config_show_user_maen_value,
+            "show_user_balls" => $config_show_user_balls,
             "user_statistics" => $user_statistics,
         ];
     }

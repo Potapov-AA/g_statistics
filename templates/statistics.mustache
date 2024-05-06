@@ -66,6 +66,19 @@
                         </div>
                     </div>
                 {{/ show_user_maen_value }}
+
+                {{# show_user_balls }}
+                    <div class="d-flex mt-2">
+                        <div>
+                            <strong>{{blockstatisticsballs}}:</strong>
+                        </div>
+                        <div class="d-flex flex-column ml-2">
+                            {{# user_statistics_balls }}
+                                <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                            {{/ user_statistics_balls }}
+                        </div>
+                    </div>
+                {{/ show_user_balls }}
             {{/user_statistics}}
         {{/ show_user_statistics }}
         
