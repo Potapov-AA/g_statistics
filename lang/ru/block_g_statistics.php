@@ -49,6 +49,16 @@ $string['ratingtablehead'] = 'Настройки таблицы лидеров';
 $string['showleaderboard'] = 'Отображать таблицу лидеров';
 $string['showleaderboarddescription'] = 'Включить/выключить отображение таблицы лидеров';
 
+
+$string['adminhead'] = 'Настройки отображения для админа';
+
+$string['showmeangradeforcourse'] = 'Показывать среднюю оценку за курс';
+$string['showmeangradeforcoursedescription'] = 'Включить/выключить отображение средней оценки за курс';
+
+$string['showuserstatistics'] = 'Показывать статистику для выбранного пользователя';
+$string['showuserstatisticsdescription'] = 'Включить/выключить отображение статистики для выбранного пользователя';
+
+
 // Перевод для edit_form
 $string['configstatisticsheader'] = 'Настройки отображения статистики';
 
@@ -62,7 +72,7 @@ $string['configadmintext'] = 'ДЛЯ АДМИНИСТРАТОРА';
 
 $string['configmeanvalueadmin'] = 'Выберете способ отображения средней оценки по курсу';
 $string['yesnounactiveusers'] = 'Учитывать неактивных пользователей';
-
+$string['configuserstatistics'] = 'Выберете студента для отображения его статистики';
 
 
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
@@ -85,11 +95,21 @@ $string['page'] = 'Страницы';
 $string['quiz'] = 'Тесты';
 $string['assign'] = 'Задания';
 
+// Перевод для описания средней оценкци для админитратора 
+$string['descriptioncounttaskswithinactiveusers'] = 'Относительно количества пройденных заданий c учетом неактивных пользователей';
+$string['descriptioncounttaskswithoutinactiveusers'] = 'Относительно количества пройденных заданий без учета неактивных пользователей';
+$string['descriptionmaxcounttaskswithinactiveusers'] = 'Относительно общего количества заданий с учетом неактивных пользователей';
+$string['descriptionmaxcounttaskswithpoutinactiveusers'] = 'Относительно общего количества заданий без учета неактивных пользователей';
+
+
+
 // Перевод для блока
 $string['blockstatisticstitle'] = 'Ваша статистика';
 $string['blockstatisticsballs'] = 'Всего баллов';
 $string['blockstatisticsmaingrade'] = 'Ср. оценка';
 $string['blockstatisticscounttasks'] = 'Количество завершенных заданий';
+$string['blockstatisticstitleforuser'] = 'Статистика для пользователя';
+
 
 
 $string['blockstatisticsmaingradeadmin'] = 'Ср. оценка по курсу';

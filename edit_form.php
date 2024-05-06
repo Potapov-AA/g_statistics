@@ -30,7 +30,7 @@ class block_g_statistics_edit_form extends block_edit_form {
         $configarray_statistcs = [
             get_config('block_g_statistics', 'showmeanvalue'),
             get_config('block_g_statistics', 'showcurrentballs'),
-            get_config('block_g_statistics', 'showtaskcountcomlpited')
+            get_config('block_g_statistics', 'showtaskcountcomlpited'),
         ];
 
         if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
@@ -106,19 +106,30 @@ class block_g_statistics_edit_form extends block_edit_form {
                     $mform->disabledIf($name, 'config_taskcount', 'neq', 4); 
                 }
             }
+        }
+
+        
+        $configarray_statistcs = [
+            get_config('block_g_statistics', 'showmeangradeforcourse'),
+            get_config('block_g_statistics', 'showuserstatistics'),
+        ];
+
+        if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
 
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
-                                get_string('configadmintext', 'block_g_statistics') .
-                                '</b></div>');
+                                    get_string('configadmintext', 'block_g_statistics') .
+                                    '</b></div>');
 
-            $options = [
-                1 => get_string('selectdontshow', 'block_g_statistics'), 
-                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
-                3 => get_string('selectalltasks', 'block_g_statistics'),
-                4 => get_string('selectshowbothoptions', 'block_g_statistics')
-            ];
+            $show_meangradeforcourse =  get_config('block_g_statistics', 'showmeangradeforcourse') == 1 ? true : false;
+            if ($show_meangradeforcourse) {
 
-            if ($show_meanvalue) {
+                $options = [
+                    1 => get_string('selectdontshow', 'block_g_statistics'), 
+                    2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                    3 => get_string('selectalltasks', 'block_g_statistics'),
+                    4 => get_string('selectshowbothoptions', 'block_g_statistics')
+                ];
+
                 $mform->addElement('select', 
                                     'config_meanvalueadmin', 
                                     get_string('configmeanvalueadmin', 'block_g_statistics'),
@@ -135,10 +146,28 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     get_string('yesnounactiveusers', 'block_g_statistics'),
                                     $yesno)->setSelected(2);
                 $mform->setDefault('config_meanvalueadmin', 2);
+
+                $mform->disabledIf('config_yesnounactiveusers', 'config_meanvalueadmin', 'eq', 1); 
             }
-            
 
+            $show_userstatistics = get_config('block_g_statistics', 'showuserstatistics') == 1 ? true : false;
+            if ($show_userstatistics) {
 
+                $users = $this->get_users();
+
+                $select_array = [1 => get_string('selectdontshow', 'block_g_statistics')];
+
+                foreach($users as $user) {
+
+                    $select_array[$user->userid] = $user->firstname . ' ' . $user->lastname;
+                }
+
+                $mform->addElement('select', 
+                                    'config_userstatistics', 
+                                    get_string('configuserstatistics', 'block_g_statistics'),
+                                    $select_array)->setSelected(1);
+                $mform->setDefault('config_userstatistics', 1);
+            }
         }
 
 
@@ -152,5 +181,24 @@ class block_g_statistics_edit_form extends block_edit_form {
         }
 
         return true;
+    }
+
+    private function get_users() {
+        global $DB, $COURSE;
+
+        $users = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
+            FROM {user} AS u
+            JOIN {role_assignments} AS ra ON ra.userid = u.id
+            JOIN {role} AS r ON ra.roleid = r.id 
+            JOIN {context} AS con ON ra.contextid = con.id
+            JOIN {course} AS c ON con.instanceid = c.id
+            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
+            [
+                'courseid' => $COURSE->id,
+            ]
+        );
+
+        return $users;
     }
 }

@@ -49,6 +49,16 @@ $string['ratingtablehead'] = 'Leaderboard settings';
 $string['showleaderboard'] = 'Show leaderboard';
 $string['showleaderboarddescription'] = 'Enable/disable leaderboard display';
 
+
+$string['adminhead'] = 'Display settings for admin';
+
+$string['showmeangradeforcourse'] = 'Show average course grade';
+$string['showmeangradeforcoursedescription'] = 'Enable/disable display of average course grade';
+
+$string['showuserstatistics'] = 'Show statistics for selected user';
+$string['showuserstatisticsdescription'] = 'Enable/disable display of statistics for the selected user';
+
+
 // Перевод для edit_form
 $string['configstatisticsheader'] = 'Statistics display settings';
 
@@ -62,6 +72,7 @@ $string['configadmintext'] = 'FOR ADMINISTRATOR';
 
 $string['configmeanvalueadmin'] = 'Choose how to display the average grade for the course';
 $string['yesnounactiveusers'] = 'Take inactive users into account';
+$string['configuserstatistics'] = 'Select a student to display his statistics';
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 
@@ -83,11 +94,18 @@ $string['page'] = 'Pages';
 $string['quiz'] = 'Tests';
 $string['assign'] = 'Tasks';
 
+// Перевод для описания средней оценкци для админитратора 
+$string['descriptioncounttaskswithinactiveusers'] = 'Regarding the number of completed tasks, taking into account inactive users';
+$string['descriptioncounttaskswithoutinactiveusers'] = 'Regarding the number of completed tasks without taking into account inactive users';
+$string['descriptionmaxcounttaskswithinactiveusers'] = 'Relative to the total number of jobs including inactive users';
+$string['descriptionmaxcounttaskswithpoutinactiveusers'] = 'Relative to the total number of jobs excluding inactive users';
+
 // Перевод для блока
 $string['blockstatisticstitle'] = 'Your statistics';
 $string['blockstatisticsballs'] = 'Total points';
 $string['blockstatisticsmaingrade'] = 'Avg score';
 $string['blockstatisticscounttasks'] = 'Number of completed tasks';
+$string['blockstatisticstitleforuser'] = 'Statistics for the user';
 
 $string['blockstatisticsmaingradeadmin'] = 'Avg grade for the course';
 

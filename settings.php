@@ -32,4 +32,18 @@ if($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_g_statistics/showratingtable',
                     get_string('showleaderboard', 'block_g_statistics'),
                     get_string('showleaderboarddescription', 'block_g_statistics'), 1));
+
+
+    // Admin
+    
+    $settings->add(new admin_setting_heading('block_g_statistics/adminhead', 
+                    get_string('adminhead', 'block_g_statistics'), ""));
+
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showmeangradeforcourse',
+                    get_string('showmeangradeforcourse', 'block_g_statistics'),
+                    get_string('showmeangradeforcoursedescription', 'block_g_statistics'), 1));
+
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showuserstatistics',
+                    get_string('showuserstatistics', 'block_g_statistics'),
+                    get_string('showuserstatisticsdescription', 'block_g_statistics'), 1));
 }

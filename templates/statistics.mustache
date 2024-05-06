@@ -28,6 +28,15 @@
             </div>
         {{/show_mean_value}}
 
+        {{#show_task_count}}
+            <h6 class="mt-4">Количество завершенных заданий</h6>
+            <div class="d-flex flex-column ml-4">
+                {{# task_count }}
+                    <div class="mt-1">{{description}}: {{value}}</div>
+                {{/ task_count }}
+            </div>
+        {{/show_task_count}}
+        
         {{#show_mean_value_admin}}
             <div class="d-flex mt-2">
                 <div>
@@ -41,14 +50,22 @@
             </div>
         {{/show_mean_value_admin}}
 
-        {{#show_task_count}}
-            <h6 class="mt-4">Количество завершенных заданий</h6>
-            <div class="d-flex flex-column ml-4">
-                {{# task_count }}
-                    <div class="mt-1">{{description}}: {{value}}</div>
-                {{/ task_count }}
-            </div>
-        {{/show_task_count}}
+        {{# show_user_statistics }}
+            {{#user_statistics}}
+                <h6 class='mt-4'>{{blockstatisticstitleforuser}}: {{user_name}}</h6> 
+
+                <div class="d-flex mt-2">
+                    <div>
+                        <strong>{{blockstatisticsmaingrade}}:</strong>
+                    </div>
+                    <div class="d-flex flex-column ml-2">
+                        {{# user_statistics_mean_value }}
+                            <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                        {{/ user_statistics_mean_value }}
+                    </div>
+                </div>
+            {{/user_statistics}}
+        {{/ show_user_statistics }}
         
     {{/show_statistics }}
 </>

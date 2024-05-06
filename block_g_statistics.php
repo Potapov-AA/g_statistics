@@ -99,6 +99,7 @@ class block_g_statistics extends block_base {
             "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
             "blockleaderboardname" => get_string('blockleaderboardname', 'block_g_statistics'),
             "blockleaderboardballs" => get_string('blockleaderboardballs', 'block_g_statistics'),
+            "blockstatisticstitleforuser" => get_string('blockstatisticstitleforuser', 'block_g_statistics'),
 
             // Таблица лидеров
             "show_rating_table" => $show_rating_table,
@@ -125,7 +126,7 @@ class block_g_statistics extends block_base {
         if($show_statistics) {
 
             $config_mean_value_admin = $this->config->meanvalueadmin;
-            $show_mean_value_admin = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value_admin == 1) ? false : true;
+            $show_mean_value_admin = (get_config('block_g_statistics', 'showmeangradeforcourse') == 0 || $config_mean_value_admin == 1) ? false : true;
 
             $mean_value_admin = [];
             if ($show_mean_value_admin) {
@@ -137,12 +138,12 @@ class block_g_statistics extends block_base {
                         if ($takeinactiveusers) {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
-                                "description" => "Относительно количества пройденных заданий c учетом неактивных пользователей",
+                                "description" => get_string('descriptioncounttaskswithinactiveusers', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
-                                "description" => "Относительно количества пройденных заданий без учета неактивных пользователей"
+                                "description" => get_string('descriptioncounttaskswithoutinactiveusers', 'block_g_statistics')
                             ]);
                         }
                         break;
@@ -150,12 +151,12 @@ class block_g_statistics extends block_base {
                         if ($takeinactiveusers) {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
-                                "description" => "Относительно общего количества заданий с учетом неактивных пользователей"
+                                "description" => get_string('descriptionmaxcounttaskswithinactiveusers', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
-                                "description" => "Относительно общего количества заданий без учета неактивных пользователей"
+                                "description" => get_string('descriptionmaxcounttaskswithpoutinactiveusers', 'block_g_statistics'),
                             ]);
                         }
                         break;
@@ -163,31 +164,62 @@ class block_g_statistics extends block_base {
                         if ($takeinactiveusers) {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
-                                "description" => "Относительно количества пройденных заданий c учетом неактивных пользователей"
+                                "description" => get_string('descriptioncounttaskswithinactiveusers', 'block_g_statistics'),
                             ]);
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
-                                "description" => "Относительно общего количества заданий с учетом неактивных пользователей"
+                                "description" => get_string('descriptionmaxcounttaskswithinactiveusers', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
-                                "description" => "Относительно количества пройденных заданий без учета неактивных пользователей",
+                                "description" => get_string('descriptioncounttaskswithoutinactiveusers', 'block_g_statistics')
                             ]);
                             array_push($mean_value_admin, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
-                                "description" => "Относительно общего количества заданий без учета неактивных пользователей"
+                                "description" => get_string('descriptionmaxcounttaskswithpoutinactiveusers', 'block_g_statistics'),
                             ]);
                         }
                         break;
                 }
+            }
+
+            $config_user_statistics = $this->config->userstatistics;
+            $show_user_statistics = (get_config('block_g_statistics', 'showuserstatistics') == 0 || $config_user_statistics == 1) ? false : true;
+
+            $user_statistics = [];
+            if($show_user_statistics) {
+
+                $user_info = $this->get_user_info($config_user_statistics);
+
+                $username = '';
+                foreach($user_info as $user) {
+                    $username = $user->firstname . ' ' . $user->lastname;
+                }
+
+                $user_statistics["user_name"] = $username;
+
+                $user_statistics_mean_value = [];
+                array_push($user_statistics_mean_value, [
+                    "value" => $statistics->get_mean_value(2, $config_user_statistics) . '/100',
+                    "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                ]);
+                array_push($user_statistics_mean_value, [
+                    "value" => $statistics->get_mean_value(3, $config_user_statistics) . '/100',
+                    "description" => get_string('selectalltasks', 'block_g_statistics'),
+                ]);
+
+                $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
             }
         }
 
         return [
             "show_statistics" => $show_statistics, 
             "show_mean_value_admin" => $show_mean_value_admin,
-            "mean_value_admin" => $mean_value_admin
+            "mean_value_admin" => $mean_value_admin,
+
+            "show_user_statistics" => $show_user_statistics,
+            "user_statistics" => $user_statistics,
         ];
     }
 
@@ -372,6 +404,7 @@ class block_g_statistics extends block_base {
             FROM {role_assignments} AS ra
             JOIN {context} AS con ON ra.contextid = con.id
             JOIN {course} AS c ON con.instanceid = c.id
+            JOIN {user} AS u ON u.id = ra.userid
             WHERE con.contextlevel = 50 AND instanceid=:instanceid AND userid=:userid",
             [
                 'userid' => $USER->id,
@@ -382,6 +415,27 @@ class block_g_statistics extends block_base {
         foreach ($userrole as $item) {
             return $item->roleid;
         } 
+    }
+
+
+    private function get_user_info($userid) {
+        global $DB, $COURSE;
+
+        $user = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
+            FROM {user} AS u
+            JOIN {role_assignments} AS ra ON ra.userid = u.id
+            JOIN {role} AS r ON ra.roleid = r.id 
+            JOIN {context} AS con ON ra.contextid = con.id
+            JOIN {course} AS c ON con.instanceid = c.id
+            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid AND userid=:userid",
+            [
+                'courseid' => $COURSE->id,
+                'userid' => $userid
+            ]
+        );
+
+        return $user;
     }
 }
 
