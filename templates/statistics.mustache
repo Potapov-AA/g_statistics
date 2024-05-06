@@ -54,16 +54,18 @@
             {{#user_statistics}}
                 <h6 class='mt-4'>{{blockstatisticstitleforuser}}: {{user_name}}</h6> 
 
-                <div class="d-flex mt-2">
-                    <div>
-                        <strong>{{blockstatisticsmaingrade}}:</strong>
+                {{# show_user_maen_value }}
+                    <div class="d-flex mt-2">
+                        <div>
+                            <strong>{{blockstatisticsmaingrade}}:</strong>
+                        </div>
+                        <div class="d-flex flex-column ml-2">
+                            {{# user_statistics_mean_value }}
+                                <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                            {{/ user_statistics_mean_value }}
+                        </div>
                     </div>
-                    <div class="d-flex flex-column ml-2">
-                        {{# user_statistics_mean_value }}
-                            <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
-                        {{/ user_statistics_mean_value }}
-                    </div>
-                </div>
+                {{/ show_user_maen_value }}
             {{/user_statistics}}
         {{/ show_user_statistics }}
         

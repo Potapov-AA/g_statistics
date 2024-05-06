@@ -167,6 +167,15 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     get_string('configuserstatistics', 'block_g_statistics'),
                                     $select_array)->setSelected(1);
                 $mform->setDefault('config_userstatistics', 1);
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showusermaenavalue', 
+                                    '', 
+                                    get_string('showusermaenavalue', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf($name, 'config_showusermaenavalue', 'eq', 1); 
             }
         }
 

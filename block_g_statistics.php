@@ -198,18 +198,24 @@ class block_g_statistics extends block_base {
                 }
 
                 $user_statistics["user_name"] = $username;
+                
+                $config_show_user_maen_value = $this->config->showusermaenavalue == 1 ? true : false;
 
-                $user_statistics_mean_value = [];
-                array_push($user_statistics_mean_value, [
-                    "value" => $statistics->get_mean_value(2, $config_user_statistics) . '/100',
-                    "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
-                ]);
-                array_push($user_statistics_mean_value, [
-                    "value" => $statistics->get_mean_value(3, $config_user_statistics) . '/100',
-                    "description" => get_string('selectalltasks', 'block_g_statistics'),
-                ]);
+                if ($config_show_user_maen_value) {
 
-                $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
+                    $user_statistics_mean_value = [];
+                    array_push($user_statistics_mean_value, [
+                        "value" => $statistics->get_mean_value(2, $config_user_statistics) . '/100',
+                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                    ]);
+                    array_push($user_statistics_mean_value, [
+                        "value" => $statistics->get_mean_value(3, $config_user_statistics) . '/100',
+                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                    ]);
+
+                    $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
+                }
+                
             }
         }
 
@@ -219,6 +225,7 @@ class block_g_statistics extends block_base {
             "mean_value_admin" => $mean_value_admin,
 
             "show_user_statistics" => $show_user_statistics,
+            "show_user_maen_value" => $config_show_user_maen_value,
             "user_statistics" => $user_statistics,
         ];
     }

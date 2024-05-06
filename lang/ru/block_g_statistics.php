@@ -73,6 +73,8 @@ $string['configadmintext'] = 'ДЛЯ АДМИНИСТРАТОРА';
 $string['configmeanvalueadmin'] = 'Выберете способ отображения средней оценки по курсу';
 $string['yesnounactiveusers'] = 'Учитывать неактивных пользователей';
 $string['configuserstatistics'] = 'Выберете студента для отображения его статистики';
+$string['showusermaenavalue'] = 'Показывать среднюю оценку пользователя';
+
 
 
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
