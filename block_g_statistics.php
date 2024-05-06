@@ -231,7 +231,30 @@ class block_g_statistics extends block_base {
 
                     $user_statistics["user_statistics_balls"] = $user_statistics_balls;
                 }
-                
+
+                $config_show_user_count_task = $this->config->showusercounttask == 1 ? true : false;
+                if ($config_show_user_count_task) {
+
+                    $user_task_count = [];
+
+                    $tasks_type = [
+                        -1 => 'allelements',
+                        1 => 'assign',
+                        14 => 'lesson',
+                        16 => 'page',
+                        17 => 'quiz',
+                    ];
+
+                    foreach ($tasks_type as $key => $value) {
+
+                        array_push($user_task_count, [
+                            "description" => get_string($value, 'block_g_statistics'),
+                            "value" => $statistics->get_count_complited_tasks($key, $config_user_statistics),
+                        ]);
+                    }
+
+                    $user_statistics["user_task_count"] = $user_task_count;
+                }
             }
         }
 
@@ -243,6 +266,7 @@ class block_g_statistics extends block_base {
             "show_user_statistics" => $show_user_statistics,
             "show_user_maen_value" => $config_show_user_maen_value,
             "show_user_balls" => $config_show_user_balls,
+            "show_user_count_task" => $config_show_user_count_task,
             "user_statistics" => $user_statistics,
         ];
     }

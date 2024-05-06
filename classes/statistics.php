@@ -138,8 +138,8 @@ class statistics {
     }
 
 
-    function get_count_complited_tasks($type=-1) {
-        return $this->get_count_complited_modules_for_user($type) . '/' . $this->get_count_complited_modules_for_course($type);
+    function get_count_complited_tasks($type=-1, $userid=-1) {
+        return $this->get_count_complited_modules_for_user($type, $userid) . '/' . $this->get_count_complited_modules_for_course($type);
     }
 
 
@@ -244,8 +244,12 @@ class statistics {
     }
 
 
-    private function get_count_complited_modules_for_user($type) {
+    private function get_count_complited_modules_for_user($type, $userid) {
         global $DB, $COURSE, $USER;
+
+        if ($userid == -1) {
+            $userid = $USER->id;
+        }
 
         if($type == -1) {
             $allModulesComplitedCount = count($DB->get_records_sql(
@@ -255,7 +259,7 @@ class statistics {
                                             WHERE course = :courseid AND userid = :userid",
                                             [
                                                 'courseid' => $COURSE->id,
-                                                'userid' => $USER->id,
+                                                'userid' => $userid,
                                             ]
                                         ));
             
@@ -269,7 +273,7 @@ class statistics {
                                     WHERE course = :courseid AND userid = :userid AND module = :type",
                                     [
                                         'courseid' => $COURSE->id,
-                                        'userid' => $USER->id,
+                                        'userid' => $userid,
                                         'type' => $type,
                                     ]
                                 ));

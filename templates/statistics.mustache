@@ -29,7 +29,7 @@
         {{/show_mean_value}}
 
         {{#show_task_count}}
-            <h6 class="mt-4">Количество завершенных заданий</h6>
+            <h6 class="mt-4">{{blockstatisticscounttasks}}</h6>
             <div class="d-flex flex-column ml-4">
                 {{# task_count }}
                     <div class="mt-1">{{description}}: {{value}}</div>
@@ -79,6 +79,15 @@
                         </div>
                     </div>
                 {{/ show_user_balls }}
+
+                {{# show_user_count_task }}
+                    <h6 class="mt-2 m-0">{{blockstatisticscounttasks}}</h6>
+                    <div class="d-flex flex-column ml-4">
+                        {{# user_task_count }}
+                            <div class="mt-1">{{description}}: {{value}}</div>
+                        {{/ user_task_count }}
+                    </div>
+                {{/ show_user_count_task }}
             {{/user_statistics}}
         {{/ show_user_statistics }}
         

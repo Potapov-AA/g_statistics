@@ -75,8 +75,7 @@ $string['yesnounactiveusers'] = 'Учитывать неактивных пол�
 $string['configuserstatistics'] = 'Выберете студента для отображения его статистики';
 $string['showusermaenavalue'] = 'Показывать среднюю оценку пользователя';
 $string['showuserballs'] = 'Показывать баллы пользователя';
-
-
+$string['showusercounttask'] = 'Показывать количество выполненных заданий пользователем';
 
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
 
@@ -107,7 +106,7 @@ $string['descriptionmaxcounttaskswithpoutinactiveusers'] = 'Относитель
 
 
 // Перевод для блока
-$string['blockstatisticstitle'] = 'Ваша статистика';
+$string['blockstatisticstitle'] = 'Cтатистика';
 $string['blockstatisticsballs'] = 'Всего баллов';
 $string['blockstatisticsmaingrade'] = 'Ср. оценка';
 $string['blockstatisticscounttasks'] = 'Количество завершенных заданий';

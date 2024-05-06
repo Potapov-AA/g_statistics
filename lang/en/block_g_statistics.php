@@ -75,6 +75,7 @@ $string['yesnounactiveusers'] = 'Take inactive users into account';
 $string['configuserstatistics'] = 'Select a student to display his statistics';
 $string['showusermaenavalue'] = 'Show average user rating';
 $string['showuserballs'] = 'Show user scores';
+$string['showusercounttask'] = 'Show the number of tasks completed by the user';
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 
@@ -103,7 +104,7 @@ $string['descriptionmaxcounttaskswithinactiveusers'] = 'Relative to the total nu
 $string['descriptionmaxcounttaskswithpoutinactiveusers'] = 'Relative to the total number of jobs excluding inactive users';
 
 // Перевод для блока
-$string['blockstatisticstitle'] = 'Your statistics';
+$string['blockstatisticstitle'] = 'Statistics';
 $string['blockstatisticsballs'] = 'Total points';
 $string['blockstatisticsmaingrade'] = 'Avg score';
 $string['blockstatisticscounttasks'] = 'Number of completed tasks';

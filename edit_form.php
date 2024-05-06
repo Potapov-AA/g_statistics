@@ -185,6 +185,15 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     [0, 1]);
                     
                 $mform->disabledIf('config_showuserballs', 'config_userstatistics', 'eq', 1); 
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showusercounttask', 
+                                    '', 
+                                    get_string('showusercounttask', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf('config_showusercounttask', 'config_userstatistics', 'eq', 1); 
             }
         }
 
