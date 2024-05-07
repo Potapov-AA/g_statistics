@@ -213,15 +213,17 @@ class block_g_statistics_edit_form extends block_edit_form {
                                 null,
                                 [0, 1]);
 
-            $mform->addElement('text', 'configmaxtopuser', get_string('configmaxtop', 'block_g_statistics'));
-            $mform->addRule('configmaxtopuser', get_string('numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('configmaxtopuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('configmaxtopuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->addElement('text', 'config_maxtopuser', get_string('configmaxtop', 'block_g_statistics'));
+            $mform->addRule('config_maxtopuser', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxtopuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxtopuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxtopuser', '5'); 
             
-            $mform->addElement('text', 'configmaxbotuser', get_string('configmaxbot', 'block_g_statistics'));
-            $mform->addRule('configmaxbotuser', get_string('numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('configmaxbotuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('configmaxbotuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->addElement('text', 'config_maxbotuser', get_string('configmaxbot', 'block_g_statistics'));
+            $mform->addRule('config_maxbotuser', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxbotuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxbotuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxbotuser', '5'); 
 
 
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
@@ -235,15 +237,17 @@ class block_g_statistics_edit_form extends block_edit_form {
                                     null,
                                     [0, 1]);
 
-            $mform->addElement('text', 'configmaxtopadmin', get_string('configmaxtop', 'block_g_statistics'));
-            $mform->addRule('configmaxtopadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('configmaxtopadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('configmaxtopadmin', 'config_showleaderboard', 'eq', 0); 
+            $mform->addElement('text', 'config_maxtopadmin', get_string('configmaxtop', 'block_g_statistics'));
+            $mform->addRule('config_maxtopadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxtopadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxtopadmin', 'config_showleaderboard', 'eq', 0);
+            $mform->setDefault('config_maxtopadmin', '5'); 
 
-            $mform->addElement('text', 'configmaxbotadmin', get_string('configmaxbot', 'block_g_statistics'));
-            $mform->addRule('configmaxbotadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('configmaxbotadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('configmaxbotadmin', 'config_showleaderboard', 'eq', 0); 
+            $mform->addElement('text', 'config_maxbotadmin', get_string('configmaxbot', 'block_g_statistics'));
+            $mform->addRule('config_maxbotadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxbotadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxbotadmin', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxbotadmin', '5');
         }
 
         

@@ -77,7 +77,10 @@ class block_g_statistics extends block_base {
             $showleaderboarduser = $this->config->showleaderboarduser;
             $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboarduser == 0) ? false : true;
             if ($show_rating_table) {
-                $usersInfo = $rating->get_rating(); 
+                $min = $this->config->maxbotuser;
+                $max = $this->config->maxbotuser;
+
+                $usersInfo = $rating->get_rating($min, $max); 
             }
 
         } else if ($user_roleid == 3 || $user_roleid == 4) {
@@ -86,13 +89,20 @@ class block_g_statistics extends block_base {
             $showleaderboardadmin = $this->config->showleaderboardadmin;
             $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboardadmin == 0) ? false : true;
             if ($show_rating_table) {
-                $usersInfo = $rating->get_rating(); 
+                $min = $this->config->maxbotadmin;
+                $max = $this->config->maxtopadmin;
+
+                $usersInfo = $rating->get_rating($min, $max); 
             }
+
         }
         
         
 
         $translate_data = [
+            // TEST
+            "TEST" => $TEST,
+
             // Статистика перевод блока
             "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
             "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),

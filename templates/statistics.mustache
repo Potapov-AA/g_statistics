@@ -1,4 +1,6 @@
 <div>
+    {{TEST}}
+
     {{#show_statistics }}
         <h5>{{blockstatisticstitle}}</h5>
 
@@ -108,30 +110,37 @@
         </thead>
         <tbody>
             {{#users}}
-                {{#status}}
-                    <tr>
-                    <th scope="row">{{rang}}</th>
-                    <td>
-                        <b>
+                {{#isuser}}
+                    {{#status}}
+                        <tr>
+                        <th scope="row">{{rang}}</th>
+                        <td>
+                            <b>
+                                <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
+                                    {{lastname}} {{firstname}}
+                                </a>
+                            </b>
+                        </td>
+                        <td><b>{{balls}}</b></td>
+                    {{/status}}
+                    {{^status}}
+                        <tr>
+                        <th scope="row">{{rang}}</th>
+                        <td>
                             <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
                                 {{lastname}} {{firstname}}
                             </a>
-                        </b>
-                    </td>
-                    <td><b>{{balls}}</b></td>
-                {{/status}}
-                {{^status}}
+                        </td>
+                        <td>{{balls}}</td>
+                    {{/status}}
+                {{/isuser}}
+                {{^isuser}}
                     <tr>
-                    <th scope="row">{{rang}}</th>
-                    <td>
-                        <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
-                            {{lastname}} {{firstname}}
-                        </a>
-                    </td>
-                    <td>{{balls}}</td>
-                {{/status}}
+                    <th scope="row">###</th>
+                    <td><b>###</b></td>
+                    <td><b>###</b></td>
+                {{/isuser}}
             {{/users}}
-            
         </tbody>
     </table>
 </div>

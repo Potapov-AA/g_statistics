@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class rating {
     
-    function get_rating() {
+    function get_rating($min = -1, $max = -1) {
         global $USER;
 
         $usersInfo = $this->get_user_info();
@@ -53,6 +53,7 @@ class rating {
                     "lastname" => $user->lastname,
                     "balls" => $ballsSum,
                     "status" => $status,
+                    "isuser" => true,
                 ]);
             } else {
                 array_push($rating, [
@@ -62,6 +63,7 @@ class rating {
                     "lastname" => $user->lastname,
                     "balls" => '###',
                     "status" => $status,
+                    "isuser" => true,
                 ]);
             }
         }
@@ -88,9 +90,80 @@ class rating {
                 }
             }
         }
+
+        $min = round($min);
+        $max = round($max);
+
+        if ($min <= 0 && $max <= 0) {
+            return $rating;
+        }
+
+        if ($min > 0 && $max <= 0) $max = 1;
+
+        if($min + $max >= count($rating)) return $rating;
+        
+        $recordsCount = count($rating);
+
+        $splitRating = [];
+        $currentUserAdded = false;
+
+        foreach($rating as $user) {
+            if ($max > 0) {
+                $max--;
+                $recordsCount--;
+
+                if ($user['status']) $currentUserAdded = true;
+
+                array_push($splitRating, $user);
+
+                continue;
+            } 
+
+            if ($recordsCount == $min) {
+                
+                array_push($splitRating, [
+                    "rang" => null,
+                    "id" => null,
+                    "firstname" => null, 
+                    "lastname" => null,
+                    "balls" => null,
+                    "status" => null,
+                    "isuser" => false,
+                ]);
+            }
+            if ($recordsCount <= $min && $recordsCount > 0) {
+                $recordsCount--;
+
+                array_push($splitRating, $user);
+                continue;
+            }
+            
+            if ($currentUserAdded) {
+                $recordsCount--;
+                continue;
+            } else {
+                $recordsCount--;
+                if ($user['status']) {
+                    $currentUserAdded = true;
+
+                    array_push($splitRating, [
+                        "rang" => null,
+                        "id" => null,
+                        "firstname" => null, 
+                        "lastname" => null,
+                        "balls" => null,
+                        "status" => null,
+                        "isuser" => false,
+                    ]);
+
+                    array_push($splitRating, $user);
+                }
+                continue;
+            }
+        }
         
 
-        return $rating;
+        return $splitRating;
     }
 
     private function get_user_info() {
