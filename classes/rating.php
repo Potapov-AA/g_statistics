@@ -39,7 +39,7 @@ class rating {
         return -1;
     }
     
-    function get_rating($min = -1, $max = -1) {
+    function get_rating($min = -1, $max = -1, $moduleid = -1) {
         global $USER;
 
         $usersInfo = $this->get_user_info();
@@ -54,7 +54,11 @@ class rating {
                 $ballsSum = 0;
                 foreach($rawgradeUsersArray as $item) {
                     if($item->userid == $user->userid) {
-                        $ballsSum += $item->rawgrade;
+                        if ($moduleid == -1) {
+                            $ballsSum += $item->rawgrade;
+                        } else if ($item->moduleid == $moduleid) {
+                            $ballsSum += $item->rawgrade;
+                        }
                     }
                 }
                 array_push($rating, [
@@ -221,9 +225,10 @@ class rating {
         global $DB, $COURSE;
 
         $rawgradeUsersArray = $DB->get_records_sql(
-            "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid, gi.gradetype AS gradetype
+            "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid, gi.gradetype AS gradetype, m.id AS moduleid
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
+            JOIN {modules} AS m ON m.name = gi.itemmodule
             WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND courseid = :courseid",
             [
                 'courseid' => $COURSE->id,

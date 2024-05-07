@@ -82,6 +82,8 @@ $string['configleaderboardheader'] = 'Настройки таблицы лиде
 
 $string['showleaderboard'] = 'Показывать таблицу лидеров';
 
+$string['configranktype'] = 'Выбирите на основе чего выстраивать рейтинг';
+
 $string['configmaxtop'] = 'Максимальное количество отображаемых записей сверху';
 $string['configmaxbot'] = 'Максимальное количество отображаемых записей снизу';
 
@@ -104,6 +106,7 @@ $string['yes'] = 'Да';
 $string['no'] = 'Нет';
 
 // Перевод для типов элементов
+$string['all'] = 'Все';
 $string['allelements'] = 'Общее количество';
 $string['lesson'] = 'Лекции';
 $string['page'] = 'Страницы';

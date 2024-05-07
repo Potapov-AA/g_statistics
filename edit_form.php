@@ -211,6 +211,19 @@ class block_g_statistics_edit_form extends block_edit_form {
         if ($show_leaderboard) {
             $mform->addElement('header', 'configleaderboardheader', get_string('configleaderboardheader', 'block_g_statistics'));
 
+            $rank_type = [
+                -1 => get_string('all', 'block_g_statistics'), 
+                17 => get_string('quiz', 'block_g_statistics'),
+                1 => get_string('assign', 'block_g_statistics'),
+                14 => get_string('lesson', 'block_g_statistics')
+            ];
+
+            $mform->addElement('select', 
+                                'config_ranktype', 
+                                get_string('configranktype', 'block_g_statistics'),
+                                $rank_type)->setSelected(-1);
+            $mform->setDefault('config_ranktype', -1);
+
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
                                     get_string('configusertext', 'block_g_statistics') .
                                     '</b></div>');

@@ -82,6 +82,8 @@ $string['configleaderboardheader'] = 'Leaderboard settings';
 
 $string['showleaderboard'] = 'Show leaderboard';
 
+$string['configranktype'] = 'Choose what the rating is based on';
+
 $string['configmaxtop'] = 'Maximum number of records displayed at top';
 $string['configmaxbot'] = 'Maximum number of records displayed below';
 
@@ -101,6 +103,7 @@ $string['yes'] = 'Yes';
 $string['no'] = 'No';
 
 // Перевод для типов элементов
+$string['all'] = 'All';
 $string['allelements'] = 'Total';
 $string['lesson'] = 'Lessons';
 $string['page'] = 'Pages';

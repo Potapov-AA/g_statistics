@@ -80,7 +80,9 @@ class block_g_statistics extends block_base {
                 $min = $this->config->maxbotuser;
                 $max = $this->config->maxbotuser;
 
-                $usersInfo = $rating->get_rating($min, $max); 
+                $moduletype = $this->config->ranktype;
+
+                $usersInfo = $rating->get_rating($min, $max, $moduletype); 
             }
 
         } else if ($user_roleid == 3 || $user_roleid == 4) {
@@ -92,7 +94,9 @@ class block_g_statistics extends block_base {
                 $min = $this->config->maxbotadmin;
                 $max = $this->config->maxtopadmin;
 
-                $usersInfo = $rating->get_rating($min, $max); 
+                $moduletype = $this->config->ranktype;
+
+                $usersInfo = $rating->get_rating($min, $max, $moduletype); 
             }
 
         }
