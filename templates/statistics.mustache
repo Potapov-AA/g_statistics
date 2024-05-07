@@ -1,0 +1,178 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_g_statistics/statistics
+
+    Appearance of the plugin
+
+    Example context (json):
+    {
+    }
+}}
+<div>
+    {{TEST}}
+
+    {{#show_statistics }}
+        <h5>{{blockstatisticstitle}}</h5>
+
+        {{#show_current_balls}}
+            <div class="d-flex mt-2">
+                <div>
+                    <strong>{{blockstatisticsballs}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# current_balls}}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ current_balls}}
+                </div>
+            </div>
+        {{/show_current_balls}}
+
+        {{#show_mean_value}}
+            <div class="d-flex mt-2">
+                <div>
+                    <strong>{{blockstatisticsmaingrade}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# mean_value }}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ mean_value }}
+                </div>
+            </div>
+        {{/show_mean_value}}
+
+        {{#show_task_count}}
+            <h6 class="mt-4">{{blockstatisticscounttasks}}</h6>
+            <div class="d-flex flex-column ml-4">
+                {{# task_count }}
+                    <div class="mt-1">{{description}}: {{value}}</div>
+                {{/ task_count }}
+            </div>
+        {{/show_task_count}}
+        
+        {{#show_mean_value_admin}}
+            <div class="d-flex mt-2">
+                <div>
+                    <strong>{{blockstatisticsmaingradeadmin}}:</strong>
+                </div>
+                <div class="d-flex flex-column ml-2">
+                    {{# mean_value_admin }}
+                        <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                    {{/ mean_value_admin }}
+                </div>
+            </div>
+        {{/show_mean_value_admin}}
+
+
+        {{# show_user_statistics }}
+            {{#user_statistics}}
+                <h6 class='mt-4'>{{blockstatisticstitleforuser}}: {{user_name}}</h6> 
+
+                {{# show_user_maen_value }}
+                    <div class="d-flex mt-2">
+                        <div>
+                            <strong>{{blockstatisticsmaingrade}}:</strong>
+                        </div>
+                        <div class="d-flex flex-column ml-2">
+                            {{# user_statistics_mean_value }}
+                                <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                            {{/ user_statistics_mean_value }}
+                        </div>
+                    </div>
+                {{/ show_user_maen_value }}
+
+                {{# show_user_balls }}
+                    <div class="d-flex mt-2">
+                        <div>
+                            <strong>{{blockstatisticsballs}}:</strong>
+                        </div>
+                        <div class="d-flex flex-column ml-2">
+                            {{# user_statistics_balls }}
+                                <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
+                            {{/ user_statistics_balls }}
+                        </div>
+                    </div>
+                {{/ show_user_balls }}
+
+                {{# show_user_count_task }}
+                    <h6 class="mt-2 m-0">{{blockstatisticscounttasks}}</h6>
+                    <div class="d-flex flex-column ml-4">
+                        {{# user_task_count }}
+                            <div class="mt-1">{{description}}: {{value}}</div>
+                        {{/ user_task_count }}
+                    </div>
+                {{/ show_user_count_task }}
+
+                {{# show_user_rang }}
+                    <div class="mt-2"><strong>{{blockstatirangforadmin}}: </strong>{{user_rang}}</div>
+                {{/ show_user_rang }}
+            {{/user_statistics}}
+        {{/ show_user_statistics }}
+        
+    {{/show_statistics }}
+</>
+
+{{#show_rating_table}}
+<div class="mt-4">
+    <h5>{{blockleaderboardtitle}}</h5>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{blockleaderboardname}}</th>
+            <th scope="col">{{blockleaderboardballs}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#users}}
+                {{#isuser}}
+                    {{#status}}
+                        <tr>
+                        <th scope="row">{{rang}}</th>
+                        <td>
+                            <b>
+                                <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
+                                    {{lastname}} {{firstname}}
+                                </a>
+                            </b>
+                        </td>
+                        <td><b>{{balls}}</b></td>
+                    {{/status}}
+                    {{^status}}
+                        <tr>
+                        <th scope="row">{{rang}}</th>
+                        <td>
+                            <a href="{{wwwroot}}/user/view.php?id={{id}}&amp;course={{courseid}}">
+                                {{lastname}} {{firstname}}
+                            </a>
+                        </td>
+                        <td>{{balls}}</td>
+                    {{/status}}
+                {{/isuser}}
+                {{^isuser}}
+                    <tr>
+                    <th scope="row">###</th>
+                    <td><b>###</b></td>
+                    <td><b>###</b></td>
+                {{/isuser}}
+            {{/users}}
+        </tbody>
+    </table>
+</div>
+{{/show_rating_table}}
+
