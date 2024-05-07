@@ -52,6 +52,7 @@
             </div>
         {{/show_mean_value_admin}}
 
+
         {{# show_user_statistics }}
             {{#user_statistics}}
                 <h6 class='mt-4'>{{blockstatisticstitleforuser}}: {{user_name}}</h6> 
@@ -90,6 +91,10 @@
                         {{/ user_task_count }}
                     </div>
                 {{/ show_user_count_task }}
+
+                {{# show_user_rang }}
+                    <div class="mt-2"><strong>{{blockstatirangforadmin}}: </strong>{{user_rang}}</div>
+                {{/ show_user_rang }}
             {{/user_statistics}}
         {{/ show_user_statistics }}
         

@@ -100,9 +100,6 @@ class block_g_statistics extends block_base {
         
 
         $translate_data = [
-            // TEST
-            "TEST" => $TEST,
-
             // Статистика перевод блока
             "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
             "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
@@ -116,6 +113,7 @@ class block_g_statistics extends block_base {
             "blockleaderboardname" => get_string('blockleaderboardname', 'block_g_statistics'),
             "blockleaderboardballs" => get_string('blockleaderboardballs', 'block_g_statistics'),
             "blockstatisticstitleforuser" => get_string('blockstatisticstitleforuser', 'block_g_statistics'),
+            "blockstatirangforadmin" => get_string('blockstatirangforadmin', 'block_g_statistics'),
 
             // Таблица лидеров
             "show_rating_table" => $show_rating_table,
@@ -289,6 +287,17 @@ class block_g_statistics extends block_base {
 
                     $user_statistics["user_task_count"] = $user_task_count;
                 }
+
+                $config_show_user_rang = $this->config->showuserrang == 1 ? true : false;
+
+                $result["show_user_rang"] = $config_show_user_rang;
+
+                if ($config_show_user_rang) {
+                    $rating = new rating();
+
+                    $user_statistics["user_rang"] = $rating->get_user_rang($config_user_statistics);
+                }
+                
             }
 
             $result["user_statistics"] = $user_statistics;

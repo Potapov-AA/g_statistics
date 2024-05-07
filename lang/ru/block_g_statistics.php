@@ -76,6 +76,7 @@ $string['configuserstatistics'] = 'Выберете студента для от
 $string['showusermaenavalue'] = 'Показывать среднюю оценку пользователя';
 $string['showuserballs'] = 'Показывать баллы пользователя';
 $string['showusercounttask'] = 'Показывать количество выполненных заданий пользователем';
+$string['showuserrang'] = 'Показывать место пользователя в рейтинге';
 
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
 
@@ -124,9 +125,8 @@ $string['blockstatisticsmaingrade'] = 'Ср. оценка';
 $string['blockstatisticscounttasks'] = 'Количество завершенных заданий';
 $string['blockstatisticstitleforuser'] = 'Статистика для пользователя';
 
-
-
 $string['blockstatisticsmaingradeadmin'] = 'Ср. оценка по курсу';
+$string['blockstatirangforadmin'] = "Место в рейтинге";
 
 
 $string['blockleaderboardtitle'] = 'Таблица лидеров';

@@ -27,6 +27,17 @@ namespace block_g_statistics;
 defined('MOODLE_INTERNAL') || die();
 
 class rating {
+
+    function get_user_rang($userId) {
+        $rating = $this->get_rating();
+
+        foreach($rating as $user) {
+
+            if($user['id'] == $userId) return $user['rang'];
+        }
+
+        return -1;
+    }
     
     function get_rating($min = -1, $max = -1) {
         global $USER;

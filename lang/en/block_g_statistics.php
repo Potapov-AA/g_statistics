@@ -76,6 +76,7 @@ $string['configuserstatistics'] = 'Select a student to display his statistics';
 $string['showusermaenavalue'] = 'Show average user rating';
 $string['showuserballs'] = 'Show user scores';
 $string['showusercounttask'] = 'Show the number of tasks completed by the user';
+$string['showuserrang'] = "Show the user's place in the ranking";
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 
@@ -120,6 +121,7 @@ $string['blockstatisticscounttasks'] = 'Number of completed tasks';
 $string['blockstatisticstitleforuser'] = 'Statistics for the user';
 
 $string['blockstatisticsmaingradeadmin'] = 'Avg grade for the course';
+$string['blockstatirangforadmin'] = "Rank";
 
 $string['blockleaderboardtitle'] = 'Leaderboard';
 $string['blockleaderboardname'] = 'Name';
