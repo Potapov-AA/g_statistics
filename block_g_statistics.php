@@ -73,18 +73,24 @@ class block_g_statistics extends block_base {
         $user_roleid = $this->get_user_roleid();
         if($user_roleid == 5) {
             $statistics = $this->get_statistics_for_user();
+
+            $showleaderboarduser = $this->config->showleaderboarduser;
+            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboarduser == 0) ? false : true;
+            if ($show_rating_table) {
+                $usersInfo = $rating->get_rating(); 
+            }
+
         } else if ($user_roleid == 3 || $user_roleid == 4) {
             $statistics = $this->get_statistics_for_admin();
-        }
 
+            $showleaderboardadmin = $this->config->showleaderboardadmin;
+            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboardadmin == 0) ? false : true;
+            if ($show_rating_table) {
+                $usersInfo = $rating->get_rating(); 
+            }
+        }
         
-            
-
-
-        $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0) ? false : true;
-        if ($show_rating_table) {
-            $usersInfo = $rating->get_rating(); 
-        }
+        
 
         $translate_data = [
             // Статистика перевод блока

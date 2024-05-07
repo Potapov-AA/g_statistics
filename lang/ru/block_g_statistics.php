@@ -79,6 +79,18 @@ $string['showusercounttask'] = 'Показывать количество вып
 
 $string['configleaderboardheader'] = 'Настройки таблицы лидеров';
 
+$string['showleaderboard'] = 'Показывать таблицу лидеров';
+
+$string['configmaxtop'] = 'Максимальное количество отображаемых записей сверху';
+$string['configmaxbot'] = 'Максимальное количество отображаемых записей снизу';
+
+
+
+// Перевод для сообщение об ошибке
+$string['numeric'] = 'Передано не число';
+$string['nonzero'] = 'Число не может быть равным 0';
+
+
 // Перевод для SELECT-FORM (edit_form)
 $string['selectdontshow'] = 'Не показывать';
 $string['selectcomplitetasks'] = 'Относительно количества пройденных заданий';

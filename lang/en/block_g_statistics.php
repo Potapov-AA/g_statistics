@@ -79,6 +79,15 @@ $string['showusercounttask'] = 'Show the number of tasks completed by the user';
 
 $string['configleaderboardheader'] = 'Leaderboard settings';
 
+$string['showleaderboard'] = 'Show leaderboard';
+
+$string['configmaxtop'] = 'Maximum number of records displayed at top';
+$string['configmaxbot'] = 'Maximum number of records displayed below';
+
+// Перевод для сообщение об ошибке
+$string['numeric'] = 'Not a number transmitted';
+$string['nonzero'] = 'The number cannot be 0';
+
 // Перевод для SELECT-FORM (средний балл и количество баллов) (edit_form)
 $string['selectdontshow'] = "Don't show";
 $string['selectcomplitetasks'] = 'Regarding the number of completed tasks';
