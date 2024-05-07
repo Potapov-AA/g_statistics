@@ -122,11 +122,18 @@ class block_g_statistics extends block_base {
 
         $statistics = new statistics();
 
+        $result = [];
+
         $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+
+        $result["show_statistics"] = $show_statistics;
+
         if($show_statistics) {
 
             $config_mean_value_admin = $this->config->meanvalueadmin;
             $show_mean_value_admin = (get_config('block_g_statistics', 'showmeangradeforcourse') == 0 || $config_mean_value_admin == 1) ? false : true;
+
+            $result["show_mean_value_admin"] = $show_mean_value_admin;
 
             $mean_value_admin = [];
             if ($show_mean_value_admin) {
@@ -183,9 +190,12 @@ class block_g_statistics extends block_base {
                         break;
                 }
             }
+            $result["mean_value_admin"] = $mean_value_admin;
 
             $config_user_statistics = $this->config->userstatistics;
             $show_user_statistics = (get_config('block_g_statistics', 'showuserstatistics') == 0 || $config_user_statistics == 1) ? false : true;
+
+            $result["show_user_statistics"] = $show_user_statistics;
 
             $user_statistics = [];
             if($show_user_statistics) {
@@ -200,6 +210,8 @@ class block_g_statistics extends block_base {
                 $user_statistics["user_name"] = $username;
                 
                 $config_show_user_maen_value = $this->config->showusermaenavalue == 1 ? true : false;
+
+                $result["show_user_maen_value"] = $config_show_user_maen_value;
 
                 if ($config_show_user_maen_value) {
 
@@ -217,6 +229,9 @@ class block_g_statistics extends block_base {
                 }
                 
                 $config_show_user_balls = $this->config->showuserballs == 1 ? true : false;
+
+                $result["show_user_balls"] = $config_show_user_balls;
+
                 if ($config_show_user_balls) {
 
                     $user_statistics_balls = [];
@@ -233,6 +248,9 @@ class block_g_statistics extends block_base {
                 }
 
                 $config_show_user_count_task = $this->config->showusercounttask == 1 ? true : false;
+
+                $result["show_user_count_task"] = $config_show_user_count_task;
+
                 if ($config_show_user_count_task) {
 
                     $user_task_count = [];
@@ -256,19 +274,11 @@ class block_g_statistics extends block_base {
                     $user_statistics["user_task_count"] = $user_task_count;
                 }
             }
-        }
 
-        return [
-            "show_statistics" => $show_statistics, 
-            "show_mean_value_admin" => $show_mean_value_admin,
-            "mean_value_admin" => $mean_value_admin,
+            $result["user_statistics"] = $user_statistics;
 
-            "show_user_statistics" => $show_user_statistics,
-            "show_user_maen_value" => $config_show_user_maen_value,
-            "show_user_balls" => $config_show_user_balls,
-            "show_user_count_task" => $config_show_user_count_task,
-            "user_statistics" => $user_statistics,
-        ];
+            return $result;
+        }         
     }
 
 
