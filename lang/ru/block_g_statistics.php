@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'block_testblock', language 'en', branch 'MOODLE_20_STABLE'
+ * Language file [RU].
  *
  * @package   block_g_statistics
- * @copyright 2024 Streje (san_sanih99@mail.ru)
+ * @copyright 2024 Streje
+ * @author    Alexander Potapov <san_sanih99@mail.ru>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -14,16 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Block G-statistics.
+ *
+ * @package   block_g_statistics
+ * @copyright 2024 Streje
+ * @author    Alexander Potapov <san_sanih99@mail.ru>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 use block_g_statistics\statistics;
 use block_g_statistics\rating;
 
-/**
- * Form for editing HTML block instances.
- *
- * @package   block_g_statistics
- * @copyright 2024 Streje (san_sanih99@mail.ru)
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class block_g_statistics extends block_base {
     
     // Инициализация
