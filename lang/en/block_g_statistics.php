@@ -29,6 +29,7 @@ $string['html:myaddinstance'] = 'Add a new G-statistics block to Dashboard';
 $string['g-statistics'] = '(New G-statistics block)';
 $string['pluginname'] = 'G-statistics';
 
+
 /**
  * Перевод для settings.php
  */
@@ -97,11 +98,12 @@ $string['config_rang_type'] = 'Choose what the rating is based on';
 $string['config_max_top'] = 'Maximum number of records displayed at top';
 $string['config_max_bot'] = 'Maximum number of records displayed below';
 
-// Перевод для сообщение об ошибке
+
+/**
+ * Перевод для сообщение об ошибке (edit_form)
+ */
 $string['config_numeric'] = 'Not a number transmitted';
 $string['config_nonzero'] = 'The number cannot be 0';
-
-
 
 
 /**
@@ -117,7 +119,10 @@ $string['config_select_setting_show'] = 'Set what to show';
 $string['config_yes'] = 'Yes';
 $string['config_no'] = 'No';
 
-// Перевод для типов элементов
+
+/**
+ * Перевод для типов элементов (edit_form)
+ */
 $string['all'] = 'All';
 $string['allelements'] = 'Total';
 $string['lesson'] = 'Lessons';
@@ -125,22 +130,28 @@ $string['page'] = 'Pages';
 $string['quiz'] = 'Tests';
 $string['assign'] = 'Tasks';
 
-// Перевод для описания средней оценкци для админитратора 
-$string['descriptioncounttaskswithinactiveusers'] = 'Regarding the number of completed tasks, taking into account inactive users';
-$string['descriptioncounttaskswithoutinactiveusers'] = 'Regarding the number of completed tasks without taking into account inactive users';
-$string['descriptionmaxcounttaskswithinactiveusers'] = 'Relative to the total number of jobs including inactive users';
-$string['descriptionmaxcounttaskswithpoutinactiveusers'] = 'Relative to the total number of jobs excluding inactive users';
 
-// Перевод для блока
-$string['blockstatisticstitle'] = 'Statistics';
-$string['blockstatisticsballs'] = 'Total points';
-$string['blockstatisticsmaingrade'] = 'Avg score';
-$string['blockstatisticscounttasks'] = 'Number of completed tasks';
-$string['blockstatisticstitleforuser'] = 'Statistics for the user';
+/**
+ * Перевод для описания средней оценки для админитратора 
+ */
+$string['description_count_tasks_with_inactive_users'] = 'Regarding the number of completed tasks, taking into account inactive users';
+$string['description_count_tasks_without_inactive_users'] = 'Regarding the number of completed tasks without taking into account inactive users';
+$string['description_max_count_tasks_with_inactive_users'] = 'Relative to the total number of jobs including inactive users';
+$string['description_max_count_tasks_withpout_inactive_users'] = 'Relative to the total number of jobs excluding inactive users';
 
-$string['blockstatisticsmaingradeadmin'] = 'Avg grade for the course';
-$string['blockstatirangforadmin'] = "Rank";
 
-$string['blockleaderboardtitle'] = 'Leaderboard';
-$string['blockleaderboardname'] = 'Name';
-$string['blockleaderboardballs'] = 'Score';
+/**
+ * Перевод для блока
+ */
+$string['block_statistics_title'] = 'Statistics';
+$string['block_statistics_balls'] = 'Total points';
+$string['block_statistics_mean_grade'] = 'Avg score';
+$string['block_statistics_count_complited_tasks'] = 'Number of completed tasks';
+$string['block_statistics_title_for_user'] = 'Statistics for the user';
+
+$string['block_statistics_mean_grade_for_course'] = 'Avg grade for the course';
+$string['block_statirang_for_admin'] = "Rank";
+
+$string['block_leaderboard_title'] = 'Leaderboard';
+$string['block_leaderboard_username'] = 'Name';
+$string['block_leaderboard_balls'] = 'Score';
