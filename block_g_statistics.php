@@ -144,7 +144,7 @@ class block_g_statistics extends block_base {
 
         $result = [];
 
-        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        $show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
 
         $result["show_statistics"] = $show_statistics;
 
@@ -319,11 +319,11 @@ class block_g_statistics extends block_base {
 
         $statistics = new statistics();
 
-        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        $show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
         if($show_statistics) {
 
             $config_mean_value = $this->config->meanvalue;
-            $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
+            $show_mean_value = (get_config('block_g_statistics', 'settings_show_mean_value') == 0 || $config_mean_value == 1) ? false : true;
             
             $mean_value = [];
             if ($show_mean_value) {
@@ -354,7 +354,7 @@ class block_g_statistics extends block_base {
             }
             
             $config_current_balls = $this->config->currentballs;
-            $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
+            $show_current_balls = (get_config('block_g_statistics', 'settings_show_sum_balls') == 0 || $config_current_balls == 1) ? false : true;
 
             $current_balls = [];
             if ($show_current_balls) {
@@ -386,7 +386,7 @@ class block_g_statistics extends block_base {
             }
 
             $config_task_count = $this->config->taskcount;
-            $show_task_count = (get_config('block_g_statistics', 'showtaskcountcomlpited') == 0 || $config_task_count == 1) ? false : true;
+            $show_task_count = (get_config('block_g_statistics', 'settings_show_task_count_comlpited') == 0 || $config_task_count == 1) ? false : true;
 
             $task_count = [];
             if ($show_task_count) {

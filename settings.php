@@ -30,23 +30,23 @@ if($ADMIN->fulltree) {
     // Блок статистики
 
     $settings->add(new admin_setting_heading('block_g_statistics/settings_statistics_head', 
-                    get_string('statisticshead', 'block_g_statistics'), ""));
+                    get_string('settings_statistics_head', 'block_g_statistics'), ""));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showstatistics',
-                    get_string('showstatistics', 'block_g_statistics'),
-                    get_string('showstatisticsdescription', 'block_g_statistics'), 0));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_statistics',
+                    get_string('settings_show_statistics', 'block_g_statistics'),
+                    get_string('settings_show_statistics_description', 'block_g_statistics'), 0));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showmeanvalue',
-                    get_string('showavggrade', 'block_g_statistics'),
-                    get_string('showavggradedescription', 'block_g_statistics'), 1));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_mean_value',
+                    get_string('settings_show_mean_value', 'block_g_statistics'),
+                    get_string('settings_show_mean_value_description', 'block_g_statistics'), 1));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showcurrentballs',
-                    get_string('showsumballs', 'block_g_statistics'),
-                    get_string('showsumballsdescription', 'block_g_statistics'), 1));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_sum_balls',
+                    get_string('settings_show_sum_balls', 'block_g_statistics'),
+                    get_string('settings_show_sum_balls_description', 'block_g_statistics'), 1));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showtaskcountcomlpited',
-                    get_string('showtaskcountcomlpited', 'block_g_statistics'),
-                    get_string('showtaskcountcomlpiteddescription', 'block_g_statistics'), 1));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_task_count_comlpited',
+                    get_string('settings_show_task_count_comlpited', 'block_g_statistics'),
+                    get_string('settings_show_task_count_comlpited_description', 'block_g_statistics'), 1));
 
     // Leaderboard
     

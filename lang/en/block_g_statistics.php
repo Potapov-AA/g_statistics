@@ -28,20 +28,23 @@ $string['html:myaddinstance'] = 'Add a new G-statistics block to Dashboard';
 $string['g-statistics'] = '(New G-statistics block)';
 $string['pluginname'] = 'G-statistics';
 
-// Перевод для settings
-$string['settings_statistics_head'] = 'Statistics settings';
+/**
+ * Перевод для settings.php
+ */
+// Перевод настроек отображения блока статистики
+$string['settings_statistics_head'] = 'User statistics display settings';
 
-$string['showstatistics'] = 'Dont show statistics';
-$string['showstatisticsdescription'] = 'Enable/disable statistics display';
+$string['settings_show_statistics'] = 'Dont show statistics';
+$string['settings_show_statistics_description'] = 'Disabled by default. When enabled, the statistics block will not be displayed';
 
-$string['showavggrade'] = 'Show average rating';
-$string['showavggradedescription'] = 'Enable/disable average rating display';
+$string['settings_show_mean_value'] = 'Average rating';
+$string['settings_show_mean_value_description'] = 'Enabled by default. When turned off, the average rating will not be displayed';
 
-$string['showsumballs'] = 'Show total points';
-$string['showsumballsdescription'] = 'Enable/disable display of total points';
+$string['settings_show_sum_balls'] = 'Total points';
+$string['settings_show_sum_balls_description'] = 'Enabled by default. When turned off, the total number of points will not be displayed';
 
-$string['showtaskcountcomlpited'] = 'Display the number of completed tasks';
-$string['showtaskcountcomlpiteddescription'] = 'Enable/disable display of the number of completed tasks';
+$string['settings_show_task_count_comlpited'] = 'Number of completed tasks';
+$string['settings_show_task_count_comlpited_description'] = 'Enabled by default. When turned off, the total number of completed tasks will not be displayed';
 
 
 $string['ratingtablehead'] = 'Leaderboard settings';
