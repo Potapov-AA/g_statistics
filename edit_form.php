@@ -22,80 +22,78 @@
  * @author    Alexander Potapov <san_sanih99@mail.ru>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 class block_g_statistics_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
 
-        // Отображать статистику
-        $settings_show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
+        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
         
-        // Настройки отображения элементов статистики для пользователя
-        $array_settings_show_statistics_for_user = [
-            get_config('block_g_statistics', 'settings_show_mean_value'),
-            get_config('block_g_statistics', 'settings_show_sum_balls'),
-            get_config('block_g_statistics', 'settings_show_task_count_comlpited'),
+        $configarray_statistcs = [
+            get_config('block_g_statistics', 'showmeanvalue'),
+            get_config('block_g_statistics', 'showcurrentballs'),
+            get_config('block_g_statistics', 'showtaskcountcomlpited'),
         ];
-        
-        // Если отключен блок статистики или отключены все эелементы, настройки отображаться не будут
-        if ($settings_show_statistics && !$this->is_all_false($array_settings_show_statistics_for_user)) {
 
-            $mform->addElement('header', 'config_statistics_header', get_string('config_statistics_header', 'block_g_statistics'));
+        if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
+
+            $mform->addElement('header', 'configstatisticsheader', get_string('configstatisticsheader', 'block_g_statistics'));
             
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
-                                get_string('config_user_text', 'block_g_statistics') .
+                                get_string('configusertext', 'block_g_statistics') .
                                 '</b></div>');
             
-
-            $options_for_mean_value_and_current_balls = [
-                1 => get_string('config_select_dont_show', 'block_g_statistics'), 
-                2 => get_string('config_select_complite_tasks', 'block_g_statistics'),
-                3 => get_string('config_select_all_tasks', 'block_g_statistics'),
-                4 => get_string('config_select_show_both_options', 'block_g_statistics')
+            $options = [
+                1 => get_string('selectdontshow', 'block_g_statistics'), 
+                2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                3 => get_string('selectalltasks', 'block_g_statistics'),
+                4 => get_string('selectshowbothoptions', 'block_g_statistics')
             ];
 
-            $settings_show_mean_value =  get_config('block_g_statistics', 'settings_show_mean_value') == 1 ? true : false;
-            if ($settings_show_mean_value) {
+            $show_meanvalue =  get_config('block_g_statistics', 'showmeanvalue') == 1 ? true : false;
+            if ($show_meanvalue) {
                 $mform->addElement('select', 
-                                    'config_mean_value', 
-                                    get_string('config_mean_value', 'block_g_statistics'),
-                                    $options_for_mean_value_and_current_balls)->setSelected(2);
-                $mform->setDefault('config_mean_value', 2);
+                                    'config_meanvalue', 
+                                    get_string('configmeanvalue', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_meanvalue', 2);
             }
             
-            $settings_show_sum_balls =  get_config('block_g_statistics', 'settings_show_sum_balls') == 1 ? true : false;
-            if ($settings_show_sum_balls) {
+            $show_currentballs =  get_config('block_g_statistics', 'showcurrentballs') == 1 ? true : false;
+            if ($show_currentballs) {
                 $mform->addElement('select', 
-                                    'config_sum_balls', 
-                                    get_string('config_sum_balls', 'block_g_statistics'),
-                                    $options_for_mean_value_and_current_balls)->setSelected(2);
-                $mform->setDefault('config_sum_balls', 2);
+                                    'config_currentballs', 
+                                    get_string('configcurrentballs', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_currentballs', 2);
             }
 
 
-            $options_for_task_count_complited = [
-                1 => get_string('config_select_dont_show', 'block_g_statistics'),
-                2 => get_string('config_select_show_total', 'block_g_statistics'),
-                3 => get_string('config_select_show_all', 'block_g_statistics'),
-                4 => get_string('config_select_setting_show', 'block_g_statistics'),
+            $options = [
+                1 => get_string('selectdontshow', 'block_g_statistics'),
+                2 => get_string('selectshowtotal', 'block_g_statistics'),
+                3 => get_string('selectshowall', 'block_g_statistics'),
+                4 => get_string('selectsettingshow', 'block_g_statistics'),
             ];
 
-            $settings_show_task_count_comlpited = get_config('block_g_statistics', 'settings_show_task_count_comlpited') == 1 ? true : false;
-            if($settings_show_task_count_comlpited) {
+            $tasks_type = [
+                -1 => 'allelements',
+                1 => 'assign',
+                14 => 'lesson',
+                16 => 'page',
+                17 => 'quiz',
+
+            ];
+
+            $show_taskcountcomlpited = get_config('block_g_statistics', 'showtaskcountcomlpited') == 1 ? true : false;
+
+            if($show_taskcountcomlpited) {
 
                 $mform->addElement('select', 
-                                    'config_task_count_comlpited', 
-                                    get_string('config_task_count_comlpited', 'block_g_statistics'),
-                                    $options_for_task_count_complited)->setSelected(2);
-                $mform->setDefault('config_task_count_comlpited', 2);
-                
-                // Типы задач
-                $tasks_type = [
-                    -1 => 'allelements',
-                    1 => 'assign',
-                    14 => 'lesson',
-                    16 => 'page',
-                    17 => 'quiz',
-                ];
-
+                                    'config_taskcount', 
+                                    get_string('configtaskcounts', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_taskcount', 2);
+ 
                 foreach($tasks_type as $key => $value) {
                     $name = 'config_' . $value;
 
@@ -106,114 +104,115 @@ class block_g_statistics_edit_form extends block_edit_form {
                                         null,
                                         [0, $key]);
                     
-                    $mform->disabledIf($name, 'config_task_count_comlpited', 'neq', 4); 
+                    $mform->disabledIf($name, 'config_taskcount', 'neq', 4); 
                 }
             }
         }
 
-        // Настройки отображения элементов статистики для учителя/админа курса
-        $array_settings_show_statistics_for_admin = [
-            get_config('block_g_statistics', 'settings_show_mean_grade_for_course'),
-            get_config('block_g_statistics', 'settings_show_user_statistics'),
+        
+        $configarray_statistcs = [
+            get_config('block_g_statistics', 'showmeangradeforcourse'),
+            get_config('block_g_statistics', 'showuserstatistics'),
         ];
 
-        // Если отключен блок статистики или отключены все эелементы, настройки отображаться не будут
-        if ($settings_show_statistics && !$this->is_all_false($array_settings_show_statistics_for_admin)) {
+        if ($show_statistics && !$this->is_all_false($configarray_statistcs)) {
 
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
-                                    get_string('config_admin_text', 'block_g_statistics') .
+                                    get_string('configadmintext', 'block_g_statistics') .
                                     '</b></div>');
 
+            $show_meangradeforcourse =  get_config('block_g_statistics', 'showmeangradeforcourse') == 1 ? true : false;
+            if ($show_meangradeforcourse) {
 
-            $settings_show_mean_grade_for_course =  get_config('block_g_statistics', 'settings_show_mean_grade_for_course') == 1 ? true : false;
-            if ($settings_show_mean_grade_for_course) {
-
-                $options_for_mean_value_for_course = [
-                    1 => get_string('config_select_dont_show', 'block_g_statistics'), 
-                    2 => get_string('config_select_complite_tasks', 'block_g_statistics'),
-                    3 => get_string('config_select_all_tasks', 'block_g_statistics'),
-                    4 => get_string('config_select_show_both_options', 'block_g_statistics')
+                $options = [
+                    1 => get_string('selectdontshow', 'block_g_statistics'), 
+                    2 => get_string('selectcomplitetasks', 'block_g_statistics'),
+                    3 => get_string('selectalltasks', 'block_g_statistics'),
+                    4 => get_string('selectshowbothoptions', 'block_g_statistics')
                 ];
 
                 $mform->addElement('select', 
-                                    'config_mean_value_for_course', 
-                                    get_string('config_mean_value_for_course', 'block_g_statistics'),
-                                    $options_for_mean_value_for_course)->setSelected(2);
-                $mform->setDefault('config_mean_value_for_course', 2);
+                                    'config_meanvalueadmin', 
+                                    get_string('configmeanvalueadmin', 'block_g_statistics'),
+                                    $options)->setSelected(2);
+                $mform->setDefault('config_meanvalueadmin', 2);
 
-
-                $options_yes_no = [
-                    1 => get_string('config_yes', 'block_g_statistics'), 
-                    2 => get_string('config_no', 'block_g_statistics'), 
+                $yesno = [
+                    1 => get_string('yes', 'block_g_statistics'), 
+                    2 => get_string('no', 'block_g_statistics'), 
                 ];
 
                 $mform->addElement('select', 
-                                    'config_yes_no_unactive_users', 
-                                    get_string('config_yes_no_unactive_users', 'block_g_statistics'),
-                                    $options_yes_no)->setSelected(2);
-                $mform->setDefault('config_mean_value_for_course', 2);
-                $mform->disabledIf('config_yes_no_unactive_users', 'config_mean_value_for_course', 'eq', 1); 
+                                    'config_yesnounactiveusers', 
+                                    get_string('yesnounactiveusers', 'block_g_statistics'),
+                                    $yesno)->setSelected(2);
+                $mform->setDefault('config_meanvalueadmin', 2);
+
+                $mform->disabledIf('config_yesnounactiveusers', 'config_meanvalueadmin', 'eq', 1); 
             }
 
+            $show_userstatistics = get_config('block_g_statistics', 'showuserstatistics') == 1 ? true : false;
+            if ($show_userstatistics) {
 
-            $settings_show_user_statistics = get_config('block_g_statistics', 'settings_show_user_statistics') == 1 ? true : false;
-            if ($settings_show_user_statistics) {
-
-                // TODO: ПЕРЕНЕСТИ МЕТОД ПОЛУЧЕНИЯ СПИСКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ В ОТДЕЛЬНЫЙ КЛАСС
                 $users = $this->get_users();
 
-                $options_for_user_statistics = [1 => get_string('config_select_dont_show', 'block_g_statistics')];
+                $select_array = [1 => get_string('selectdontshow', 'block_g_statistics')];
 
                 foreach($users as $user) {
-                    $options_for_user_statistics[$user->userid] = $user->firstname . ' ' . $user->lastname;
+
+                    $select_array[$user->userid] = $user->firstname . ' ' . $user->lastname;
                 }
 
                 $mform->addElement('select', 
-                                    'config_user_statistics', 
-                                    get_string('config_user_statistics', 'block_g_statistics'),
-                                    $options_for_user_statistics)->setSelected(1);
-                $mform->setDefault('config_user_statistics', 1);
+                                    'config_userstatistics', 
+                                    get_string('configuserstatistics', 'block_g_statistics'),
+                                    $select_array)->setSelected(1);
+                $mform->setDefault('config_userstatistics', 1);
 
                 $mform->addElement('advcheckbox', 
-                                    'config_show_user_mean_value', 
+                                    'config_showusermaenavalue', 
                                     '', 
-                                    get_string('config_show_user_mean_value', 'block_g_statistics'),
-                                    null,
-                                    [0, 1]);    
-                $mform->disabledIf('config_show_user_mean_value', 'config_user_statistics', 'eq', 1); 
-
-                $mform->addElement('advcheckbox', 
-                                    'config_show_user_balls', 
-                                    '', 
-                                    get_string('config_show_user_balls', 'block_g_statistics'),
-                                    null,
-                                    [0, 1]);  
-                $mform->disabledIf('config_show_user_balls', 'config_user_statistics', 'eq', 1); 
-
-                $mform->addElement('advcheckbox', 
-                                    'config_show_user_count_tasks', 
-                                    '', 
-                                    get_string('config_show_user_count_tasks', 'block_g_statistics'),
-                                    null,
-                                    [0, 1]);  
-                $mform->disabledIf('config_show_user_count_tasks', 'config_user_statistics', 'eq', 1); 
-
-                $mform->addElement('advcheckbox', 
-                                    'config_show_user_rang', 
-                                    '', 
-                                    get_string('config_show_user_rang', 'block_g_statistics'),
+                                    get_string('showusermaenavalue', 'block_g_statistics'),
                                     null,
                                     [0, 1]);
-                $mform->disabledIf('config_show_user_rang', 'config_user_statistics', 'eq', 1); 
+                    
+                $mform->disabledIf('config_showusermaenavalue', 'config_userstatistics', 'eq', 1); 
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showuserballs', 
+                                    '', 
+                                    get_string('showuserballs', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf('config_showuserballs', 'config_userstatistics', 'eq', 1); 
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showusercounttask', 
+                                    '', 
+                                    get_string('showusercounttask', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf('config_showusercounttask', 'config_userstatistics', 'eq', 1); 
+
+                $mform->addElement('advcheckbox', 
+                                    'config_showuserrang', 
+                                    '', 
+                                    get_string('showuserrang', 'block_g_statistics'),
+                                    null,
+                                    [0, 1]);
+                    
+                $mform->disabledIf('config_showuserrang', 'config_userstatistics', 'eq', 1); 
             }
         }
 
+        $show_leaderboard = get_config('block_g_statistics', 'showratingtable') == 1 ? true : false;
 
-        $settings_show_leaderboard = get_config('block_g_statistics', 'settings_show_leaderboard') == 1 ? true : false;
-        if ($settings_show_leaderboard) {
-            $mform->addElement('header', 'config_leaderboard_header', get_string('config_leaderboard_header', 'block_g_statistics'));
+        if ($show_leaderboard) {
+            $mform->addElement('header', 'configleaderboardheader', get_string('configleaderboardheader', 'block_g_statistics'));
 
-            $option_rang_type = [
+            $rank_type = [
                 -1 => get_string('all', 'block_g_statistics'), 
                 17 => get_string('quiz', 'block_g_statistics'),
                 1 => get_string('assign', 'block_g_statistics'),
@@ -221,62 +220,72 @@ class block_g_statistics_edit_form extends block_edit_form {
             ];
 
             $mform->addElement('select', 
-                                'config_rang_type', 
-                                get_string('config_rang_type', 'block_g_statistics'),
-                                $option_rang_type)->setSelected(-1);
-            $mform->setDefault('config_rang_type', -1);
-
+                                'config_ranktype', 
+                                get_string('configranktype', 'block_g_statistics'),
+                                $rank_type)->setSelected(-1);
+            $mform->setDefault('config_ranktype', -1);
 
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
-                                    get_string('config_user_text', 'block_g_statistics') .
+                                    get_string('configusertext', 'block_g_statistics') .
                                     '</b></div>');
             
             $mform->addElement('advcheckbox', 
-                                'config_show_leaderboard_for_user', 
+                                'config_showleaderboarduser', 
                                 '', 
-                                get_string('config_show_leaderboard', 'block_g_statistics'),
+                                get_string('showleaderboard', 'block_g_statistics'),
                                 null,
                                 [0, 1]);
 
-            $mform->addElement('text', 'config_max_top_user', get_string('config_max_top', 'block_g_statistics'));
-            $mform->addRule('config_max_top_user', get_string('config_numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('config_max_top_user', get_string('config_nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('config_max_top_user', 'config_show_leaderboard_for_user', 'eq', 0); 
-            $mform->setDefault('config_max_top_user', '5'); 
+            $mform->addElement('text', 'config_maxtopuser', get_string('configmaxtop', 'block_g_statistics'));
+            $mform->addRule('config_maxtopuser', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxtopuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxtopuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxtopuser', '5'); 
             
-            $mform->addElement('text', 'config_max_bot_user', get_string('config_max_bot', 'block_g_statistics'));
-            $mform->addRule('config_max_bot_user', get_string('config_numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('config_max_bot_user', get_string('config_nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('config_max_bot_user', 'config_show_leaderboard_for_user', 'eq', 0); 
-            $mform->setDefault('config_max_bot_user', '5'); 
+            $mform->addElement('text', 'config_maxbotuser', get_string('configmaxbot', 'block_g_statistics'));
+            $mform->addRule('config_maxbotuser', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxbotuser', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxbotuser', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxbotuser', '5'); 
 
 
             $mform->addElement('html', '<div class="h-5 text-center mb-5"><b>' .
-                                    get_string('config_admin_text', 'block_g_statistics') .
+                                    get_string('configadmintext', 'block_g_statistics') .
                                     '</b></div>');
 
             $mform->addElement('advcheckbox', 
-                                    'config_show_leaderboard_for_admin', 
+                                    'config_showleaderboardadmin', 
                                     '', 
-                                    get_string('config_show_leaderboard', 'block_g_statistics'),
+                                    get_string('showleaderboard', 'block_g_statistics'),
                                     null,
                                     [0, 1]);
 
-            $mform->addElement('text', 'config_max_top_admin', get_string('config_max_top', 'block_g_statistics'));
-            $mform->addRule('config_max_top_admin', get_string('config_numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('config_max_top_admin', get_string('config_nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('config_max_top_admin', 'config_show_leaderboard_for_admin', 'eq', 0);
-            $mform->setDefault('config_max_top_admin', '5'); 
+            $mform->addElement('text', 'config_maxtopadmin', get_string('configmaxtop', 'block_g_statistics'));
+            $mform->addRule('config_maxtopadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxtopadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxtopadmin', 'config_showleaderboard', 'eq', 0);
+            $mform->setDefault('config_maxtopadmin', '5'); 
 
-            $mform->addElement('text', 'config_max_bot_admin', get_string('config_max_bot', 'block_g_statistics'));
-            $mform->addRule('config_max_bot_admin', get_string('config_numeric', 'block_g_statistics'), 'numeric');
-            $mform->addRule('config_max_bot_admin', get_string('config_nonzero', 'block_g_statistics'), 'nonzero');
-            $mform->disabledIf('config_max_bot_admin', 'config_show_leaderboard_for_admin', 'eq', 0); 
-            $mform->setDefault('config_max_bot_admin', '5');
+            $mform->addElement('text', 'config_maxbotadmin', get_string('configmaxbot', 'block_g_statistics'));
+            $mform->addRule('config_maxbotadmin', get_string('numeric', 'block_g_statistics'), 'numeric');
+            $mform->addRule('config_maxbotadmin', get_string('nonzero', 'block_g_statistics'), 'nonzero');
+            $mform->disabledIf('config_maxbotadmin', 'config_showleaderboard', 'eq', 0); 
+            $mform->setDefault('config_maxbotadmin', '5');
         }
+
+        
+
+        
     }
 
-    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ДЛЯ РАБОТЫ С ПОЛЬЗОВАТЕЛЯМИ
+    private function is_all_false($configarray) {
+        foreach($configarray as $item) {
+            if ($item == 1) return false;
+        }
+
+        return true;
+    }
+
     private function get_users() {
         global $DB, $COURSE;
 
@@ -294,20 +303,5 @@ class block_g_statistics_edit_form extends block_edit_form {
         );
 
         return $users;
-    }
-
-
-    /**
-     * Проверяет все ли элементы в массиве являются false
-     *
-     * @param array - массив содержащий значения настроек 1/0
-     * @return boolean - true (все элементы массива = 0), false (хотя бы один элемент = 1)
-     */
-    private function is_all_false($configarray) {
-        foreach($configarray as $item) {
-            if ($item == 1) return false;
-        }
-
-        return true;
     }
 }

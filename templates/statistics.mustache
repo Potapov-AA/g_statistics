@@ -27,65 +27,65 @@
     {{TEST}}
 
     {{#show_statistics }}
-        <h5>{{block_statistics_title}}</h5>
+        <h5>{{blockstatisticstitle}}</h5>
 
-        {{#show_sum_balls}}
+        {{#show_current_balls}}
             <div class="d-flex mt-2">
                 <div>
-                    <strong>{{block_statistics_balls}}:</strong>
+                    <strong>{{blockstatisticsballs}}:</strong>
                 </div>
                 <div class="d-flex flex-column ml-2">
-                    {{# sum_balls_array}}
+                    {{# current_balls}}
                         <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
-                    {{/ sum_balls_array}}
+                    {{/ current_balls}}
                 </div>
             </div>
-        {{/show_sum_balls}}
+        {{/show_current_balls}}
 
         {{#show_mean_value}}
             <div class="d-flex mt-2">
                 <div>
-                    <strong>{{block_statistics_mean_grade}}:</strong>
+                    <strong>{{blockstatisticsmaingrade}}:</strong>
                 </div>
                 <div class="d-flex flex-column ml-2">
-                    {{# mean_value_array }}
+                    {{# mean_value }}
                         <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
-                    {{/ mean_value_array }}
+                    {{/ mean_value }}
                 </div>
             </div>
         {{/show_mean_value}}
 
-        {{#show_task_count_comlpited}}
-            <h6 class="mt-4">{{block_statistics_count_complited_tasks}}</h6>
+        {{#show_task_count}}
+            <h6 class="mt-4">{{blockstatisticscounttasks}}</h6>
             <div class="d-flex flex-column ml-4">
-                {{# task_count_comlpited_array }}
+                {{# task_count }}
                     <div class="mt-1">{{description}}: {{value}}</div>
-                {{/ task_count_comlpited_array }}
+                {{/ task_count }}
             </div>
-        {{/show_task_count_comlpited}}
+        {{/show_task_count}}
         
-        {{#show_mean_value_for_course}}
+        {{#show_mean_value_admin}}
             <div class="d-flex mt-2">
                 <div>
-                    <strong>{{block_statistics_mean_grade_for_course}}:</strong>
+                    <strong>{{blockstatisticsmaingradeadmin}}:</strong>
                 </div>
                 <div class="d-flex flex-column ml-2">
-                    {{# mean_value_for_course_array }}
+                    {{# mean_value_admin }}
                         <div class="d-flex align-items-center justify-content-center">{{value}} <a href="#" class="badge bg-secondary text-white text-decoration-none ml-1" title="{{description}}">?</a></div>
-                    {{/ mean_value_for_course_array }}
+                    {{/ mean_value_admin }}
                 </div>
             </div>
-        {{/show_mean_value_for_course}}
+        {{/show_mean_value_admin}}
 
 
         {{# show_user_statistics }}
-            {{#user_statistics_array}}
-                <h6 class='mt-4'>{{block_statistics_title_for_user}}: {{user_name}}</h6> 
+            {{#user_statistics}}
+                <h6 class='mt-4'>{{blockstatisticstitleforuser}}: {{user_name}}</h6> 
 
                 {{# show_user_maen_value }}
                     <div class="d-flex mt-2">
                         <div>
-                            <strong>{{block_statistics_mean_grade}}:</strong>
+                            <strong>{{blockstatisticsmaingrade}}:</strong>
                         </div>
                         <div class="d-flex flex-column ml-2">
                             {{# user_statistics_mean_value }}
@@ -98,7 +98,7 @@
                 {{# show_user_balls }}
                     <div class="d-flex mt-2">
                         <div>
-                            <strong>{{block_statistics_balls}}:</strong>
+                            <strong>{{blockstatisticsballs}}:</strong>
                         </div>
                         <div class="d-flex flex-column ml-2">
                             {{# user_statistics_balls }}
@@ -109,7 +109,7 @@
                 {{/ show_user_balls }}
 
                 {{# show_user_count_task }}
-                    <h6 class="mt-2 m-0">{{block_statistics_count_complited_tasks}}</h6>
+                    <h6 class="mt-2 m-0">{{blockstatisticscounttasks}}</h6>
                     <div class="d-flex flex-column ml-4">
                         {{# user_task_count }}
                             <div class="mt-1">{{description}}: {{value}}</div>
@@ -118,9 +118,9 @@
                 {{/ show_user_count_task }}
 
                 {{# show_user_rang }}
-                    <div class="mt-2"><strong>{{block_statirang_for_admin}}: </strong>{{user_rang}}</div>
+                    <div class="mt-2"><strong>{{blockstatirangforadmin}}: </strong>{{user_rang}}</div>
                 {{/ show_user_rang }}
-            {{/user_statistics_array}}
+            {{/user_statistics}}
         {{/ show_user_statistics }}
         
     {{/show_statistics }}
@@ -128,14 +128,14 @@
 
 {{#show_rating_table}}
 <div class="mt-4">
-    <h5>{{block_leaderboard_title}}</h5>
+    <h5>{{blockleaderboardtitle}}</h5>
 
     <table class="table table-striped">
         <thead>
             <tr>
             <th scope="col">#</th>
-            <th scope="col">{{block_leaderboard_username}}</th>
-            <th scope="col">{{block_leaderboard_balls}}</th>
+            <th scope="col">{{blockleaderboardname}}</th>
+            <th scope="col">{{blockleaderboardballs}}</th>
             </tr>
         </thead>
         <tbody>
