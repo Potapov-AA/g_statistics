@@ -238,11 +238,11 @@ class block_g_statistics extends block_base {
                     $user_statistics_mean_value = [];
                     array_push($user_statistics_mean_value, [
                         "value" => $statistics->get_mean_value(2, $config_user_statistics) . '/100',
-                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                     ]);
                     array_push($user_statistics_mean_value, [
                         "value" => $statistics->get_mean_value(3, $config_user_statistics) . '/100',
-                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                     ]);
 
                     $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
@@ -257,11 +257,11 @@ class block_g_statistics extends block_base {
                     $user_statistics_balls = [];
                     array_push($user_statistics_balls, [
                         "value" => $statistics->get_balls(2, $config_user_statistics),
-                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                     ]);
                     array_push($user_statistics_balls, [
                         "value" => $statistics->get_balls(3, $config_user_statistics),
-                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                     ]);
 
                     $user_statistics["user_statistics_balls"] = $user_statistics_balls;
@@ -309,7 +309,9 @@ class block_g_statistics extends block_base {
             $result["user_statistics"] = $user_statistics;
 
             return $result;
-        }         
+        }  
+        
+        return $result;
     }
 
 
@@ -322,7 +324,7 @@ class block_g_statistics extends block_base {
         $show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
         if($show_statistics) {
 
-            $config_mean_value = $this->config->meanvalue;
+            $config_mean_value = $this->config->mean_value;
             $show_mean_value = (get_config('block_g_statistics', 'settings_show_mean_value') == 0 || $config_mean_value == 1) ? false : true;
             
             $mean_value = [];
@@ -331,29 +333,29 @@ class block_g_statistics extends block_base {
                     case 2:
                         array_push($mean_value, [
                             "value" => $statistics->get_mean_value($config_mean_value) . '/100',
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 3:
                         array_push($mean_value, [
                             "value" => $statistics->get_mean_value($config_mean_value) . '/100',
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 4:
                         array_push($mean_value, [
                             "value" => $statistics->get_mean_value(2) . '/100',
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         array_push($mean_value, [
                             "value" => $statistics->get_mean_value(3) . '/100',
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                 }
             }
             
-            $config_current_balls = $this->config->currentballs;
+            $config_current_balls = $this->config->sum_balls;
             $show_current_balls = (get_config('block_g_statistics', 'settings_show_sum_balls') == 0 || $config_current_balls == 1) ? false : true;
 
             $current_balls = [];
@@ -363,29 +365,29 @@ class block_g_statistics extends block_base {
                     case 2:
                         array_push($current_balls, [
                             "value" => $statistics->get_balls($config_current_balls),
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 3:
                         array_push($current_balls, [
                             "value" => $statistics->get_balls($config_current_balls),
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 4:
                         array_push($current_balls, [
                             "value" => $statistics->get_balls(2),
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         array_push($current_balls, [
                             "value" => $statistics->get_balls(3),
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                 }
             }
 
-            $config_task_count = $this->config->taskcount;
+            $config_task_count = $this->config->task_count_comlpited;
             $show_task_count = (get_config('block_g_statistics', 'settings_show_task_count_comlpited') == 0 || $config_task_count == 1) ? false : true;
 
             $task_count = [];

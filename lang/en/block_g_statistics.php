@@ -63,14 +63,17 @@ $string['settings_show_user_statistics'] = 'Statistics for the selected user';
 $string['settings_show_user_statistics_description'] = 'Enabled by default. When turned off, statistics for the selected user will not be displayed';
 
 
-// Перевод для edit_form
-$string['configstatisticsheader'] = 'Statistics display settings';
+/**
+ * Перевод для edit_form.php
+ */
+$string['config_statistics_header'] = 'Statistics display settings';
 
-$string['configusertext'] = 'FOR USER (STUDENT)';
+// Блок статистики для пользователя
+$string['config_user_text'] = 'FOR USER (STUDENT)';
 
-$string['configmeanvalue'] = 'Choose how to display your average rating';
-$string['configcurrentballs'] = 'Choose how you want to display your total points';
-$string['configtaskcounts'] = 'Choose how to display the number of completed tasks';
+$string['config_mean_value'] = 'Choose how to display your average rating';
+$string['config_sum_balls'] = 'Choose how you want to display your total points';
+$string['config_task_count_comlpited'] = 'Choose how to display the number of completed tasks';
 
 $string['configadmintext'] = 'FOR ADMINISTRATOR';
 
@@ -95,14 +98,19 @@ $string['configmaxbot'] = 'Maximum number of records displayed below';
 $string['numeric'] = 'Not a number transmitted';
 $string['nonzero'] = 'The number cannot be 0';
 
-// Перевод для SELECT-FORM (средний балл и количество баллов) (edit_form)
-$string['selectdontshow'] = "Don't show";
-$string['selectcomplitetasks'] = 'Regarding the number of completed tasks';
-$string['selectalltasks'] = 'Regarding the total number of tasks';
-$string['selectshowbothoptions'] = 'Show both options';
-$string['selectshowtotal'] = 'Show only total quantity';
-$string['selectshowall'] = 'Show all';
-$string['selectsettingshow'] = 'Set what to show';
+
+
+
+/**
+ * Перевод для SELECT-FORM (edit_form)
+ */
+$string['config_select_dont_show'] = "Don't show";
+$string['config_select_complite_tasks'] = 'Regarding the number of completed tasks';
+$string['config_select_all_tasks'] = 'Regarding the total number of tasks';
+$string['config_select_show_both_options'] = 'Show both options';
+$string['config_select_show_total'] = 'Show only total quantity';
+$string['config_select_show_all'] = 'Show all';
+$string['config_select_setting_show'] = 'Set what to show';
 $string['yes'] = 'Yes';
 $string['no'] = 'No';
 

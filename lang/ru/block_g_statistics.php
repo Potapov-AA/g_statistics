@@ -63,14 +63,17 @@ $string['settings_show_user_statistics'] = 'Статистика по выбра
 $string['settings_show_user_statistics_description'] = 'По умолчанию включено. При выключение статистика по выбранному пользователю отображаться не будет';
 
 
-// Перевод для edit_form
-$string['configstatisticsheader'] = 'Настройки отображения статистики';
+/**
+ * Перевод для edit_form.php
+ */
+$string['config_statistics_header'] = 'Настройки отображения статистики';
 
-$string['configusertext'] = 'ДЛЯ ПОЛЬЗОВАТЕЛЯ (СТУДЕНТА)';
+// Блок статистики для пользователя
+$string['config_user_text'] = 'ДЛЯ ПОЛЬЗОВАТЕЛЯ (СТУДЕНТА)';
 
-$string['configmeanvalue'] = 'Выберете способ отображения средней оценки';
-$string['configcurrentballs'] = 'Выберете способ отображения общего количества баллов';
-$string['configtaskcounts'] = 'Выберете способ отображения количества выполненных заданий';
+$string['config_mean_value'] = 'Выберите способ отображения средней оценки';
+$string['config_sum_balls'] = 'Выберете способ отображения общего количества баллов';
+$string['config_task_count_comlpited'] = 'Выберете способ отображения количества выполненных заданий';
 
 $string['configadmintext'] = 'ДЛЯ АДМИНИСТРАТОРА';
 
@@ -98,14 +101,16 @@ $string['numeric'] = 'Передано не число';
 $string['nonzero'] = 'Число не может быть равным 0';
 
 
-// Перевод для SELECT-FORM (edit_form)
-$string['selectdontshow'] = 'Не показывать';
-$string['selectcomplitetasks'] = 'Относительно количества пройденных заданий';
-$string['selectalltasks'] = 'Относительно общего количества заданий';
-$string['selectshowbothoptions'] = 'Показывать оба вариант';
-$string['selectshowtotal'] = 'Показывать только общее количество';
-$string['selectshowall'] = 'Показывать все';
-$string['selectsettingshow'] = 'Настроить, что показывать';
+/**
+ * Перевод для SELECT-FORM (edit_form)
+ */
+$string['config_select_dont_show'] = 'Не показывать';
+$string['config_select_complite_tasks'] = 'Относительно количества пройденных заданий';
+$string['config_select_all_tasks'] = 'Относительно общего количества заданий';
+$string['config_select_show_both_options'] = 'Показывать оба вариант';
+$string['config_select_show_total'] = 'Показывать только общее количество';
+$string['config_select_show_all'] = 'Показывать все';
+$string['config_select_setting_show'] = 'Настроить, что показывать';
 $string['yes'] = 'Да';
 $string['no'] = 'Нет';
 
