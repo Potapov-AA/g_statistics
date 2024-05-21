@@ -151,7 +151,7 @@ class block_g_statistics extends block_base {
         if($show_statistics) {
 
             $config_mean_value_admin = $this->config->meanvalueadmin;
-            $show_mean_value_admin = (get_config('block_g_statistics', 'showmeangradeforcourse') == 0 || $config_mean_value_admin == 1) ? false : true;
+            $show_mean_value_admin = (get_config('block_g_statistics', 'settings_show_mean_grade_for_course') == 0 || $config_mean_value_admin == 1) ? false : true;
 
             $result["show_mean_value_admin"] = $show_mean_value_admin;
 
@@ -213,7 +213,7 @@ class block_g_statistics extends block_base {
             $result["mean_value_admin"] = $mean_value_admin;
 
             $config_user_statistics = $this->config->userstatistics;
-            $show_user_statistics = (get_config('block_g_statistics', 'showuserstatistics') == 0 || $config_user_statistics == 1) ? false : true;
+            $show_user_statistics = (get_config('block_g_statistics', 'settings_show_user_statistics') == 0 || $config_user_statistics == 1) ? false : true;
 
             $result["show_user_statistics"] = $show_user_statistics;
 

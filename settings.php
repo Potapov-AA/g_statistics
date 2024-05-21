@@ -56,16 +56,15 @@ if($ADMIN->fulltree) {
                     get_string('settings_show_leaderboard_description', 'block_g_statistics'), 1));
 
 
-    // Admin
-    
-    $settings->add(new admin_setting_heading('block_g_statistics/adminhead', 
-                    get_string('adminhead', 'block_g_statistics'), ""));
+    // Для учителя/админа курса    
+    $settings->add(new admin_setting_heading('block_g_statistics/settings_admin_head', 
+                    get_string('settings_admin_head', 'block_g_statistics'), ""));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showmeangradeforcourse',
-                    get_string('showmeangradeforcourse', 'block_g_statistics'),
-                    get_string('showmeangradeforcoursedescription', 'block_g_statistics'), 1));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_mean_grade_for_course',
+                    get_string('settings_show_mean_grade_for_course', 'block_g_statistics'),
+                    get_string('settings_show_mean_grade_for_course_description', 'block_g_statistics'), 1));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showuserstatistics',
-                    get_string('showuserstatistics', 'block_g_statistics'),
-                    get_string('showuserstatisticsdescription', 'block_g_statistics'), 1));
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_user_statistics',
+                    get_string('settings_show_user_statistics', 'block_g_statistics'),
+                    get_string('settings_show_user_statistics_description', 'block_g_statistics'), 1));
 }

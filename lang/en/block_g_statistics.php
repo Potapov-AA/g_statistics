@@ -53,14 +53,14 @@ $string['settings_leaderboard_head'] = 'Leaderboard display settings';
 $string['settings_show_leaderboard'] = 'Show leaderboard';
 $string['settings_show_leaderboard_description'] = 'Enabled by default. When turned off, the leaderboard will not be displayed';
 
+// Перевод для отображения для админа курса
+$string['settings_admin_head'] = 'Display settings for admin';
 
-$string['adminhead'] = 'Display settings for admin';
+$string['settings_show_mean_grade_for_course'] = 'Average grade for the course';
+$string['settings_show_mean_grade_for_course_description'] = 'Enabled by default. When turned off, the average grade for the course will not be displayed';
 
-$string['showmeangradeforcourse'] = 'Show average course grade';
-$string['showmeangradeforcoursedescription'] = 'Enable/disable display of average course grade';
-
-$string['showuserstatistics'] = 'Show statistics for selected user';
-$string['showuserstatisticsdescription'] = 'Enable/disable display of statistics for the selected user';
+$string['settings_show_user_statistics'] = 'Statistics for the selected user';
+$string['settings_show_user_statistics_description'] = 'Enabled by default. When turned off, statistics for the selected user will not be displayed';
 
 
 // Перевод для edit_form
