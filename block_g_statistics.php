@@ -72,58 +72,58 @@ class block_g_statistics extends block_base {
 
         $rating = new rating();
 
+        // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
         $user_roleid = $this->get_user_roleid();
+
         if($user_roleid == 5) {
             $statistics = $this->get_statistics_for_user();
 
-            $showleaderboarduser = $this->config->showleaderboarduser;
-            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboarduser == 0) ? false : true;
+            $show_leaderboard_for_user = $this->config->show_leaderboard_for_user;
+            $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $show_leaderboard_for_user == 0) ? false : true;
             if ($show_rating_table) {
-                $min = $this->config->maxbotuser;
-                $max = $this->config->maxbotuser;
+                $max_bot_user = $this->config->max_bot_user;
+                $max_top_user = $this->config->max_top_user;
 
-                $moduletype = $this->config->ranktype;
+                $module_type = $this->config->rang_type;
 
-                $usersInfo = $rating->get_rating($min, $max, $moduletype); 
+                $users_info = $rating->get_rating($max_bot_user, $max_top_user, $module_type); 
             }
 
         } else if ($user_roleid == 3 || $user_roleid == 4) {
             $statistics = $this->get_statistics_for_admin();
 
-            $showleaderboardadmin = $this->config->showleaderboardadmin;
-            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboardadmin == 0) ? false : true;
+            $show_leaderboard_for_admin = $this->config->show_leaderboard_for_admin;
+            $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $show_leaderboard_for_admin == 0) ? false : true;
             if ($show_rating_table) {
-                $min = $this->config->maxbotadmin;
-                $max = $this->config->maxtopadmin;
+                $max_bot_admin = $this->config->max_bot_admin;
+                $max_top_admin = $this->config->max_top_admin;
 
-                $moduletype = $this->config->ranktype;
+                $module_type = $this->config->rang_type;
 
-                $usersInfo = $rating->get_rating($min, $max, $moduletype); 
+                $users_info = $rating->get_rating($max_bot_admin, $max_top_admin, $module_type); 
             }
 
         }
-        
-        
 
         $translate_data = [
             // Статистика перевод блока
-            "blockstatisticstitle" => get_string('blockstatisticstitle', 'block_g_statistics'),
-            "blockstatisticsballs" => get_string('blockstatisticsballs', 'block_g_statistics'),
-            "blockstatisticsmaingrade" => get_string('blockstatisticsmaingrade', 'block_g_statistics'),
-            "blockstatisticscounttasks" => get_string('blockstatisticscounttasks', 'block_g_statistics'),
+            "block_statistics_title" => get_string('block_statistics_title', 'block_g_statistics'),
+            "block_statistics_balls" => get_string('block_statistics_balls', 'block_g_statistics'),
+            "block_statistics_mean_grade" => get_string('block_statistics_mean_grade', 'block_g_statistics'),
+            "block_statistics_count_complited_tasks" => get_string('block_statistics_count_complited_tasks', 'block_g_statistics'),
 
-            "blockstatisticsmaingradeadmin" => get_string('blockstatisticsmaingradeadmin', 'block_g_statistics'),
+            "block_statistics_mean_grade_for_course" => get_string('block_statistics_mean_grade_for_course', 'block_g_statistics'),
 
             // Таблица лидеров перевод блока
-            "blockleaderboardtitle" => get_string('blockleaderboardtitle', 'block_g_statistics'),
-            "blockleaderboardname" => get_string('blockleaderboardname', 'block_g_statistics'),
-            "blockleaderboardballs" => get_string('blockleaderboardballs', 'block_g_statistics'),
-            "blockstatisticstitleforuser" => get_string('blockstatisticstitleforuser', 'block_g_statistics'),
-            "blockstatirangforadmin" => get_string('blockstatirangforadmin', 'block_g_statistics'),
+            "block_leaderboard_title" => get_string('block_leaderboard_title', 'block_g_statistics'),
+            "block_leaderboard_username" => get_string('block_leaderboard_username', 'block_g_statistics'),
+            "block_leaderboard_balls" => get_string('block_leaderboard_balls', 'block_g_statistics'),
+            "block_statistics_title_for_user" => get_string('block_statistics_title_for_user', 'block_g_statistics'),
+            "block_statirang_for_admin" => get_string('block_statirang_for_admin', 'block_g_statistics'),
 
             // Таблица лидеров
             "show_rating_table" => $show_rating_table,
-            "users" => $usersInfo,
+            "users" => $users_info,
             "wwwroot" => $CFG->wwwroot,
             "courseid" => $COURSE->id,
         ];
@@ -138,88 +138,91 @@ class block_g_statistics extends block_base {
     }
 
 
+    /**
+     * Метод получения данных для отображения статистики для админа/учителя курса
+     *
+     * @return array - массив статистики
+     */
     private function get_statistics_for_admin() {
 
         $statistics = new statistics();
 
         $result = [];
 
-        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
-
+        $show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
         $result["show_statistics"] = $show_statistics;
-
         if($show_statistics) {
 
-            $config_mean_value_admin = $this->config->meanvalueadmin;
-            $show_mean_value_admin = (get_config('block_g_statistics', 'showmeangradeforcourse') == 0 || $config_mean_value_admin == 1) ? false : true;
+            // Получение средней оценки по курсу
+            $config_mean_value_for_course = $this->config->mean_value_for_course;
+            $show_mean_value_for_course = (get_config('block_g_statistics', 'settings_show_mean_grade_for_course') == 0 || $config_mean_value_for_course == 1) ? false : true;
+            $result["show_mean_value_for_course"] = $show_mean_value_for_course;
+            $mean_value_for_course_array = [];
+            if ($show_mean_value_for_course) {
 
-            $result["show_mean_value_admin"] = $show_mean_value_admin;
+                $takeinactiveusers = $this->config->yes_no_unactive_users == 1 ? true : false;
 
-            $mean_value_admin = [];
-            if ($show_mean_value_admin) {
-
-                $takeinactiveusers = $this->config->yesnounactiveusers == 1 ? true : false;
-
-                switch ($config_mean_value_admin) {
+                switch ($config_mean_value_for_course) {
                     case 2:
                         if ($takeinactiveusers) {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
-                                "description" => get_string('descriptioncounttaskswithinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
-                                "description" => get_string('descriptioncounttaskswithoutinactiveusers', 'block_g_statistics')
+                                "description" => get_string('description_count_tasks_without_inactive_users', 'block_g_statistics')
                             ]);
                         }
                         break;
                     case 3:
                         if ($takeinactiveusers) {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
-                                "description" => get_string('descriptionmaxcounttaskswithinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_max_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
-                                "description" => get_string('descriptionmaxcounttaskswithpoutinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_max_count_tasks_withpout_inactive_users', 'block_g_statistics'),
                             ]);
                         }
                         break;
                     case 4:
                         if ($takeinactiveusers) {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
-                                "description" => get_string('descriptioncounttaskswithinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
-                                "description" => get_string('descriptionmaxcounttaskswithinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_max_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
-                                "description" => get_string('descriptioncounttaskswithoutinactiveusers', 'block_g_statistics')
+                                "description" => get_string('description_count_tasks_without_inactive_users', 'block_g_statistics')
                             ]);
-                            array_push($mean_value_admin, [
+                            array_push($mean_value_for_course_array, [
                                 "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
-                                "description" => get_string('descriptionmaxcounttaskswithpoutinactiveusers', 'block_g_statistics'),
+                                "description" => get_string('description_max_count_tasks_withpout_inactive_users', 'block_g_statistics'),
                             ]);
                         }
                         break;
                 }
             }
-            $result["mean_value_admin"] = $mean_value_admin;
+            $result["mean_value_for_course_array"] = $mean_value_for_course_array;
 
-            $config_user_statistics = $this->config->userstatistics;
-            $show_user_statistics = (get_config('block_g_statistics', 'showuserstatistics') == 0 || $config_user_statistics == 1) ? false : true;
 
+            // Получение статистики по пользователю
+            $config_user_statistics = $this->config->user_statistics;
+            $show_user_statistics = (get_config('block_g_statistics', 'settings_show_user_statistics') == 0 || $config_user_statistics == 1) ? false : true;
             $result["show_user_statistics"] = $show_user_statistics;
-
-            $user_statistics = [];
+            $user_statistics_array = [];
             if($show_user_statistics) {
 
+                // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
                 $user_info = $this->get_user_info($config_user_statistics);
 
                 $username = '';
@@ -227,50 +230,50 @@ class block_g_statistics extends block_base {
                     $username = $user->firstname . ' ' . $user->lastname;
                 }
 
-                $user_statistics["user_name"] = $username;
+                $user_statistics_array["user_name"] = $username;
                 
-                $config_show_user_maen_value = $this->config->showusermaenavalue == 1 ? true : false;
-
+                
+                // Получение средней оценки для пользователя
+                $config_show_user_maen_value = $this->config->show_user_mean_value == 1 ? true : false;
                 $result["show_user_maen_value"] = $config_show_user_maen_value;
-
                 if ($config_show_user_maen_value) {
 
                     $user_statistics_mean_value = [];
                     array_push($user_statistics_mean_value, [
                         "value" => $statistics->get_mean_value(2, $config_user_statistics) . '/100',
-                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                     ]);
                     array_push($user_statistics_mean_value, [
                         "value" => $statistics->get_mean_value(3, $config_user_statistics) . '/100',
-                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                     ]);
 
-                    $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
+                    $user_statistics_array["user_statistics_mean_value"] = $user_statistics_mean_value;
                 }
                 
-                $config_show_user_balls = $this->config->showuserballs == 1 ? true : false;
 
+                // Получение количества баллов для пользователя
+                $config_show_user_balls = $this->config->show_user_balls == 1 ? true : false;
                 $result["show_user_balls"] = $config_show_user_balls;
-
                 if ($config_show_user_balls) {
 
                     $user_statistics_balls = [];
                     array_push($user_statistics_balls, [
                         "value" => $statistics->get_balls(2, $config_user_statistics),
-                        "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                     ]);
                     array_push($user_statistics_balls, [
                         "value" => $statistics->get_balls(3, $config_user_statistics),
-                        "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                     ]);
 
-                    $user_statistics["user_statistics_balls"] = $user_statistics_balls;
+                    $user_statistics_array["user_statistics_balls"] = $user_statistics_balls;
                 }
 
-                $config_show_user_count_task = $this->config->showusercounttask == 1 ? true : false;
 
+                // Получение колиества выполненных заданий для пользователя
+                $config_show_user_count_task = $this->config->show_user_count_tasks == 1 ? true : false;
                 $result["show_user_count_task"] = $config_show_user_count_task;
-
                 if ($config_show_user_count_task) {
 
                     $user_task_count = [];
@@ -291,105 +294,107 @@ class block_g_statistics extends block_base {
                         ]);
                     }
 
-                    $user_statistics["user_task_count"] = $user_task_count;
+                    $user_statistics_array["user_task_count"] = $user_task_count;
                 }
 
-                $config_show_user_rang = $this->config->showuserrang == 1 ? true : false;
 
+                // Получение места в рейтинге для пользователя
+                $config_show_user_rang = $this->config->show_user_rang == 1 ? true : false;
                 $result["show_user_rang"] = $config_show_user_rang;
-
                 if ($config_show_user_rang) {
                     $rating = new rating();
 
-                    $user_statistics["user_rang"] = $rating->get_user_rang($config_user_statistics);
+                    $user_statistics_array["user_rang"] = $rating->get_user_rang($config_user_statistics);
                 }
                 
             }
 
-            $result["user_statistics"] = $user_statistics;
-
-            return $result;
-        }         
+            $result["user_statistics_array"] = $user_statistics_array;
+        }  
+        return $result;
     }
 
 
-    // Метод сбора данных статистики для отображения статистики для пользователя
+    /**
+     * Метод получения данных для отображения статистики пользователя
+     *
+     * @return array - массив статистики
+     */
     private function get_statistics_for_user() {
         global $CFG;
 
         $statistics = new statistics();
 
-        $show_statistics = get_config('block_g_statistics', 'showstatistics') == 0 ? true : false;
+        $show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
         if($show_statistics) {
 
-            $config_mean_value = $this->config->meanvalue;
-            $show_mean_value = (get_config('block_g_statistics', 'showmeanvalue') == 0 || $config_mean_value == 1) ? false : true;
-            
-            $mean_value = [];
+            // Получение средней оценки
+            $config_mean_value = $this->config->mean_value;
+            $show_mean_value = (get_config('block_g_statistics', 'settings_show_mean_value') == 0 || $config_mean_value == 1) ? false : true;
+            $mean_value_array = [];
             if ($show_mean_value) {
                 switch ($config_mean_value) {
                     case 2:
-                        array_push($mean_value, [
+                        array_push($mean_value_array, [
                             "value" => $statistics->get_mean_value($config_mean_value) . '/100',
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 3:
-                        array_push($mean_value, [
+                        array_push($mean_value_array, [
                             "value" => $statistics->get_mean_value($config_mean_value) . '/100',
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 4:
-                        array_push($mean_value, [
+                        array_push($mean_value_array, [
                             "value" => $statistics->get_mean_value(2) . '/100',
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
-                        array_push($mean_value, [
+                        array_push($mean_value_array, [
                             "value" => $statistics->get_mean_value(3) . '/100',
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                 }
             }
             
-            $config_current_balls = $this->config->currentballs;
-            $show_current_balls = (get_config('block_g_statistics', 'showcurrentballs') == 0 || $config_current_balls == 1) ? false : true;
-
-            $current_balls = [];
-            if ($show_current_balls) {
-                
-                switch ($config_current_balls) {
+            // Получение общего количества баллов
+            $config_sum_balls = $this->config->sum_balls;
+            $show_sum_balls= (get_config('block_g_statistics', 'settings_show_sum_balls') == 0 || $config_sum_balls == 1) ? false : true;
+            $sum_balls_array = [];
+            if ($show_sum_balls) {
+                switch ($config_sum_balls) {
                     case 2:
-                        array_push($current_balls, [
-                            "value" => $statistics->get_balls($config_current_balls),
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                        array_push($sum_balls_array, [
+                            "value" => $statistics->get_balls($config_sum_balls),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 3:
-                        array_push($current_balls, [
-                            "value" => $statistics->get_balls($config_current_balls),
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                        array_push($sum_balls_array, [
+                            "value" => $statistics->get_balls($config_sum_balls),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                     case 4:
-                        array_push($current_balls, [
+                        array_push($sum_balls_array, [
                             "value" => $statistics->get_balls(2),
-                            "description" => get_string('selectcomplitetasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_complite_tasks', 'block_g_statistics'),
                         ]);
-                        array_push($current_balls, [
+                        array_push($sum_balls_array, [
                             "value" => $statistics->get_balls(3),
-                            "description" => get_string('selectalltasks', 'block_g_statistics'),
+                            "description" => get_string('config_select_all_tasks', 'block_g_statistics'),
                         ]);
                         break;
                 }
             }
 
-            $config_task_count = $this->config->taskcount;
-            $show_task_count = (get_config('block_g_statistics', 'showtaskcountcomlpited') == 0 || $config_task_count == 1) ? false : true;
-
-            $task_count = [];
-            if ($show_task_count) {
+            // Получение количества решеных заданий
+            $config_task_count_comlpited = $this->config->task_count_comlpited;
+            $show_task_count_comlpited = (get_config('block_g_statistics', 'settings_show_task_count_comlpited') == 0 || $config_task_count_comlpited == 1) ? false : true;
+            $task_count_comlpited_array = [];
+            if ($show_task_count_comlpited) {
 
                 $tasks_type = [
                     -1 => 'allelements',
@@ -399,28 +404,27 @@ class block_g_statistics extends block_base {
                     17 => 'quiz',
                 ];
 
-                switch ($config_task_count) {
+                switch ($config_task_count_comlpited) {
                     case 2:
-                        array_push($task_count, [
+                        array_push($task_count_comlpited_array, [
                             "description" => get_string('allelements', 'block_g_statistics'),
                             "value" => $statistics->get_count_complited_tasks(),
                         ]);
                         break;
-
                     case 3: 
                         foreach ($tasks_type as $key => $value) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string($value, 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks($key),
                             ]);
                         }
                         break;
                     case 4:
-
+                        // TODO: УЛУЧШИТЬ С ПОМОЩЬЮ СЛОВАРЯ И ПРОХОДКИ ПО ЦИКЛУ
                         if ($this->config->allelements != 0) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string('allelements', 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks(),
                             ]);
@@ -428,7 +432,7 @@ class block_g_statistics extends block_base {
 
                         if ($this->config->assign != 0) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string('assign', 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks($this->config->assign),
                             ]);
@@ -436,7 +440,7 @@ class block_g_statistics extends block_base {
 
                         if ($this->config->lesson != 0) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string('lesson', 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks($this->config->lesson),
                             ]);
@@ -444,7 +448,7 @@ class block_g_statistics extends block_base {
 
                         if ($this->config->page != 0) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string('page', 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks($this->config->page),
                             ]);
@@ -452,7 +456,7 @@ class block_g_statistics extends block_base {
 
                         if ($this->config->quiz != 0) {
 
-                            array_push($task_count, [
+                            array_push($task_count_comlpited_array, [
                                 "description" => get_string('quiz', 'block_g_statistics'),
                                 "value" => $statistics->get_count_complited_tasks($this->config->quiz),
                             ]);
@@ -464,26 +468,19 @@ class block_g_statistics extends block_base {
 
             return ["show_statistics" => $show_statistics, 
                     "show_mean_value" => $show_mean_value, 
-                    "mean_value" => $mean_value, 
-                    "show_current_balls" => $show_current_balls, 
-                    "current_balls" => $current_balls,
-                    "show_task_count" => $show_task_count,
-                    "task_count" => $task_count,
+                    "mean_value_array" => $mean_value_array, 
+                    "show_sum_balls" => $show_sum_balls, 
+                    "sum_balls_array" => $sum_balls_array,
+                    "show_task_count_comlpited" => $show_task_count_comlpited,
+                    "task_count_comlpited_array" => $task_count_comlpited_array,
                 ];
 
         } else {
-
-            return ["show_statistics" => $show_statistics, 
-                    "show_mean_value" => null, 
-                    "mean_value" => null, 
-                    "show_current_balls" => null, 
-                    "current_balls" => null,
-                    "show_task_count" => null,
-                    "task_count" => null,
-                ];
+            return [];
         }
     }
 
+    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
     // Метод получения 
     private function get_user_roleid() {
         global $DB, $COURSE, $USER;
@@ -506,7 +503,7 @@ class block_g_statistics extends block_base {
         } 
     }
 
-
+    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
     private function get_user_info($userid) {
         global $DB, $COURSE;
 
