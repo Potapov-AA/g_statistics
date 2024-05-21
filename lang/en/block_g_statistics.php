@@ -66,6 +66,7 @@ $string['settings_show_user_statistics_description'] = 'Enabled by default. When
 /**
  * Перевод для edit_form.php
  */
+// Блок статистики
 $string['config_statistics_header'] = 'Statistics display settings';
 
 // Блок статистики для пользователя
@@ -75,28 +76,30 @@ $string['config_mean_value'] = 'Choose how to display your average rating';
 $string['config_sum_balls'] = 'Choose how you want to display your total points';
 $string['config_task_count_comlpited'] = 'Choose how to display the number of completed tasks';
 
-$string['configadmintext'] = 'FOR ADMINISTRATOR';
+// Блок статистики для админа курса
+$string['config_admin_text'] = 'FOR ADMINISTRATOR';
 
-$string['configmeanvalueadmin'] = 'Choose how to display the average grade for the course';
-$string['yesnounactiveusers'] = 'Take inactive users into account';
-$string['configuserstatistics'] = 'Select a student to display his statistics';
-$string['showusermaenavalue'] = 'Show average user rating';
-$string['showuserballs'] = 'Show user scores';
-$string['showusercounttask'] = 'Show the number of tasks completed by the user';
-$string['showuserrang'] = "Show the user's place in the ranking";
+$string['config_mean_value_for_course'] = 'Choose how to display the average grade for the course';
+$string['config_yes_no_unactive_users'] = 'Take inactive users into account';
+$string['config_user_statistics'] = 'Select a student to display his statistics';
+$string['config_show_user_mean_value'] = 'Show average user rating';
+$string['config_show_user_balls'] = 'Show user scores';
+$string['config_show_user_count_tasks'] = 'Show the number of tasks completed by the user';
+$string['config_show_user_rang'] = "Show the user's place in the ranking";
 
-$string['configleaderboardheader'] = 'Leaderboard settings';
+// Таблица лидера
+$string['config_leaderboard_header'] = 'Leaderboard settings';
 
-$string['showleaderboard'] = 'Show leaderboard';
+$string['config_show_leaderboard'] = 'Show leaderboard';
 
-$string['configranktype'] = 'Choose what the rating is based on';
+$string['config_rang_type'] = 'Choose what the rating is based on';
 
-$string['configmaxtop'] = 'Maximum number of records displayed at top';
-$string['configmaxbot'] = 'Maximum number of records displayed below';
+$string['config_max_top'] = 'Maximum number of records displayed at top';
+$string['config_max_bot'] = 'Maximum number of records displayed below';
 
 // Перевод для сообщение об ошибке
-$string['numeric'] = 'Not a number transmitted';
-$string['nonzero'] = 'The number cannot be 0';
+$string['config_numeric'] = 'Not a number transmitted';
+$string['config_nonzero'] = 'The number cannot be 0';
 
 
 
@@ -111,8 +114,8 @@ $string['config_select_show_both_options'] = 'Show both options';
 $string['config_select_show_total'] = 'Show only total quantity';
 $string['config_select_show_all'] = 'Show all';
 $string['config_select_setting_show'] = 'Set what to show';
-$string['yes'] = 'Yes';
-$string['no'] = 'No';
+$string['config_yes'] = 'Yes';
+$string['config_no'] = 'No';
 
 // Перевод для типов элементов
 $string['all'] = 'All';

@@ -66,39 +66,40 @@ $string['settings_show_user_statistics_description'] = 'По умолчанию 
 /**
  * Перевод для edit_form.php
  */
+// Блок статистики
 $string['config_statistics_header'] = 'Настройки отображения статистики';
 
 // Блок статистики для пользователя
 $string['config_user_text'] = 'ДЛЯ ПОЛЬЗОВАТЕЛЯ (СТУДЕНТА)';
 
 $string['config_mean_value'] = 'Выберите способ отображения средней оценки';
-$string['config_sum_balls'] = 'Выберете способ отображения общего количества баллов';
-$string['config_task_count_comlpited'] = 'Выберете способ отображения количества выполненных заданий';
+$string['config_sum_balls'] = 'Выберите способ отображения общего количества баллов';
+$string['config_task_count_comlpited'] = 'Выберите способ отображения количества выполненных заданий';
 
-$string['configadmintext'] = 'ДЛЯ АДМИНИСТРАТОРА';
+// Блок статистики для админа курса
+$string['config_admin_text'] = 'ДЛЯ АДМИНИСТРАТОРА';
 
-$string['configmeanvalueadmin'] = 'Выберете способ отображения средней оценки по курсу';
-$string['yesnounactiveusers'] = 'Учитывать неактивных пользователей';
-$string['configuserstatistics'] = 'Выберете студента для отображения его статистики';
-$string['showusermaenavalue'] = 'Показывать среднюю оценку пользователя';
-$string['showuserballs'] = 'Показывать баллы пользователя';
-$string['showusercounttask'] = 'Показывать количество выполненных заданий пользователем';
-$string['showuserrang'] = 'Показывать место пользователя в рейтинге';
+$string['config_mean_value_for_course'] = 'Выберите способ отображения средней оценки по курсу';
+$string['config_yes_no_unactive_users'] = 'Учитывать неактивных пользователей';
+$string['config_user_statistics'] = 'Выберите студента для отображения его статистики';
+$string['config_show_user_mean_value'] = 'Показывать среднюю оценку пользователя';
+$string['config_show_user_balls'] = 'Показывать баллы пользователя';
+$string['config_show_user_count_tasks'] = 'Показывать количество выполненных заданий пользователем';
+$string['config_show_user_rang'] = 'Показывать место пользователя в рейтинге';
 
-$string['configleaderboardheader'] = 'Настройки таблицы лидеров';
+// Таблица лидера
+$string['config_leaderboard_header'] = 'Настройки таблицы лидеров';
 
-$string['showleaderboard'] = 'Показывать таблицу лидеров';
+$string['config_show_leaderboard'] = 'Показывать таблицу лидеров';
 
-$string['configranktype'] = 'Выбирите на основе чего выстраивать рейтинг';
+$string['config_rang_type'] = 'Выбирите на основе чего выстраивать рейтинг';
 
-$string['configmaxtop'] = 'Максимальное количество отображаемых записей сверху';
-$string['configmaxbot'] = 'Максимальное количество отображаемых записей снизу';
-
-
+$string['config_max_top'] = 'Максимальное количество отображаемых записей сверху';
+$string['config_max_bot'] = 'Максимальное количество отображаемых записей снизу';
 
 // Перевод для сообщение об ошибке
-$string['numeric'] = 'Передано не число';
-$string['nonzero'] = 'Число не может быть равным 0';
+$string['config_numeric'] = 'Передано не число';
+$string['config_nonzero'] = 'Число не может быть равным 0';
 
 
 /**
@@ -111,8 +112,8 @@ $string['config_select_show_both_options'] = 'Показывать оба вар
 $string['config_select_show_total'] = 'Показывать только общее количество';
 $string['config_select_show_all'] = 'Показывать все';
 $string['config_select_setting_show'] = 'Настроить, что показывать';
-$string['yes'] = 'Да';
-$string['no'] = 'Нет';
+$string['config_yes'] = 'Да';
+$string['config_no'] = 'Нет';
 
 // Перевод для типов элементов
 $string['all'] = 'Все';

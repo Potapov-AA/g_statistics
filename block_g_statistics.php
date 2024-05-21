@@ -76,13 +76,13 @@ class block_g_statistics extends block_base {
         if($user_roleid == 5) {
             $statistics = $this->get_statistics_for_user();
 
-            $showleaderboarduser = $this->config->showleaderboarduser;
+            $showleaderboarduser = $this->config->show_leaderboard_for_user;
             $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $showleaderboarduser == 0) ? false : true;
             if ($show_rating_table) {
-                $min = $this->config->maxbotuser;
-                $max = $this->config->maxbotuser;
+                $min = $this->config->max_bot_user;
+                $max = $this->config->max_top_user;
 
-                $moduletype = $this->config->ranktype;
+                $moduletype = $this->config->rang_type;
 
                 $usersInfo = $rating->get_rating($min, $max, $moduletype); 
             }
@@ -93,10 +93,10 @@ class block_g_statistics extends block_base {
             $showleaderboardadmin = $this->config->showleaderboardadmin;
             $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $showleaderboardadmin == 0) ? false : true;
             if ($show_rating_table) {
-                $min = $this->config->maxbotadmin;
-                $max = $this->config->maxtopadmin;
+                $min = $this->config->max_bot_admin;
+                $max = $this->config->max_top_admin;
 
-                $moduletype = $this->config->ranktype;
+                $moduletype = $this->config->rang_type;
 
                 $usersInfo = $rating->get_rating($min, $max, $moduletype); 
             }
@@ -150,7 +150,7 @@ class block_g_statistics extends block_base {
 
         if($show_statistics) {
 
-            $config_mean_value_admin = $this->config->meanvalueadmin;
+            $config_mean_value_admin = $this->config->mean_value_for_course;
             $show_mean_value_admin = (get_config('block_g_statistics', 'settings_show_mean_grade_for_course') == 0 || $config_mean_value_admin == 1) ? false : true;
 
             $result["show_mean_value_admin"] = $show_mean_value_admin;
@@ -158,7 +158,7 @@ class block_g_statistics extends block_base {
             $mean_value_admin = [];
             if ($show_mean_value_admin) {
 
-                $takeinactiveusers = $this->config->yesnounactiveusers == 1 ? true : false;
+                $takeinactiveusers = $this->config->yes_no_unactive_users == 1 ? true : false;
 
                 switch ($config_mean_value_admin) {
                     case 2:
@@ -212,7 +212,7 @@ class block_g_statistics extends block_base {
             }
             $result["mean_value_admin"] = $mean_value_admin;
 
-            $config_user_statistics = $this->config->userstatistics;
+            $config_user_statistics = $this->config->user_statistics;
             $show_user_statistics = (get_config('block_g_statistics', 'settings_show_user_statistics') == 0 || $config_user_statistics == 1) ? false : true;
 
             $result["show_user_statistics"] = $show_user_statistics;
@@ -229,7 +229,7 @@ class block_g_statistics extends block_base {
 
                 $user_statistics["user_name"] = $username;
                 
-                $config_show_user_maen_value = $this->config->showusermaenavalue == 1 ? true : false;
+                $config_show_user_maen_value = $this->config->show_user_mean_value == 1 ? true : false;
 
                 $result["show_user_maen_value"] = $config_show_user_maen_value;
 
@@ -248,7 +248,7 @@ class block_g_statistics extends block_base {
                     $user_statistics["user_statistics_mean_value"] = $user_statistics_mean_value;
                 }
                 
-                $config_show_user_balls = $this->config->showuserballs == 1 ? true : false;
+                $config_show_user_balls = $this->config->show_user_balls == 1 ? true : false;
 
                 $result["show_user_balls"] = $config_show_user_balls;
 
@@ -267,7 +267,7 @@ class block_g_statistics extends block_base {
                     $user_statistics["user_statistics_balls"] = $user_statistics_balls;
                 }
 
-                $config_show_user_count_task = $this->config->showusercounttask == 1 ? true : false;
+                $config_show_user_count_task = $this->config->show_user_count_tasks == 1 ? true : false;
 
                 $result["show_user_count_task"] = $config_show_user_count_task;
 
@@ -294,7 +294,7 @@ class block_g_statistics extends block_base {
                     $user_statistics["user_task_count"] = $user_task_count;
                 }
 
-                $config_show_user_rang = $this->config->showuserrang == 1 ? true : false;
+                $config_show_user_rang = $this->config->show_user_rang == 1 ? true : false;
 
                 $result["show_user_rang"] = $config_show_user_rang;
 
