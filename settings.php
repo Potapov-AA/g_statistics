@@ -27,9 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 if($ADMIN->fulltree) {
 
-    // Statistics
+    // Блок статистики
 
-    $settings->add(new admin_setting_heading('block_g_statistics/statisticshead', 
+    $settings->add(new admin_setting_heading('block_g_statistics/settings_statistics_head', 
                     get_string('statisticshead', 'block_g_statistics'), ""));
 
     $settings->add(new admin_setting_configcheckbox('block_g_statistics/showstatistics',

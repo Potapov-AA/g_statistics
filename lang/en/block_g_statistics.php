@@ -29,7 +29,7 @@ $string['g-statistics'] = '(New G-statistics block)';
 $string['pluginname'] = 'G-statistics';
 
 // Перевод для settings
-$string['statisticshead'] = 'Statistics settings';
+$string['settings_statistics_head'] = 'Statistics settings';
 
 $string['showstatistics'] = 'Dont show statistics';
 $string['showstatisticsdescription'] = 'Enable/disable statistics display';
