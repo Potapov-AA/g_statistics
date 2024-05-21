@@ -26,9 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 if($ADMIN->fulltree) {
-
     // Блок статистики
-
     $settings->add(new admin_setting_heading('block_g_statistics/settings_statistics_head', 
                     get_string('settings_statistics_head', 'block_g_statistics'), ""));
 
@@ -48,14 +46,14 @@ if($ADMIN->fulltree) {
                     get_string('settings_show_task_count_comlpited', 'block_g_statistics'),
                     get_string('settings_show_task_count_comlpited_description', 'block_g_statistics'), 1));
 
-    // Leaderboard
-    
-    $settings->add(new admin_setting_heading('block_g_statistics/ratingtablehead', 
-                    get_string('ratingtablehead', 'block_g_statistics'), ""));
 
-    $settings->add(new admin_setting_configcheckbox('block_g_statistics/showratingtable',
-                    get_string('showleaderboard', 'block_g_statistics'),
-                    get_string('showleaderboarddescription', 'block_g_statistics'), 1));
+    // Таблица лидеров 
+    $settings->add(new admin_setting_heading('block_g_statistics/settings_leaderboard_head', 
+                    get_string('settings_leaderboard_head', 'block_g_statistics'), ""));
+
+    $settings->add(new admin_setting_configcheckbox('block_g_statistics/settings_show_leaderboard',
+                    get_string('settings_show_leaderboard', 'block_g_statistics'),
+                    get_string('settings_show_leaderboard_description', 'block_g_statistics'), 1));
 
 
     // Admin

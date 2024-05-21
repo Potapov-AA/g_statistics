@@ -22,6 +22,7 @@
  * @author    Alexander Potapov <san_sanih99@mail.ru>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 $string['html:addinstance'] = 'Add a new G-statistics block';
 $string['html:myaddinstance'] = 'Add a new G-statistics block to Dashboard';
 
@@ -46,11 +47,11 @@ $string['settings_show_sum_balls_description'] = 'Enabled by default. When turne
 $string['settings_show_task_count_comlpited'] = 'Number of completed tasks';
 $string['settings_show_task_count_comlpited_description'] = 'Enabled by default. When turned off, the total number of completed tasks will not be displayed';
 
+// Перевод для отображения таблицы лидеров
+$string['settings_leaderboard_head'] = 'Leaderboard display settings';
 
-$string['ratingtablehead'] = 'Leaderboard settings';
-
-$string['showleaderboard'] = 'Show leaderboard';
-$string['showleaderboarddescription'] = 'Enable/disable leaderboard display';
+$string['settings_show_leaderboard'] = 'Show leaderboard';
+$string['settings_show_leaderboard_description'] = 'Enabled by default. When turned off, the leaderboard will not be displayed';
 
 
 $string['adminhead'] = 'Display settings for admin';

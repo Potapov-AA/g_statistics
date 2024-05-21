@@ -77,7 +77,7 @@ class block_g_statistics extends block_base {
             $statistics = $this->get_statistics_for_user();
 
             $showleaderboarduser = $this->config->showleaderboarduser;
-            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboarduser == 0) ? false : true;
+            $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $showleaderboarduser == 0) ? false : true;
             if ($show_rating_table) {
                 $min = $this->config->maxbotuser;
                 $max = $this->config->maxbotuser;
@@ -91,7 +91,7 @@ class block_g_statistics extends block_base {
             $statistics = $this->get_statistics_for_admin();
 
             $showleaderboardadmin = $this->config->showleaderboardadmin;
-            $show_rating_table = (get_config('block_g_statistics', 'showratingtable') == 0 || $showleaderboardadmin == 0) ? false : true;
+            $show_rating_table = (get_config('block_g_statistics', 'settings_show_leaderboard') == 0 || $showleaderboardadmin == 0) ? false : true;
             if ($show_rating_table) {
                 $min = $this->config->maxbotadmin;
                 $max = $this->config->maxtopadmin;

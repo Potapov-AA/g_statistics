@@ -47,11 +47,11 @@ $string['settings_show_sum_balls_description'] = 'По умолчанию вкл
 $string['settings_show_task_count_comlpited'] = 'Количество выполненных заданий';
 $string['settings_show_task_count_comlpited_description'] = 'По умолчанию включено. При выключение общее количество выполненных заданий отображаться не будет';
 
+// Перевод для отображения таблицы лидеров
+$string['settings_leaderboard_head'] = 'Настройки отображения таблицы лидеров';
 
-$string['ratingtablehead'] = 'Настройки таблицы лидеров';
-
-$string['showleaderboard'] = 'Отображать таблицу лидеров';
-$string['showleaderboarddescription'] = 'Включить/выключить отображение таблицы лидеров';
+$string['settings_show_leaderboard'] = 'Показывать таблицу лидеров';
+$string['settings_show_leaderboard_description'] = 'По умолчанию включено. При выключение таблица лидеров отображаться не будет';
 
 
 $string['adminhead'] = 'Настройки отображения для админа';
