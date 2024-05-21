@@ -25,6 +25,7 @@
 
 use block_g_statistics\statistics;
 use block_g_statistics\rating;
+use block_g_statistics\users;
 
 class block_g_statistics extends block_base {
     
@@ -71,10 +72,9 @@ class block_g_statistics extends block_base {
         }
 
         $rating = new rating();
+        $users = new users();
 
-        // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
-        $user_roleid = $this->get_user_roleid();
-
+        $user_roleid = $users->get_user_roleid();
         if($user_roleid == 5) {
             $statistics = $this->get_statistics_for_user();
 
@@ -146,6 +146,7 @@ class block_g_statistics extends block_base {
     private function get_statistics_for_admin() {
 
         $statistics = new statistics();
+        $users = new users();
 
         $result = [];
 
@@ -222,8 +223,7 @@ class block_g_statistics extends block_base {
             $user_statistics_array = [];
             if($show_user_statistics) {
 
-                // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
-                $user_info = $this->get_user_info($config_user_statistics);
+                $user_info = $users->get_user_info($config_user_statistics);
 
                 $username = '';
                 foreach($user_info as $user) {
@@ -479,50 +479,4 @@ class block_g_statistics extends block_base {
             return [];
         }
     }
-
-    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
-    // Метод получения 
-    private function get_user_roleid() {
-        global $DB, $COURSE, $USER;
-
-        $userrole = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
-            FROM {role_assignments} AS ra
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            JOIN {user} AS u ON u.id = ra.userid
-            WHERE con.contextlevel = 50 AND instanceid=:instanceid AND userid=:userid",
-            [
-                'userid' => $USER->id,
-                'instanceid' => $COURSE->id
-            ]
-        );
-
-        foreach ($userrole as $item) {
-            return $item->roleid;
-        } 
-    }
-
-    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ПОЛУЧЕНИЕ РОЛИ ПОЛЬЗОВАТЕЛЯ
-    private function get_user_info($userid) {
-        global $DB, $COURSE;
-
-        $user = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid AND userid=:userid",
-            [
-                'courseid' => $COURSE->id,
-                'userid' => $userid
-            ]
-        );
-
-        return $user;
-    }
 }
-
-
