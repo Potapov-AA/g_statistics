@@ -27,40 +27,66 @@
 
 namespace block_g_statistics;
 
+use block_g_statistics\users;
+
 defined('MOODLE_INTERNAL') || die();
 
 class rating {
 
-    function get_user_rang($userId) {
+    /**
+     * Получение места в рейтинге пользователя
+     * 
+     * @param int $userid id пользователя
+     * 
+     * @return int  место в рейтинге пользователя, если пользователя нет в рейтинге возвращается -1
+     */
+    function get_user_rang($userid) {
         $rating = $this->get_rating();
 
         foreach($rating as $user) {
 
-            if($user['id'] == $userId) return $user['rang'];
+            if($user['id'] == $userid) return $user['rang'];
         }
 
         return -1;
     }
     
+
+    /**
+     * Формирование и получение таблицы лидеров 
+     * 
+     * @param int $min количество записей снизу рейтинга
+     * @param int $max количество записей сверху рейтинга,
+     * @param int $moduleid id модуля по которому формируется рейтинг
+     * 
+     * @return array  таблица лидеров
+     */
     function get_rating($min = -1, $max = -1, $moduleid = -1) {
         global $USER;
 
-        $usersInfo = $this->get_user_info();
-        $rawgradeUsersArray = $this->get_rawgrade_for_users();
-        $activeUsersId = $this->get_active_users();
+        $users = new users();
+
+        $users_info = $users->get_users();
+        $rawgrade_users_array = $this->get_rawgrade_for_users();
+        $active_users_array = $users->get_active_users();
+
+        $active_usersid = [];
+        foreach($active_users_array as $item) {
+            array_push($active_usersid, $item->userid);
+        }
 
         $rating = [];
-        foreach($usersInfo as $user) {
+        foreach($users_info as $user) {
             $status = ($USER->id == $user->userid) ? true : false;
 
-            if(in_array($user->userid, $activeUsersId)) {
-                $ballsSum = 0;
-                foreach($rawgradeUsersArray as $item) {
+            if(in_array($user->userid, $active_usersid)) {
+                $balls_sum = 0;
+                foreach($rawgrade_users_array as $item) {
                     if($item->userid == $user->userid) {
                         if ($moduleid == -1) {
-                            $ballsSum += $item->rawgrade;
+                            $balls_sum += $item->rawgrade;
                         } else if ($item->moduleid == $moduleid) {
-                            $ballsSum += $item->rawgrade;
+                            $balls_sum += $item->rawgrade;
                         }
                     }
                 }
@@ -69,7 +95,7 @@ class rating {
                     "id" => $user->userid,
                     "firstname" => $user->firstname, 
                     "lastname" => $user->lastname,
-                    "balls" => $ballsSum,
+                    "balls" => $balls_sum,
                     "status" => $status,
                     "isuser" => true,
                 ]);
@@ -90,21 +116,21 @@ class rating {
 
         if($rating[0]['rang'] != '###') {
             $rating[0]['rang'] = 1;
-            $currentRang = 1;
-            $currentBalls = $rating[0]['balls'];
+            $current_rang = 1;
+            $current_balls = $rating[0]['balls'];
 
             for($i = 0; $i < count($rating); $i++) {
                 if($rating[$i]['rang'] == '###') {
                     break;
                 }
 
-                if($rating[$i]['balls'] < $currentBalls) {
-                    $currentRang++;
-                    $rating[$i]['rang'] = $currentRang;
-                    $currentBalls = $rating[$i]['balls'];
+                if($rating[$i]['balls'] < $current_balls) {
+                    $current_rang++;
+                    $rating[$i]['rang'] = $current_rang;
+                    $current_balls = $rating[$i]['balls'];
                 } else {
-                    $rating[$i]['rang'] = $currentRang;
-                    $currentBalls = $rating[$i]['balls'];
+                    $rating[$i]['rang'] = $current_rang;
+                    $current_balls = $rating[$i]['balls'];
                 }
             }
         }
@@ -120,26 +146,26 @@ class rating {
 
         if($min + $max >= count($rating)) return $rating;
         
-        $recordsCount = count($rating);
+        $records_count = count($rating);
 
-        $splitRating = [];
-        $currentUserAdded = false;
+        $split_rating = [];
+        $current_user_added = false;
 
         foreach($rating as $user) {
             if ($max > 0) {
                 $max--;
-                $recordsCount--;
+                $records_count--;
 
-                if ($user['status']) $currentUserAdded = true;
+                if ($user['status']) $current_user_added = true;
 
-                array_push($splitRating, $user);
+                array_push($split_rating, $user);
 
                 continue;
             } 
 
-            if ($recordsCount == $min) {
+            if ($records_count == $min) {
                 
-                array_push($splitRating, [
+                array_push($split_rating, [
                     "rang" => null,
                     "id" => null,
                     "firstname" => null, 
@@ -149,22 +175,22 @@ class rating {
                     "isuser" => false,
                 ]);
             }
-            if ($recordsCount <= $min && $recordsCount > 0) {
-                $recordsCount--;
+            if ($records_count <= $min && $records_count > 0) {
+                $records_count--;
 
-                array_push($splitRating, $user);
+                array_push($split_rating, $user);
                 continue;
             }
             
-            if ($currentUserAdded) {
-                $recordsCount--;
+            if ($current_user_added) {
+                $records_count--;
                 continue;
             } else {
-                $recordsCount--;
+                $records_count--;
                 if ($user['status']) {
-                    $currentUserAdded = true;
+                    $current_user_added = true;
 
-                    array_push($splitRating, [
+                    array_push($split_rating, [
                         "rang" => null,
                         "id" => null,
                         "firstname" => null, 
@@ -174,60 +200,25 @@ class rating {
                         "isuser" => false,
                     ]);
 
-                    array_push($splitRating, $user);
+                    array_push($split_rating, $user);
                 }
                 continue;
             }
         }
         
-
-        return $splitRating;
+        return $split_rating;
     }
 
-    private function get_user_info() {
-        global $DB, $COURSE;
 
-        $usersInfo = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
-            [
-                'courseid' => $COURSE->id,
-            ]
-        );
-
-        return $usersInfo;
-    }
-
-    private function get_active_users() {
-        global $DB, $COURSE;
-        
-        $activeUsersArray = $DB->get_records_sql(
-            "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid, gi.gradetype AS gradetype
-            FROM {grade_grades} AS gg 
-            JOIN {grade_items} AS gi ON gg.itemid = gi.id 
-            WHERE gradetype != 0 AND itemname IS NOT NULL AND gg.rawgrade IS NOT NULL AND courseid = :courseid",
-            [
-                'courseid' => $COURSE->id,
-            ]
-        );
-
-        $activeUsersId = [];
-        foreach($activeUsersArray as $item) {
-            array_push($activeUsersId, $item->userid);
-        }
-
-        return $activeUsersId;
-    }
-
+    /**
+     * Получение баллов пользователей
+     * 
+     * @return array баллы пользователей
+     */
     private function get_rawgrade_for_users() {
         global $DB, $COURSE;
 
-        $rawgradeUsersArray = $DB->get_records_sql(
+        $rawgrade_users_array = $DB->get_records_sql(
             "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid, gi.gradetype AS gradetype, m.id AS moduleid
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
@@ -238,12 +229,13 @@ class rating {
             ]
         );
 
-        
-
-        return $rawgradeUsersArray;
+        return $rawgrade_users_array;
     }
 
 
+    /**
+     * Функция сортировки для таблицы лидеров
+     */
     private function rating_sort($a, $b) {
         if ($a['balls'] == $b['balls']) {
             return 0;

@@ -22,8 +22,13 @@
  * @author    Alexander Potapov <san_sanih99@mail.ru>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use block_g_statistics\users;
+
 class block_g_statistics_edit_form extends block_edit_form {
     protected function specific_definition($mform) {
+
+        $users = new users();
 
         // Отображать статистику
         $settings_show_statistics = get_config('block_g_statistics', 'settings_show_statistics') == 0 ? true : false;
@@ -159,8 +164,7 @@ class block_g_statistics_edit_form extends block_edit_form {
             $settings_show_user_statistics = get_config('block_g_statistics', 'settings_show_user_statistics') == 1 ? true : false;
             if ($settings_show_user_statistics) {
 
-                // TODO: ПЕРЕНЕСТИ МЕТОД ПОЛУЧЕНИЯ СПИСКА ВСЕХ ПОЛЬЗОВАТЕЛЕЙ В ОТДЕЛЬНЫЙ КЛАСС
-                $users = $this->get_users();
+                $users = $users->get_users();
 
                 $options_for_user_statistics = [1 => get_string('config_select_dont_show', 'block_g_statistics')];
 
@@ -275,27 +279,7 @@ class block_g_statistics_edit_form extends block_edit_form {
             $mform->setDefault('config_max_bot_admin', '5');
         }
     }
-
-    // TODO: ПЕРЕНЕСТИ В ОТДЕЛЬНЫЙ КЛАСС ДЛЯ РАБОТЫ С ПОЛЬЗОВАТЕЛЯМИ
-    private function get_users() {
-        global $DB, $COURSE;
-
-        $users = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
-            [
-                'courseid' => $COURSE->id,
-            ]
-        );
-
-        return $users;
-    }
-
+    
 
     /**
      * Проверяет все ли элементы в массиве являются false
