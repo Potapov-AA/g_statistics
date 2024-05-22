@@ -167,12 +167,12 @@ class block_g_statistics extends block_base {
                     case 2:
                         if ($takeinactiveusers) {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(2, true) . '/100',
                                 "description" => get_string('description_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(2, false) . '/100',
                                 "description" => get_string('description_count_tasks_without_inactive_users', 'block_g_statistics')
                             ]);
                         }
@@ -180,12 +180,12 @@ class block_g_statistics extends block_base {
                     case 3:
                         if ($takeinactiveusers) {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(3, true) . '/100',
                                 "description" => get_string('description_max_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(3, false) . '/100',
                                 "description" => get_string('description_max_count_tasks_withpout_inactive_users', 'block_g_statistics'),
                             ]);
                         }
@@ -193,20 +193,20 @@ class block_g_statistics extends block_base {
                     case 4:
                         if ($takeinactiveusers) {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(2, true) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(2, true) . '/100',
                                 "description" => get_string('description_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(3, true) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(3, true) . '/100',
                                 "description" => get_string('description_max_count_tasks_with_inactive_users', 'block_g_statistics'),
                             ]);
                         } else {
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(2, false) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(2, false) . '/100',
                                 "description" => get_string('description_count_tasks_without_inactive_users', 'block_g_statistics')
                             ]);
                             array_push($mean_value_for_course_array, [
-                                "value" => $statistics->get_mean_value_for_all_users(3, false) . '/100',
+                                "value" => $statistics->get_mean_value_for_course(3, false) . '/100',
                                 "description" => get_string('description_max_count_tasks_withpout_inactive_users', 'block_g_statistics'),
                             ]);
                         }
