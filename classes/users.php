@@ -31,27 +31,45 @@ defined('MOODLE_INTERNAL') || die();
 
 class users {
 
+    /**
+     * Получение роли пользователя
+     * 
+     * @param int $userid id пользователя (если переданно null, то будет проверка по текущему)
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return int roleid индитификатор роли пользователя или -1, если пользователь на курсе не найден
+     */
+    public function get_user_roleid($userid=null, $courseid=null) {
 
-    // Получение роли текущего пользователя
-    public function get_user_roleid() {
+        $user_info = $this->get_user_info_TEMP($userid, $courseid);
+
+        foreach ($user_info as $item) {
+            return $item->roleid;
+        }
+
+        return -1;
+    }
+
+    // TODO: СДЕЛАТЬ УНИВЕРСАЛЬНОЙ ПО ПОЛУЧЕНИЮ ИНФОРМАЦИИ О ПОЛЬЗОВАТЕЛЕ, ПОСЛЕ ЧЕГО УБРАТЬ TEMP
+    private function get_user_info_TEMP($userid, $courseid) {
+
         global $DB, $COURSE, $USER;
 
-        $user_role = $DB->get_records_sql(
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
+
+        $user_info = $DB->get_records_sql(
             "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
             FROM {role_assignments} AS ra
             JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            JOIN {user} AS u ON u.id = ra.userid
             WHERE con.contextlevel = 50 AND instanceid=:instanceid AND userid=:userid",
             [
-                'userid' => $USER->id,
-                'instanceid' => $COURSE->id
+                'userid' => $userid,
+                'instanceid' => $courseid
             ]
         );
 
-        foreach ($user_role as $item) {
-            return $item->roleid;
-        } 
+        return $user_info;
     }
 
 
