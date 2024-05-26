@@ -164,11 +164,11 @@ class block_g_statistics_edit_form extends block_edit_form {
             $settings_show_user_statistics = get_config('block_g_statistics', 'settings_show_user_statistics') == 1 ? true : false;
             if ($settings_show_user_statistics) {
 
-                $users = $users->get_users();
+                $users_info = $users->get_users_info();
 
                 $options_for_user_statistics = [1 => get_string('config_select_dont_show', 'block_g_statistics')];
 
-                foreach($users as $user) {
+                foreach($users_info as $user) {
                     $options_for_user_statistics[$user->userid] = $user->firstname . ' ' . $user->lastname;
                 }
 

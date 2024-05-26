@@ -106,4 +106,30 @@ class users_test extends \advanced_testcase {
 
         $this->assertEmpty($user_info);
     }
+
+
+    /**
+     * Тест на получение информации по всем пользователям на курсе
+     * 
+     * Проверяется количество студентов на курсе
+     * Проверяется, что записи содержат необходимые поля 
+     */
+    public function test_get_users_info() {
+
+        $users = new users();
+
+        $course = $this->data['course']; // Текущий курс
+
+        $users_info = $users->get_users_info($course->id);
+
+        // Проверяется количество студентов на курсе (должно быть 5)
+        $this->assertCount(5, $users_info, 'На курсе больше или меньше студентов');
+
+        // Проверяется, что каждый из студентов содержит поля (userid, firstname, lastname)
+        foreach($users_info as $user) {
+            $this->assertArrayHasKey('userid', (array) $user, 'Ключ userid не найден');
+            $this->assertArrayHasKey('firstname', (array) $user, 'Ключ firstname не найден');
+            $this->assertArrayHasKey('lastname', (array) $user, 'Ключ lastname не найден');
+        }
+    }
 }

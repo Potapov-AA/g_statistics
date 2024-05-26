@@ -47,7 +47,7 @@ class statistics {
 
         $users = new users();
 
-        $user_role = $users->get_users_on_course();
+        $users_info = $users->get_users_info();
 
         $active_users_array = $users->get_active_users();
 
@@ -57,11 +57,11 @@ class statistics {
         }
         if(count($active_users_id) == 0) return '-//-';
 
-        $user_count = count($user_role);
+        $user_count = count($users_info);
 
         $rawgrade_sum = 0;
 
-        foreach ($user_role as $user) {
+        foreach ($users_info as $user) {
             $userid = $user->userid;
 
             if (in_array($userid, $active_users_id)) {

@@ -66,7 +66,7 @@ class rating {
 
         $users = new users();
 
-        $users_info = $users->get_users();
+        $users_info = $users->get_users_info();
         $rawgrade_users_array = $this->get_rawgrade_for_users();
         $active_users_array = $users->get_active_users();
 
