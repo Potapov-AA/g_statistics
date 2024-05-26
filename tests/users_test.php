@@ -30,8 +30,6 @@ class users_test extends \advanced_testcase {
      */
     public function test_get_user_roleid() {
 
-        global $DB;
-
         $users = new users();
 
         $course = $this->data['course']; // Текущий курс
@@ -76,4 +74,36 @@ class users_test extends \advanced_testcase {
     }
 
     
+    /**
+     * Тест на получение информации пользователя на курсе
+     * 
+     * Проверяется корректность получаемого объекта для:
+     * пользователя находящегося на курсе
+     * пользователя не находящегося на курсе
+     * 
+     * Проверяется корретность существующих полей
+     */
+    public function test_get_user_info() {
+
+        $users = new users();
+
+        $course = $this->data['course']; // Текущий курс
+
+        // Проверка для пользователя находящегося на курсе (user1)
+        // Массив не должен быть пустой
+        // Массив содержит следующие поля (firstname, lastname)
+        $user = $this->data['user1'];
+        $user_info = (array) $users->get_user_info($user->id, $course->id);
+
+        $this->assertArrayHasKey('firstname', $user_info, 'Ключ firstname не найден');
+        $this->assertArrayHasKey('lastname', $user_info, 'Ключ lastname не найден');
+        $this->assertNotCount(0, $user_info, 'Массив не содержит элементов');
+
+        // Проверка для пользователя не находящегося на курсе (user10)
+        // должен быть пустой массив
+        $user = $this->data['user10'];
+        $user_info = (array) $users->get_user_info($user->id, $course->id);
+
+        $this->assertEmpty($user_info);
+    }
 }
