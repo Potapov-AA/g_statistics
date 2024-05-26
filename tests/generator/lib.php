@@ -51,6 +51,85 @@ class block_g_statistics_generator extends testing_block_generator {
         $DB->set_field('user', 'lastaccess', time(), array('id' => $user->id));
         $data['user10'] = $user;
 
+        // Создание оцениваемых модулей на курсе
+        // Создание 5-ти тестов
+        for ($i = 1; $i <= 5; $i++) {
+            $module = $generator->create_grade_item(array('courseid' => $course->id, 
+                                                        'itemname' => 'quiz' . $i, 
+                                                        'itemtype' => 'mod', 
+                                                        'itemmodule' => 'quiz',  
+                                                        'gradetype' => 1, 
+                                                        'grademax' => 100));
+            $data['quiz' . $i] = $module;
+        }
+
+        // Создание 2 лекций с оценивание
+        for ($i = 1; $i <= 2; $i++) {
+            $module = $generator->create_grade_item(array('courseid' => $course->id, 
+                                                        'itemname' => 'lesson' . $i, 
+                                                        'itemtype' => 'mod', 
+                                                        'itemmodule' => 'lesson',  
+                                                        'gradetype' => 1, 
+                                                        'grademax' => 10));
+            $data['lesson' . $i] = $module;
+        }
+
+        // Создание 2 лекций без оценивания
+        for ($i = 3; $i <= 4; $i++) {
+            $module = $generator->create_grade_item(array('courseid' => $course->id, 
+                                                        'itemname' => 'lesson' . $i, 
+                                                        'itemmodule' => 'lesson',  
+                                                        'gradetype' => 0, 
+                                                        'grademax' => 10));
+            $data['lesson' . $i] = $module;
+        }
+        
+        
+        // Создание оценок за задания для пользователей
+        // Для пользователей user1, user2, user3 есть выполненные тесты и задания
+        // [USER1]
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz1']->id,
+                                                    'userid' => $data['user1']->id,
+                                                    'rawgrade' => 100));
+        $data['grade1'] = $grade;
+
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz2']->id,
+                                                    'userid' => $data['user1']->id,
+                                                    'rawgrade' => 100));
+        $data['grade2'] = $grade;
+
+        $grade = $generator->create_grade_grade(array('itemid' => $data['lesson1']->id,
+                                                    'userid' => $data['user1']->id,
+                                                    'rawgrade' => 10));
+        $data['grade3'] = $grade;
+
+        // [USER2]
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz3']->id,
+                                                    'userid' => $data['user2']->id,
+                                                    'rawgrade' => 80));
+        $data['grade4'] = $grade;
+
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz4']->id,
+                                                    'userid' => $data['user2']->id,
+                                                    'rawgrade' => 80));
+        $data['grade5'] = $grade;
+
+        $grade = $generator->create_grade_grade(array('itemid' => $data['lesson2']->id,
+                                                    'userid' => $data['user1']->id,
+                                                    'rawgrade' => 5));
+        $data['grade6'] = $grade;
+
+        // [USER3]
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz1']->id,
+                                                    'userid' => $data['user3']->id,
+                                                    'rawgrade' => 60));
+        $data['grade7'] = $grade;
+
+        $grade = $generator->create_grade_grade(array('itemid' => $data['quiz5']->id,
+                                                    'userid' => $data['user3']->id,
+                                                    'rawgrade' => 60));
+        $data['grade8'] = $grade;
+
         return $data;
     }
 }

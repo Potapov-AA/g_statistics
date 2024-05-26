@@ -85,9 +85,21 @@ class users {
     }
 
 
+    /**
+     * Получение списка активных пользователей
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с списком активных пользователей
+     */
+    public function get_active_users($courseid=null) {
+
+        $active_users = $this->get_active_users_DB($courseid);
+        return $active_users;
+    }
+
 
     // PRIVATE FUNCTIONS
-
     /**
      * Получение информации по пользователю
      * 
@@ -147,28 +159,29 @@ class users {
     }
 
 
+    /**
+     * Получение списка активных пользователей
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с списком активных пользователей
+     */
+    private function get_active_users_DB($courseid) {
 
-
-
-
-
-
-
-
-    // Получение id активных пользователей
-    public function get_active_users() {
         global $DB, $COURSE;
 
-        $active_users_array = $DB->get_records_sql(
+        if(is_null($courseid)) $courseid = $COURSE->id;
+
+        $active_users = $DB->get_records_sql(
             "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid, gi.gradetype AS gradetype
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
             WHERE gradetype != 0 AND itemname IS NOT NULL AND gg.rawgrade IS NOT NULL AND courseid = :courseid",
             [
-                'courseid' => $COURSE->id,
+                'courseid' => $courseid,
             ]
         );
 
-        return $active_users_array;
+        return $active_users;
     }
 }

@@ -132,4 +132,22 @@ class users_test extends \advanced_testcase {
             $this->assertArrayHasKey('lastname', (array) $user, 'Ключ lastname не найден');
         }
     }
+
+
+    /**
+     * Тест на получение списка активных пользователей
+     * 
+     * Проверяется количество активных пользователей на курсе
+     */
+    public function test_get_active_users() {
+
+        $users = new users();
+
+        $course = $this->data['course']; // Текущий курс
+
+        $users_info = $users->get_active_users($course->id);
+
+        // Проверка на количество активных пользователей
+        $this->assertCount(3, $users_info, 'Активных студентов больше или меньше заданного числа');
+    }
 }
