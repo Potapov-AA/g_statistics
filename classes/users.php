@@ -31,104 +31,157 @@ defined('MOODLE_INTERNAL') || die();
 
 class users {
 
+    /**
+     * Получение роли пользователя
+     * 
+     * @param int $userid id пользователя (если переданно null, то будет проверка по текущему)
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return int roleid индитификатор роли пользователя или -1, если пользователь на курсе не найден
+     */
+    public function get_user_roleid($userid=null, $courseid=null) {
 
-    // Получение роли текущего пользователя
-    public function get_user_roleid() {
+        $user_info = $this->get_user_info_DB($userid, $courseid);
+
+        foreach ($user_info as $item) {
+            return $item->roleid;
+        }
+
+        return -1;
+    }
+
+
+    /**
+     * Получение информации по пользователю
+     * 
+     * @param int $userid id пользователя (если переданно null, то будет проверка по текущему)
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array первый элемент ассоциативного массива с информацией о пользователе или пустой массив, если пользователь не найден
+     */
+    public function get_user_info($userid=null, $courseid=null) {
+
+        $user_info = $this->get_user_info_DB($userid, $courseid);
+
+        foreach ($user_info as $item) {
+            return $item;
+        }
+
+        return [];
+    }
+
+
+    /**
+     * Получение информации по всем пользователям
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с информацией по пользователям
+     */
+    public function get_users_info($courseid=null) {
+
+        $users_info = $this->get_users_info_DB($courseid);
+        return $users_info;
+    }
+
+
+    /**
+     * Получение списка активных пользователей
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с списком активных пользователей
+     */
+    public function get_active_users($courseid=null) {
+
+        $active_users = $this->get_active_users_DB($courseid);
+        return $active_users;
+    }
+
+
+    // PRIVATE FUNCTIONS
+    /**
+     * Получение информации по пользователю
+     * 
+     * @param int $userid id пользователя (если переданно null, то будет проверка по текущему)
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с информацией по пользователю
+     */
+    private function get_user_info_DB($userid, $courseid) {
+
         global $DB, $COURSE, $USER;
 
-        $user_role = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
+
+        $user_info = $DB->get_records_sql(
+            "SELECT ra.id AS id, u.firstname AS firstname, u.lastname AS lastname, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
             FROM {role_assignments} AS ra
             JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            JOIN {user} AS u ON u.id = ra.userid
+            JOIN {user} AS u ON ra.userid = u.id
             WHERE con.contextlevel = 50 AND instanceid=:instanceid AND userid=:userid",
             [
-                'userid' => $USER->id,
-                'instanceid' => $COURSE->id
+                'userid' => $userid,
+                'instanceid' => $courseid
             ]
         );
 
-        foreach ($user_role as $item) {
-            return $item->roleid;
-        } 
+        return $user_info;
     }
 
 
-    // Получить информацию по пользователю, студенту/участнику курса
-    public function get_user_info($userid) {
+    /**
+     * Получение информации по всем пользователям
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с информацией по пользователям
+     */
+    private function get_users_info_DB($courseid) {
+
         global $DB, $COURSE;
 
-        $user = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid AND userid=:userid",
-            [
-                'courseid' => $COURSE->id,
-                'userid' => $userid
-            ]
-        );
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
-        return $user;
-    }
-
-    
-    // Получение информации по всем пользователям
-    public function get_users() {
-        global $DB, $COURSE;
-
-        $users = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname
-            FROM {user} AS u
-            JOIN {role_assignments} AS ra ON ra.userid = u.id
-            JOIN {role} AS r ON ra.roleid = r.id 
-            JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE r.shortname = 'student' AND con.contextlevel = 50 AND c.id = :courseid",
-            [
-                'courseid' => $COURSE->id,
-            ]
-        );
-
-        return $users;
-    }
-
-    // Получение списка пользователей на курсе
-    public function get_users_on_course() {
-        global $DB, $COURSE;
-
-        $user_role = $DB->get_records_sql(
-            "SELECT ra.id AS id, ra.roleid AS roleid, ra.userid AS userid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
+        $users_info = $DB->get_records_sql(
+            "SELECT ra.id AS id, ra.userid AS userid, u.firstname AS firstname, u.lastname AS lastname, ra.roleid AS roleid, con.instanceid AS instanceid, con.contextlevel AS contextlevel
             FROM {role_assignments} AS ra
             JOIN {context} AS con ON ra.contextid = con.id
-            JOIN {course} AS c ON con.instanceid = c.id
-            WHERE con.contextlevel = 50 AND roleid = 5 AND instanceid=:instanceid ",
+            JOIN {user} AS u ON ra.userid = u.id
+            WHERE roleid = 5 AND con.contextlevel = 50 AND instanceid=:instanceid",
             [
-                'instanceid' => $COURSE->id
+                'instanceid' => $courseid,
             ]
         );
 
-        return $user_role;
+        return $users_info;
     }
 
-    // Получение id активных пользователей
-    public function get_active_users() {
+
+    /**
+     * Получение списка активных пользователей
+     * 
+     * @param int $courseid id курса (если переданно null, то будет проверка по текущему)
+     * 
+     * @return array ассоциативный массив с списком активных пользователей
+     */
+    private function get_active_users_DB($courseid) {
+
         global $DB, $COURSE;
 
-        $active_users_array = $DB->get_records_sql(
+        if(is_null($courseid)) $courseid = $COURSE->id;
+
+        $active_users = $DB->get_records_sql(
             "SELECT  DISTINCT gg.userid AS userid, gi.courseid AS courseid, gi.gradetype AS gradetype
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id 
             WHERE gradetype != 0 AND itemname IS NOT NULL AND gg.rawgrade IS NOT NULL AND courseid = :courseid",
             [
-                'courseid' => $COURSE->id,
+                'courseid' => $courseid,
             ]
         );
 
-        return $active_users_array;
+        return $active_users;
     }
 }

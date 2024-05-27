@@ -41,31 +41,27 @@ class statistics {
      * 
      * @return int средняя оценка по курсу
      */
-    function get_mean_value_for_course($choise, $consider_inactive_user = true) {
-
-        global $DB, $COURSE;
+    function get_mean_value_for_course($choise, $consider_inactive_user = true, $courseid = null) {
 
         $users = new users();
-
-        $user_role = $users->get_users_on_course();
-
-        $active_users_array = $users->get_active_users();
+        $users_info = $users->get_users_info($courseid);
+        $active_users_array = $users->get_active_users($courseid);
 
         $active_users_id = [];
         foreach($active_users_array as $item) {
             array_push($active_users_id, $item->userid);
         }
-        if(count($active_users_id) == 0) return '-//-';
+        if(count($active_users_id) == 0) return -1;
 
-        $user_count = count($user_role);
+        $user_count = count($users_info);
 
         $rawgrade_sum = 0;
 
-        foreach ($user_role as $user) {
+        foreach ($users_info as $user) {
             $userid = $user->userid;
 
             if (in_array($userid, $active_users_id)) {
-                $rawgrade_sum += $this->get_mean_value($choise, $userid);
+                $rawgrade_sum += $this->get_mean_value($choise, $userid, $courseid);
             } else {
                 if (!$consider_inactive_user) $user_count--;
             }
@@ -83,9 +79,9 @@ class statistics {
      * 
      * @return int средняя оценка по курсу для пользователя, -1 - если пользователь не найден или передан некорректный $choise
      */
-    function get_mean_value($choise, $userid = -1) {
+    function get_mean_value($choise, $userid = null, $courseid = null) {
 
-        $grades_array = $this->get_grades_array($userid);
+        $grades_array = $this->get_grades_array($userid, $courseid);
 
         if(count($grades_array) == 0) return -1;
 
@@ -102,7 +98,7 @@ class statistics {
             case 2: // Относительно количества пройденных заданий
                 return round(($rawgrade_user_sum_normal / $count_completed_tasks));
             case 3: // Относительно общего количества заданий
-                return round(($rawgrade_user_sum_normal / $this->get_count_tasks_for_course($userid)));
+                return round(($rawgrade_user_sum_normal / $this->get_count_tasks_for_course($userid, $courseid)));
             default: 
                 return -1;
         }
@@ -117,10 +113,11 @@ class statistics {
      * 
      * @return int общее количество баллов для пользователя, -1 - если пользователь не найден или передан некорректный $choise
      */
-    function get_balls($choise, $userid = -1) {
-        $grades_array = $this->get_grades_array($userid);
+    function get_balls($choise, $userid = null, $courseid = null) {
 
-        if (count($grades_array) == 0) return '-//-';
+        $grades_array = $this->get_grades_array($userid, $courseid);
+
+        if (count($grades_array) == 0) return -1;
 
         $rawgrade_user_sum = 0;
         $rawgrade_max_user_sum = 0;
@@ -134,9 +131,9 @@ class statistics {
             case 2: // Относительно количества пройденных заданий
                 return round($rawgrade_user_sum) . '/' . round($rawgrade_max_user_sum);
             case 3: // Относительно общего количества заданий
-                return round($rawgrade_user_sum) . '/' . $this->get_grademax_for_course();
+                return round($rawgrade_user_sum) . '/' . $this->get_grademax_for_course($courseid);
             default: 
-                return '-//-';
+                return -1;
         }
     }
 
@@ -149,8 +146,8 @@ class statistics {
      * 
      * @return string количество заданий в формате x/y, где x - количество выполненных заданий, y - общее количество заданий
      */
-    function get_count_complited_tasks($type=-1, $userid=-1) {
-        return $this->get_count_complited_modules_for_user($type, $userid) . '/' . $this->get_count_complited_modules_for_course($type);
+    function get_count_complited_tasks($type=-1, $userid=null, $courseid=null) {
+        return $this->get_count_complited_modules_for_user($type, $userid, $courseid) . '/' . $this->get_count_complited_modules_for_course($type, $courseid);
     }
 
 
@@ -161,12 +158,13 @@ class statistics {
      * 
      * @return array ассоциативный массив в качестве ключа {grade_grades.id}
      */
-    private function get_grades_array($userid) {
+    private function get_grades_array($userid, $courseid) {
+
         global $DB, $USER, $COURSE;
 
-        if($userid == -1) {
-            $userid = $USER->id;
-        } 
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
+
 
         $grades_array = $DB->get_records_sql(
             "SELECT gg.id AS id, gi.courseid AS courseid, gg.userid AS userid, gi.itemname AS itemname, gi.gradetype AS gradetype, gg.rawgrade AS rawgrade, gg.rawgrademax AS rawgrademax
@@ -175,7 +173,7 @@ class statistics {
             WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND  userid = :userid AND courseid = :courseid",
             [
                 'userid' => $userid,
-                'courseid' => $COURSE->id
+                'courseid' => $courseid
             ]
         );
 
@@ -188,19 +186,23 @@ class statistics {
      * 
      * @return int общее количество баллов за курс
      */
-    private function get_grademax_for_course() {
+    private function get_grademax_for_course($courseid) {
         global $DB, $COURSE;
 
-        $rewgrade_sum_for_course = array_key_first($DB->get_records_sql(
-            "SELECT grademax 
-            FROM {grade_items} 
-            WHERE itemnumber IS NULL AND courseid = :courseid",
-            [
-                'courseid' => $COURSE->id
-            ]
-        ));
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
-        return round($rewgrade_sum_for_course);
+        $rewgrade_sum_for_course = $DB->get_records_sql(
+            "SELECT id, grademax, gradetype 
+            FROM {grade_items} 
+            WHERE itemmodule IS NULL AND courseid = :courseid",
+            [
+                'courseid' => $courseid
+            ]
+        );
+
+        foreach($rewgrade_sum_for_course as $item) {
+            return round($item->grademax);
+        }
     }
 
 
@@ -211,21 +213,20 @@ class statistics {
      * 
      * @return int общее количество заданий на курсе
      */
-    private function get_count_tasks_for_course($userid) {
+    private function get_count_tasks_for_course($userid, $courseid) {
         global $DB, $USER, $COURSE;
         
-        if($userid == -1) {
-            $userid = $USER->id;
-        } 
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         $grades_array = $DB->get_records_sql(
             "SELECT gg.id AS id
             FROM {grade_grades} AS gg 
             JOIN {grade_items} AS gi ON gg.itemid = gi.id
-            WHERE gradetype != 0 AND itemname IS NOT NULL AND  userid = :userid AND courseid = :courseid",
+            WHERE gradetype != 0 AND itemname IS NOT NULL AND userid = :userid AND courseid = :courseid",
             [
                 'userid' => $userid,
-                'courseid' => $COURSE->id
+                'courseid' => $courseid
             ]
         );
 
@@ -240,8 +241,10 @@ class statistics {
      * 
      * @return int количество заданий, которые можно пройти
      */
-    private function get_count_complited_modules_for_course($type) {
+    private function get_count_complited_modules_for_course($type, $courseid) {
         global $DB, $COURSE;
+
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         if ($type == -1) {
             $all_modules_count = count($DB->get_records_sql(
@@ -249,7 +252,7 @@ class statistics {
                                     FROM {course_modules}
                                     WHERE completion != 0 AND course = :courseid",
                                     [
-                                        'courseid' => $COURSE->id
+                                        'courseid' => $courseid
                                     ]
                                 ));
 
@@ -261,7 +264,7 @@ class statistics {
                             FROM {course_modules}
                             WHERE completion != 0 AND course = :courseid AND module = :type",
                             [
-                                'courseid' => $COURSE->id,
+                                'courseid' => $courseid,
                                 'type' => $type
                             ]
                         ));
@@ -278,12 +281,11 @@ class statistics {
      * 
      * @return int количества пройденных заданий пользователем
      */
-    private function get_count_complited_modules_for_user($type, $userid) {
+    private function get_count_complited_modules_for_user($type, $userid, $courseid) {
         global $DB, $COURSE, $USER;
 
-        if ($userid == -1) {
-            $userid = $USER->id;
-        }
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         if($type == -1) {
             $all_modules_complited_count = count($DB->get_records_sql(
@@ -292,7 +294,7 @@ class statistics {
                                             JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
                                             WHERE course = :courseid AND userid = :userid",
                                             [
-                                                'courseid' => $COURSE->id,
+                                                'courseid' => $courseid,
                                                 'userid' => $userid,
                                             ]
                                         ));
@@ -306,7 +308,7 @@ class statistics {
                                     JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
                                     WHERE course = :courseid AND userid = :userid AND module = :type",
                                     [
-                                        'courseid' => $COURSE->id,
+                                        'courseid' => $courseid,
                                         'userid' => $userid,
                                         'type' => $type,
                                     ]

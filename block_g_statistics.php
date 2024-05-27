@@ -223,13 +223,8 @@ class block_g_statistics extends block_base {
             $user_statistics_array = [];
             if($show_user_statistics) {
 
-                $user_info = $users->get_user_info($config_user_statistics);
-
-                $username = '';
-                foreach($user_info as $user) {
-                    $username = $user->firstname . ' ' . $user->lastname;
-                }
-
+                $user_info = $users->get_user_info($userid=$config_user_statistics);
+                $username = $user_info->firstname . ' ' . $user_info->lastname;
                 $user_statistics_array["user_name"] = $username;
                 
                 
