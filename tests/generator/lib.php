@@ -195,6 +195,90 @@ class block_g_statistics_generator extends testing_block_generator {
                                                     'userid' => $data['user3']->id,
                                                     'rawgrade' => null));
 
+
+        // Вставка завершенных заданий
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 17, 
+                                                    'completion' => 2));
+        
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 17, 
+                                                    'completion' => 2));
+
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 17, 
+                                                    'completion' => 2));
+        
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 17, 
+                                                    'completion' => 2));
+        
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 17, 
+                                                    'completion' => 2));
+
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 14, 
+                                                    'completion' => 2));
+
+        $DB->insert_record('course_modules', array('course' => $course->id, 
+                                                    'module' => 14, 
+                                                    'completion' => 2));
+
+        // Заполнение завершенных заданий пользователями
+        // [USER1] 
+        //      quiz1 - 207000
+        //      quiz2 - 207001
+        //      lesson1 - 207005
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207000, 
+                                                                'userid' => $data['user1']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+                                                        
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207001, 
+                                                                'userid' => $data['user1']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207005, 
+                                                                'userid' => $data['user1']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+
+        // Заполнение завершенных заданий пользователями
+        // [USER2] 
+        //      quiz3 - 207002
+        //      quiz4 - 207003
+        //      lesson2 - 207006
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207002, 
+                                                                'userid' => $data['user2']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+                                                        
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207003, 
+                                                                'userid' => $data['user2']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207006, 
+                                                                'userid' => $data['user2']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+
+        // Заполнение завершенных заданий пользователями
+        // [USER3] 
+        //      quiz1 - 207000
+        //      quiz5 - 207004
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207000, 
+                                                                'userid' => $data['user3']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));
+                                                        
+        $DB->insert_record('course_modules_completion', array('coursemoduleid' => 207004, 
+                                                                'userid' => $data['user3']->id, 
+                                                                'completionstate' => 1,
+                                                                'timemodified' => time()));                                                    
+
         return $data;
     }
 }

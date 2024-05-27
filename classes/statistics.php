@@ -146,8 +146,8 @@ class statistics {
      * 
      * @return string количество заданий в формате x/y, где x - количество выполненных заданий, y - общее количество заданий
      */
-    function get_count_complited_tasks($type=-1, $userid=-1) {
-        return $this->get_count_complited_modules_for_user($type, $userid) . '/' . $this->get_count_complited_modules_for_course($type);
+    function get_count_complited_tasks($type=-1, $userid=null, $courseid=null) {
+        return $this->get_count_complited_modules_for_user($type, $userid, $courseid) . '/' . $this->get_count_complited_modules_for_course($type, $courseid);
     }
 
 
@@ -241,8 +241,10 @@ class statistics {
      * 
      * @return int количество заданий, которые можно пройти
      */
-    private function get_count_complited_modules_for_course($type) {
+    private function get_count_complited_modules_for_course($type, $courseid) {
         global $DB, $COURSE;
+
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         if ($type == -1) {
             $all_modules_count = count($DB->get_records_sql(
@@ -250,7 +252,7 @@ class statistics {
                                     FROM {course_modules}
                                     WHERE completion != 0 AND course = :courseid",
                                     [
-                                        'courseid' => $COURSE->id
+                                        'courseid' => $courseid
                                     ]
                                 ));
 
@@ -262,7 +264,7 @@ class statistics {
                             FROM {course_modules}
                             WHERE completion != 0 AND course = :courseid AND module = :type",
                             [
-                                'courseid' => $COURSE->id,
+                                'courseid' => $courseid,
                                 'type' => $type
                             ]
                         ));
@@ -279,12 +281,11 @@ class statistics {
      * 
      * @return int количества пройденных заданий пользователем
      */
-    private function get_count_complited_modules_for_user($type, $userid) {
+    private function get_count_complited_modules_for_user($type, $userid, $courseid) {
         global $DB, $COURSE, $USER;
 
-        if ($userid == -1) {
-            $userid = $USER->id;
-        }
+        if(is_null($userid)) $userid = $USER->id;
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         if($type == -1) {
             $all_modules_complited_count = count($DB->get_records_sql(
@@ -293,7 +294,7 @@ class statistics {
                                             JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
                                             WHERE course = :courseid AND userid = :userid",
                                             [
-                                                'courseid' => $COURSE->id,
+                                                'courseid' => $courseid,
                                                 'userid' => $userid,
                                             ]
                                         ));
@@ -307,7 +308,7 @@ class statistics {
                                     JOIN {course_modules} AS cm ON cmc.coursemoduleid = cm.id
                                     WHERE course = :courseid AND userid = :userid AND module = :type",
                                     [
-                                        'courseid' => $COURSE->id,
+                                        'courseid' => $courseid,
                                         'userid' => $userid,
                                         'type' => $type,
                                     ]
