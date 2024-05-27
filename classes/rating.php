@@ -40,8 +40,8 @@ class rating {
      * 
      * @return int  место в рейтинге пользователя, если пользователя нет в рейтинге возвращается -1
      */
-    function get_user_rang($userid) {
-        $rating = $this->get_rating();
+    function get_user_rang($userid, $courseid = null) {
+        $rating = $this->get_rating($min = -1, $max = -1, $moduleid = -1, $courseid);
 
         foreach($rating as $user) {
 
@@ -61,19 +61,21 @@ class rating {
      * 
      * @return array  таблица лидеров
      */
-    function get_rating($min = -1, $max = -1, $moduleid = -1) {
+    function get_rating($min = -1, $max = -1, $moduleid = -1, $courseid = null) {
         global $USER;
 
         $users = new users();
 
-        $users_info = $users->get_users_info();
-        $rawgrade_users_array = $this->get_rawgrade_for_users();
-        $active_users_array = $users->get_active_users();
+        $users_info = $users->get_users_info($courseid);
+        $active_users_array = $users->get_active_users($courseid);
+        $rawgrade_users_array = $this->get_rawgrade_for_users($courseid);
+        
 
         $active_usersid = [];
         foreach($active_users_array as $item) {
             array_push($active_usersid, $item->userid);
         }
+
 
         $rating = [];
         foreach($users_info as $user) {
@@ -215,8 +217,10 @@ class rating {
      * 
      * @return array баллы пользователей
      */
-    private function get_rawgrade_for_users() {
+    private function get_rawgrade_for_users($courseid) {
         global $DB, $COURSE;
+
+        if(is_null($courseid)) $courseid = $COURSE->id;
 
         $rawgrade_users_array = $DB->get_records_sql(
             "SELECT gg.id AS id, gg.userid AS userid, gg.rawgrade AS rawgrade, gi.courseid AS courseid, gi.gradetype AS gradetype, m.id AS moduleid
@@ -225,7 +229,7 @@ class rating {
             JOIN {modules} AS m ON m.name = gi.itemmodule
             WHERE gradetype != 0 AND itemname IS NOT NULL AND rawgrade IS NOT NULL AND courseid = :courseid",
             [
-                'courseid' => $COURSE->id,
+                'courseid' => $courseid,
             ]
         );
 

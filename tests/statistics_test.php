@@ -242,9 +242,6 @@ class statistics_test extends \advanced_testcase {
      */
     public function test_get_count_complited_tasks() {
 
-        global $DB;
-        $data = $DB->get_records('course_modules_completion');
-
         $statistics = new statistics();
 
         $course = $this->data['course']; // Текущий курс
