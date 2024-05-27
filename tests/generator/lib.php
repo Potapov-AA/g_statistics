@@ -56,6 +56,15 @@ class block_g_statistics_generator extends testing_block_generator {
         $data['user10'] = $user;
 
         // Создание оцениваемых модулей на курсе
+        // Создание максимального балла за курс
+        $module = $generator->create_grade_item(array('courseid' => $course->id, 
+                                                        'categotyid' => null,
+                                                        'itemname' => null, 
+                                                        'itemtype' => 'course', 
+                                                        'itemmodule' => null,  
+                                                        'gradetype' => 1, 
+                                                        'grademax' => 700));
+
         // Создание 5-ти тестов
         for ($i = 1; $i <= 5; $i++) {
             $module = $generator->create_grade_item(array('courseid' => $course->id, 

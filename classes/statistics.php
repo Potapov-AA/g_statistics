@@ -191,16 +191,18 @@ class statistics {
 
         if(is_null($courseid)) $courseid = $COURSE->id;
 
-        $rewgrade_sum_for_course = array_key_first($DB->get_records_sql(
-            "SELECT grademax 
+        $rewgrade_sum_for_course = $DB->get_records_sql(
+            "SELECT id, grademax, gradetype 
             FROM {grade_items} 
-            WHERE itemnumber IS NULL AND courseid = :courseid",
+            WHERE itemmodule IS NULL AND courseid = :courseid",
             [
                 'courseid' => $courseid
             ]
-        ));
+        );
 
-        return round($rewgrade_sum_for_course);
+        foreach($rewgrade_sum_for_course as $item) {
+            return round($item->grademax);
+        }
     }
 
 

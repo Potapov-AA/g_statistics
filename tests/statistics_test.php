@@ -160,5 +160,69 @@ class statistics_test extends \advanced_testcase {
     }
 
 
+    /**
+     * Тест на получение количество баллов для пользователя
+     * 
+     * Проверяется для активных пользователей на курсе:
+     *  user1
+     *  user2
+     *  user3
+     * 
+     * Всего есть 5 оцениваемых тестов по 100 баллов и 2 оцениваемые лекции по 100 баллов
+     * 
+     * Проверяется, что будет корректная оценка при следующих условиях:
+     *  относительно количества пройденных заданий
+     *  относительно общего количества заданий
+     * 
+     * Проверяется, что если пользователь не активный, то вренется -1
+     */
+    public function test_get_balls() {
+
+        $statistics = new statistics();
+
+        $course = $this->data['course']; // Текущий курс
+
+        $user1 = $this->data['user1'];
+        $user2 = $this->data['user2'];
+        $user3 = $this->data['user3'];
+        $user4 = $this->data['user4'];
+
+         // Относительно количества пройденных заданий
+        // user1 - 300/300
+        // user2 - 240/300
+        // user3 - 120/200
+        // user4 - -1
+        $balls = $statistics->get_balls(2, $user1->id, $course->id);
+        $this->assertEquals('300/300', $balls);
+
+        $balls = $statistics->get_balls(2, $user2->id, $course->id);
+        $this->assertEquals('240/300', $balls);
+
+        $balls = $statistics->get_balls(2, $user3->id, $course->id);
+        $this->assertEquals('120/200', $balls);
+
+        $balls = $statistics->get_balls(2, $user4->id, $course->id);
+        $this->assertEquals(-1, $balls);
+
+
+        // Относительно общего количества заданий
+        // user1 - 300/700
+        // user2 - 240/700
+        // user3 - 120/700
+        // user4 - -1
+        $balls = $statistics->get_balls(3, $user1->id, $course->id);
+        $this->assertEquals('300/700', $balls);
+
+        $balls = $statistics->get_balls(3, $user2->id, $course->id);
+        $this->assertEquals('240/700', $balls);
+
+        $balls = $statistics->get_balls(3, $user3->id, $course->id);
+        $this->assertEquals('120/700', $balls);
+
+        $balls = $statistics->get_balls(3, $user4->id, $course->id);
+        $this->assertEquals(-1, $balls);
+    }
+
+
     
 }
