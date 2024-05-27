@@ -38,7 +38,7 @@ class statistics_test extends \advanced_testcase {
     protected function setUp(): void {
 
         $generator = $this->getDataGenerator()->get_plugin_generator('block_g_statistics');
-        $this->data = $generator->create_logged_in_users();
+        $this->data = $generator->course_fill();
 
         $this->resetAfterTest(true);
     }
@@ -224,5 +224,5 @@ class statistics_test extends \advanced_testcase {
     }
 
 
-    
+
 }

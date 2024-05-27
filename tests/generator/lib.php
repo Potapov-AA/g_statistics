@@ -6,10 +6,9 @@ defined('MOODLE_INTERNAL') || die();
 class block_g_statistics_generator extends testing_block_generator {
 
     /**
-     * TODO: СДЕЛАТЬ НОРМАЛЬНЫЙ КОММЕНТАРИЙ И ПЕРЕВОД
-     * Create (simulated) logged in users and add some of them to groups in a course
+     * Заполнение тестовых данных для курсов
      */
-    public function create_logged_in_users() {
+    public function course_fill() {
         global $DB;
 
         $generator = advanced_testcase::getDataGenerator();
